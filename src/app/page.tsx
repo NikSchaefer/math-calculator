@@ -1,45 +1,36 @@
 "use client";
 
-import { CalculatorField } from "@/components/calculator";
-import { useEffect, useState } from "react";
+import { Calculator } from "@/components/calculator";
+import { useEffect } from "react";
 import { addStyles } from "react-mathquill";
 import { AnimatePresence, motion } from "framer-motion";
 import { CommandMenu } from "@/components/command";
+import { useCalculator } from "./context";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-    const [ids, setIds] = useState<string[]>(["1"]);
-    const [selectedId, setSelectedId] = useState<string>("1");
+    const { calculators, exportCalculations, resetCalculator } =
+        useCalculator();
 
     useEffect(() => {
         addStyles();
-    }, []);
-
-    // Add keyboard event listener
-    useEffect(() => {
-        const handleKeyPress = (e: KeyboardEvent) => {
-            if (e.key === "Enter") {
-                const newId = String(Date.now());
-                setIds((prev) => [...prev, newId]);
-                setSelectedId(newId);
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyPress);
-        return () => window.removeEventListener("keydown", handleKeyPress);
     }, []);
 
     return (
         <div className="p-4 relative w-full min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex justify-center items-center flex-col">
             <CommandMenu />
             <motion.h1
-                className="text-4xl font-bold mb-8 text-blue-800"
+                className="text-4xl font-bold mb-4 text-blue-800"
                 layout
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
             >
-                Math Calculator
+                F1 Calculator
             </motion.h1>
+            <motion.p className="text-lg text-muted-foreground mb-4">
+                Math at the Speed of Thought
+            </motion.p>
             <motion.div
                 className="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-6 space-y-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -49,26 +40,29 @@ export default function Home() {
                 layout
             >
                 <AnimatePresence mode="sync" initial={false}>
-                    {ids.map((id) => (
-                        <CalculatorField
-                            key={id}
-                            id={id}
-                            isSelected={id === selectedId}
-                            onSelect={() => setSelectedId(id)}
-                            deleteCalculatorField={() => {
-                                if (ids.length > 1) {
-                                    const index = ids.indexOf(id);
-                                    setIds((prev) =>
-                                        prev.filter((i) => i !== id)
-                                    );
-                                    setSelectedId(ids[index - 1]);
-                                }
-                            }}
+                    {calculators.map((calculator) => (
+                        <Calculator
+                            key={calculator.id}
+                            calculator={calculator}
                         />
                     ))}
                 </AnimatePresence>
-                <div className="mt-4 text-sm text-gray-500 text-center">
-                    Press Cmd+K to get started
+                <div className="mt-4 flex justify-between items-center">
+                    <div className="text-sm text-gray-500">
+                        Press Cmd+K to get started
+                    </div>
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={resetCalculator}
+                            variant="ghost"
+                            size="sm"
+                        >
+                            Clear
+                        </Button>
+                        <Button onClick={exportCalculations} size="sm">
+                            Export
+                        </Button>
+                    </div>
                 </div>
             </motion.div>
             <div className="absolute bottom-4 left-4">
