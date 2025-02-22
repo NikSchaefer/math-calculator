@@ -10,11 +10,11 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:scale-105 hover:shadow-lg hover:shadow-primary/20",
+                    "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary hover:to-primary",
                 outline:
-                    "border-2 border-primary/20 bg-background hover:border-primary hover:bg-primary/5 hover:text-primary",
-                ghost: "hover:bg-primary/5 hover:text-primary hover:scale-105",
-                link: "text-primary underline-offset-4 hover:underline decoration-primary/50 hover:decoration-primary",
+                    "border-2 border-primary/20 bg-background hover:border-primary hover:bg-primary/10",
+                ghost: "hover:bg-primary/10",
+                link: "text-primary underline-offset-4 hover:underline decoration-primary/50",
             },
             size: {
                 default: "h-10 px-6 py-2",

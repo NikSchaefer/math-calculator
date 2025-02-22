@@ -2,16 +2,18 @@
 import { MathField } from "react-mathquill";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calculator as CalculatorType } from "@/types";
+import { ComputedCalculator } from "@/types";
 import { useCalculator } from "../../app/context";
-import { useCalculation } from "./useCalculation";
 import { MathInput } from "./input";
 import { Result } from "./results";
 import { generateId } from "@/lib/utils";
 
-export function Calculator({ calculator }: { calculator: CalculatorType }) {
+export function Calculator({
+    calculator: computed,
+}: {
+    calculator: ComputedCalculator;
+}) {
     const {
-        variables,
         deleteCalculator,
         updateCalculator,
         selectedId,
@@ -20,12 +22,11 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
         setCalculators,
     } = useCalculator();
 
-    const isSelected = selectedId === calculator.id;
+    const isSelected = selectedId === computed.id;
     const [wasEmpty, setWasEmpty] = useState(true);
-    const { result, calculate } = useCalculation(calculator.id, variables);
 
     const clearInput = () => {
-        updateCalculator(calculator.id, "");
+        updateCalculator(computed.id, "");
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -35,7 +36,7 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
             (e.key === "Backspace" || e.key === "Delete") &&
             wasEmpty // Only delete if it was already empty before this keypress
         ) {
-            deleteCalculator(calculator.id);
+            deleteCalculator(computed.id);
         } else if (e.key === "Enter") {
             const newId = generateId();
             setCalculators([...calculators, { id: newId, latex: "" }]);
@@ -56,40 +57,33 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
     const handleLatexChange = (mathField: MathField) => {
         if (!mathField) return;
         const newLatex = mathField.latex();
-        calculate(newLatex);
-        updateCalculator(calculator.id, newLatex);
+        updateCalculator(computed.id, newLatex);
     };
 
     useEffect(() => {
-        setWasEmpty(calculator.latex === "");
-    }, [calculator.latex]);
-
-    useEffect(() => {
-        calculate(calculator.latex);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [variables]);
+        setWasEmpty(computed.latex === "");
+    }, [computed.latex]);
 
     return (
         <motion.div
             layout
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
             transition={{
                 duration: 0.3,
-                exit: { duration: 0.2 },
+                exit: { duration: 0 },
             }}
-            className="flex flex-col md:flex-row gap-4 items-center"
-            onClick={() => setSelectedId(calculator.id)}
+            className="flex flex-col sm:flex-row gap-4 items-center"
+            onClick={() => setSelectedId(computed.id)}
         >
             <MathInput
-                id={calculator.id}
-                latex={calculator.latex}
+                id={computed.id}
+                latex={computed.latex}
                 isSelected={isSelected}
                 onLatexChange={handleLatexChange}
                 onKeyDown={handleKeyDown}
             />
-            <Result result={result} />
+            <Result {...computed} />
         </motion.div>
     );
 }

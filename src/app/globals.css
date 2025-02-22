@@ -2,8 +2,6 @@
 
 @plugin 'tailwindcss-animate';
 
-@custom-variant dark (&:is(.dark *));
-
 @theme {
     --color-background: #fff;
     --color-foreground: #000;
@@ -43,8 +41,8 @@
     --color-secondary-foreground: hsl(var(--secondary-foreground));
     --color-muted: hsl(var(--muted));
     --color-muted-foreground: hsl(var(--muted-foreground));
-    --color-accent: hsl(var(--accent));
-    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-accent: #f4f4f4;
+    --color-accent-foreground: #000;
     --color-destructive: hsl(var(--destructive));
     --color-destructive-foreground: hsl(var(--destructive-foreground));
     --color-border: hsl(var(--border));
@@ -61,4 +59,119 @@
     * {
         @apply border-border;
     }
+}
+
+main {
+    position: relative;
+
+    &:before {
+        background: radial-gradient(
+            circle at center,
+            rgba(2, 0, 36, 0.1) 0%,
+            var(--color-background) 100%
+        );
+        position: absolute;
+        content: "";
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    &:after {
+        content: "";
+        background-image: url("/grid.svg");
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        opacity: 0.2;
+        filter: invert(1);
+
+        @media (prefers-color-scheme: dark) {
+            filter: unset;
+        }
+    }
+
+    h1 {
+        font-size: 32px;
+        color: var(--color-foreground);
+        font-weight: 600;
+        letter-spacing: -2px;
+        line-height: 40px;
+    }
+
+    p {
+        color: var(--color-muted-foreground);
+        margin-top: 8px;
+        font-size: 16px;
+    }
+}
+
+.content {
+    @apply z-50;
+    &:after {
+        background-image: radial-gradient(
+                at 27% 37%,
+                hsla(215, 98%, 61%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 97% 21%,
+                hsla(256, 98%, 72%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 52% 99%,
+                hsla(354, 98%, 61%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 10% 29%,
+                hsla(133, 96%, 67%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 97% 96%,
+                hsla(38, 60%, 74%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 33% 50%,
+                hsla(222, 67%, 73%, 1) 0px,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 79% 53%,
+                hsla(343, 68%, 79%, 1) 0px,
+                transparent 50%
+            );
+        position: absolute;
+        content: "";
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        filter: blur(100px) saturate(150%);
+        z-index: -1;
+        top: 0px;
+        opacity: 0.2;
+        transform: translateZ(0);
+    }
+}
+
+.line {
+    height: 20px;
+    width: 180px;
+    margin: 64px auto;
+    background-image: url("/line.svg");
+    filter: invert(1);
+    mask-image: linear-gradient(
+        90deg,
+        transparent,
+        #fff 4rem,
+        #fff calc(100% - 4rem),
+        transparent
+    );
 }

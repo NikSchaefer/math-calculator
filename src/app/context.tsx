@@ -1,26 +1,24 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
-import { Calculator, Variable } from "@/types";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
+import { Calculator, ComputedCalculator, Context } from "@/types";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
+import { computeCalculator } from "@/components/calculator/calculate";
+import { constants } from "@/data/constants";
 
 interface CalculatorContextType {
     calculators: Calculator[];
     setCalculators: (calculators: Calculator[]) => void;
+    computedCalculators: ComputedCalculator[];
     selectedId: string;
     setSelectedId: (id: string) => void;
-    variables: Variable[];
-    setVariables: (
-        variables: Variable[] | ((prev: Variable[]) => Variable[])
-    ) => void;
-    addVariable: (variable: Variable) => void;
     updateCalculator: (id: string, latex: string) => void;
     deleteCalculator: (id: string) => void;
     exportCalculations: () => void;
     resetCalculator: () => void;
-    open: boolean;
-    setOpen: (open: boolean) => void;
+    commandOpen: boolean;
+    setCommandOpen: (open: boolean) => void;
 }
 
 const CalculatorContext = createContext<CalculatorContextType | undefined>(
@@ -28,23 +26,43 @@ const CalculatorContext = createContext<CalculatorContextType | undefined>(
 );
 
 export function CalculatorProvider({ children }: { children: ReactNode }) {
+    const [commandOpen, setCommandOpen] = useState(false);
+
     const [selectedId, setSelectedId] = useState<string>(generateId());
-    const [variables, setVariables] = useState<Variable[]>([]);
     const [calculators, setCalculators] = useState<Calculator[]>([
         { id: selectedId, latex: "" },
     ]);
-    const [open, setOpen] = useState(false);
-    function addVariable(variable: Variable) {
-        // Check if the variable already exists by ID and if it has a different value now
-        const existingVariable = variables.find((v) => v.id === variable.id);
-        if (existingVariable && existingVariable.value !== variable.value) {
-            setVariables(
-                variables.map((v) => (v.id === variable.id ? variable : v))
-            );
-        } else if (!existingVariable) {
-            setVariables([...variables, variable]);
-        }
-    }
+
+    // Two-pass calculation system
+    const { computedCalculators } = useMemo(() => {
+        // First pass: Calculate all expressions to identify variables
+        const firstPass = calculators.map((c) => computeCalculator(c));
+        const variables = firstPass.map((c) => c.variable).filter(Boolean);
+
+        const context = variables.reduce((acc, v) => {
+            if (!v) return acc;
+
+            // if the variable already exists, throw an error
+            if (acc[v.id]) {
+                throw new Error(`Variable ${v.id} already exists`);
+            }
+            acc[v.id] = v.value;
+            return acc;
+        }, {} as Context);
+
+        // Combine context with our universal constants, with context taking precedence
+        const combinedContext = {
+            ...constants,
+            ...context,
+        };
+
+        // Second pass: Recalculate with known variables
+        const computedCalculators = calculators.map((c) =>
+            computeCalculator(c, combinedContext)
+        );
+
+        return { computedCalculators };
+    }, [calculators]);
 
     const updateCalculator = (id: string, latex: string) => {
         setCalculators((prev) =>
@@ -60,12 +78,6 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
             ...prev.slice(index + 1),
         ]);
 
-        // Remove the variables that are no longer in the calculators
-        const removed = variables.filter(
-            (v) => !calculators.some((c) => c.id === v.id)
-        );
-        setVariables([...removed]);
-
         if (index > 0) {
             setSelectedId(calculators[index - 1].id);
         } else {
@@ -78,8 +90,9 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
     };
 
     function resetCalculator() {
-        setCalculators([{ id: generateId(), latex: "" }]);
-        setSelectedId(generateId());
+        const firstId = calculators[0].id;
+        setCalculators([{ id: firstId, latex: "" }]);
+        setSelectedId(firstId);
     }
 
     return (
@@ -89,15 +102,13 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                 setCalculators,
                 selectedId,
                 setSelectedId,
-                variables,
-                setVariables,
-                addVariable,
+                computedCalculators,
                 updateCalculator,
                 deleteCalculator,
                 exportCalculations,
                 resetCalculator,
-                open,
-                setOpen,
+                commandOpen,
+                setCommandOpen,
             }}
         >
             {children}

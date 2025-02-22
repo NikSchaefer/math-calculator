@@ -1,6 +1,10 @@
 "use client";
 
 import * as React from "react";
+
+import { useCalculator } from "@/app/context";
+import { formulas } from "@/data/formulas";
+import { Preset, Variable } from "@/types";
 import {
     Command,
     CommandDialog,
@@ -9,9 +13,11 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command";
-import { useCalculator } from "@/app/context";
-import { formulas } from "@/data/formulas";
+} from "./ui/command";
+import { constantsAsArray } from "@/data/constants";
+import { generateId } from "@/lib/utils";
+import { formatNumberResult } from "./calculator/format-utils";
+import { SquareAsterisk, SquareCode, SquareFunction } from "lucide-react";
 
 export function CommandMenu() {
     const {
@@ -19,76 +25,109 @@ export function CommandMenu() {
         setCalculators,
         resetCalculator,
         exportCalculations,
-        open,
-        setOpen,
+        commandOpen,
+        setCommandOpen,
     } = useCalculator();
+
+    function onSelectPreset(preset: Preset) {
+        setCommandOpen(false);
+        // if the previous calculator is empty, replace that calculator with the latex
+        const length = calculators.length;
+        if (calculators[length - 1].latex === "") {
+            setCalculators([
+                ...calculators.slice(0, length - 1),
+                {
+                    ...calculators[length - 1],
+                    latex: preset.calculators[0].latex,
+                },
+                ...preset.calculators.slice(1),
+            ]);
+        } else {
+            setCalculators([...calculators, ...preset.calculators]);
+        }
+    }
+
+    function onSelectConstant(constant: Variable) {
+        setCommandOpen(false);
+        setCalculators([
+            ...calculators,
+            {
+                id: generateId(),
+                latex: constant.name,
+            },
+        ]);
+    }
 
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
-                setOpen(!open);
+                setCommandOpen(!commandOpen);
             }
         };
         document.addEventListener("keydown", down);
         return () => document.removeEventListener("keydown", down);
-    }, [open, setOpen]);
+    }, [commandOpen, setCommandOpen]);
 
     return (
-        <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
             <Command>
                 <CommandInput placeholder="Type a command or search..." />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Formulas">
+                    <CommandGroup heading="Formulae">
                         {formulas.map((preset) => (
                             <CommandItem
                                 className="flex justify-between items-center"
                                 key={preset.id}
-                                onSelect={() => {
-                                    setOpen(false);
-                                    // if the previous calculator is empty, replace that calculator with the latex
-                                    const length = calculators.length;
-                                    if (calculators[length - 1].latex === "") {
-                                        setCalculators([
-                                            ...calculators.slice(0, length - 1),
-                                            {
-                                                ...calculators[length - 1],
-                                                latex: preset.calculators[0]
-                                                    .latex,
-                                            },
-                                            ...preset.calculators.slice(1),
-                                        ]);
-                                    } else {
-                                        setCalculators([
-                                            ...calculators,
-                                            ...preset.calculators,
-                                        ]);
-                                    }
-                                }}
+                                onSelect={() => onSelectPreset(preset)}
                             >
-                                <span>{preset.name}</span>
+                                <span className="flex items-center gap-2">
+                                    <SquareFunction className="w-4 h-4" />
+                                    {preset.name}
+                                </span>
                                 <span className="text-muted-foreground">
                                     {preset.calculators[0].preview}
                                 </span>
                             </CommandItem>
                         ))}
                     </CommandGroup>
-                    <CommandGroup heading="Quick Actions">
+                    <CommandGroup heading="Constants">
+                        {constantsAsArray.map((constant) => (
+                            <CommandItem
+                                key={constant.id}
+                                onSelect={() => onSelectConstant(constant)}
+                                className="flex justify-between items-center"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <SquareAsterisk className="w-4 h-4" />
+                                    {constant.id}
+                                </span>
+                                <span className="text-muted-foreground">
+                                    {formatNumberResult(
+                                        constant.value as number
+                                    )}
+                                </span>
+                            </CommandItem>
+                        ))}
+                    </CommandGroup>
+                    <CommandGroup heading="Actions">
                         <CommandItem
                             onSelect={() => {
-                                setOpen(false);
+                                setCommandOpen(false);
                                 resetCalculator();
                             }}
                         >
-                            Clear (Reset)
+                            <SquareCode className="w-4 h-4 mr-2" />
+                            Clear
                         </CommandItem>
                         <CommandItem
                             onSelect={() => {
-                                setOpen(false);
+                                setCommandOpen(false);
                                 exportCalculations();
                             }}
                         >
+                            <SquareCode className="w-4 h-4 mr-2" />
                             Export
                         </CommandItem>
                     </CommandGroup>

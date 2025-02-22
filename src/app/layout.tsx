@@ -24,7 +24,12 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} antialiased min-h-screen bg-background text-foreground`}
             >
-                <Toaster richColors position="top-center" />
+                <Toaster
+                    richColors
+                    position="top-center"
+                    closeButton
+                    duration={1500}
+                />
                 <CalculatorProvider>{children}</CalculatorProvider>
             </body>
         </html>
