@@ -58,8 +58,12 @@ export default function Home() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: 0.2 }}
                     >
-                        <Link href="https://github.com/nikschaefer">
+                        <Link
+                            tabIndex={-1}
+                            href="https://github.com/nikschaefer"
+                        >
                             <Button
+                                tabIndex={-1}
                                 variant="ghost"
                                 size="sm"
                                 className="hover:scale-105 transition-transform"

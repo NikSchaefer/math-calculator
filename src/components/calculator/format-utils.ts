@@ -26,7 +26,12 @@ export function formatNumberResult(num: number): string {
         return Number(computed).toExponential(4);
     }
 
-    return num.toString();
+    const str = computed.toString();
+    if (str.length > 8) {
+        return computed.toFixed(8);
+    }
+    // Limit to 8 decimal places
+    return str;
 }
 
 export function computeComplexNumberResult(num: ComplexNumber): ComplexNumber {

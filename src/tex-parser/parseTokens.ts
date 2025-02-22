@@ -229,6 +229,7 @@ class Parser {
         let leftTerm = this.nextTerm();
         // VARIABLE EQUALS expr
         if (this.match(TokenType.Equals)) {
+            // @ts-expect-error not sure yet lol
             if (!leftTerm.isSymbolNode) {
                 throw new ParseError(
                     "expected variable (SymbolNode) on left hand of assignment",
@@ -258,6 +259,7 @@ class Parser {
      */
     nextTerm(): math.MathNode {
         function isNumberNode(node: math.MathNode) {
+            // @ts-expect-error not sure yet lol
             return node.isConstantNode && !Number.isNaN(Number(node));
         }
         let leftFactor = this.nextFactor();

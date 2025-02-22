@@ -64,6 +64,9 @@ export function CommandMenu() {
                 e.preventDefault();
                 setCommandOpen(!commandOpen);
             }
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+            }
         };
         document.addEventListener("keydown", down);
         return () => document.removeEventListener("keydown", down);
@@ -134,6 +137,24 @@ export function CommandMenu() {
                         </CommandItem>
                     </CommandGroup>
                 </CommandList>
+                <div className="flex gap-2 border-t items-center justify-end mt-4 p-2">
+                    <button className="flex items-center gap-2 text-xs">
+                        Use Formula
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                            <span className="text-lg pb-1">↵</span>
+                        </kbd>{" "}
+                    </button>
+                    <div className="h-3 w-px bg-slate-300" />
+                    <button className="flex items-center text-xs text-muted-foreground">
+                        Learn More
+                        <kbd className="ml-2 mr-0.5 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                            <span className="text-base">⌘</span>
+                        </kbd>{" "}
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                            <span className="text-lg pb-1">↵</span>
+                        </kbd>{" "}
+                    </button>
+                </div>
             </Command>
         </CommandDialog>
     );

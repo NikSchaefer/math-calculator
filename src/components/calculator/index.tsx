@@ -39,7 +39,19 @@ export function Calculator({
             deleteCalculator(computed.id);
         } else if (e.key === "Enter") {
             const newId = generateId();
-            setCalculators([...calculators, { id: newId, latex: "" }]);
+
+            // Insert it after the selected calculator, if available
+            const index = calculators.findIndex((c) => c.id === selectedId);
+            if (index !== -1) {
+                setCalculators([
+                    ...calculators.slice(0, index + 1),
+                    { id: newId, latex: "" },
+                    ...calculators.slice(index + 1),
+                ]);
+            } else {
+                setCalculators([...calculators, { id: newId, latex: "" }]);
+            }
+
             setSelectedId(newId);
         }
         // else if (e.key === "ArrowUp")
