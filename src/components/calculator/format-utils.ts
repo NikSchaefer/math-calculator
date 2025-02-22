@@ -1,23 +1,24 @@
 import { ComplexNumber } from "@/types";
 
+const THRESHOLD = 1e-35;
+
 export function computeNumberResult(num: number): number {
     // Check for numbers very close to common values
     const commonValues = [0, 0.5, 1, -0.5, -1];
     for (const value of commonValues) {
-        if (Math.abs(num - value) < 1e-12) {
+        if (Math.abs(num - value) < THRESHOLD) {
             return value;
         }
     }
 
-    // Increase threshold for "zero" to 1e-12
-    if (Math.abs(num) < 1e-12) return 0;
+    // Increase threshold for "zero" to 1e-32
+    if (Math.abs(num) < THRESHOLD) return 0;
 
     return num;
 }
 
 export function formatNumberResult(num: number): string {
     const computed = computeNumberResult(num);
-
     if (computed === 0) return "0";
 
     // For very small or large numbers, use scientific notation
@@ -25,21 +26,7 @@ export function formatNumberResult(num: number): string {
         return Number(computed).toExponential(4);
     }
 
-    // Round numbers with more than 8 decimal places
-    if (num % 1 !== 0) {
-        // Check if it's a decimal number
-        const decimalPlaces = num.toString().split(".")[1]?.length || 0;
-        if (decimalPlaces > 8) {
-            return Number(num.toFixed(8)).toString();
-        }
-    }
-
-    // Round numbers with more than 8 decimal places
-    const str = num.toString();
-    if (str.length > 10) {
-        return Number(num).toPrecision(8);
-    }
-    return str;
+    return num.toString();
 }
 
 export function computeComplexNumberResult(num: ComplexNumber): ComplexNumber {

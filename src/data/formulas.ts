@@ -3,7 +3,9 @@ import { Preset } from "@/types";
 export const formulas: Preset[] = [
     {
         id: "1",
-        name: "Magnitude (Pythagorean Theorem)",
+        name: "Pythagorean Theorem",
+        description:
+            "The Pythagorean theorem is a fundamental concept in geometry, stating that in a right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides.",
         categories: ["Physics", "Math", "Geometry"],
         calculators: [
             {
@@ -16,228 +18,388 @@ export const formulas: Preset[] = [
     {
         id: "2",
         name: "Kinetic Energy",
+        description:
+            "Kinetic energy is the energy possessed by an object due to its motion. It is directly proportional to the square of the object's velocity and is given by the formula KE = (1/2)mv², where m is the mass of the object and v is its velocity.",
         categories: ["Physics", "Math", "Energy"],
         calculators: [
             {
                 id: "8hb95e14b4eg8",
                 latex: "KE=\\frac{1}{2}mv^2",
-                preview: "KE = (1/2)mv²",
+                preview: "energy = 1/2 * mass * velocity^2",
             },
         ],
     },
     {
         id: "3",
         name: "Potential Energy",
+        description:
+            "Potential energy is the energy possessed by an object due to its position or configuration. It is given by the formula PE = mgh, where m is the mass of the object, g is the acceleration due to gravity, and h is the height of the object.",
         categories: ["Physics", "Math", "Energy"],
         calculators: [
             {
                 id: "3cp45r17s8vw2",
                 latex: "PE = mgh",
-                preview: "PE = mgh",
+                preview: "energy = mass * gravity * height",
             },
         ],
     },
     {
         id: "4",
         name: "Work",
+        description:
+            "Work is the energy transferred to or from an object by a force acting on the object. It is given by the formula W = Fd, where F is the force applied to the object and d is the displacement of the object.",
         categories: ["Physics", "Math", "Energy"],
         calculators: [
             {
                 id: "4567890123456",
                 latex: "W = Fd",
-                preview: "W = Fd",
+                preview: "work = force * distance",
             },
         ],
     },
     {
         id: "5",
         name: "Ohm's Law",
+        description:
+            "Ohm's law is a fundamental concept in electronics, stating that the current through a conductor between two points is directly proportional to the voltage across the two points and inversely proportional to the resistance of the conductor.",
         categories: ["Physics", "Math", "Electronics"],
         calculators: [
             {
                 id: "23y94739",
                 latex: "V=IR",
-                preview: "V = IR",
+                preview: "voltage = current * resistance",
             },
         ],
     },
     {
         id: "6",
         name: "Power (Electrical)",
+        description:
+            "Power is the rate at which work is done or energy is transferred. It is given by the formula P = VI, where V is the voltage across the conductor and I is the current through the conductor.",
         categories: ["Physics", "Math", "Electronics"],
         calculators: [
             {
                 id: "2379479734",
                 latex: "P=VI",
-                preview: "P = VI",
+                preview: "power = voltage * current",
             },
         ],
     },
     {
         id: "7",
         name: "Force (Newton's Second Law)",
+        description:
+            "Newton's second law of motion states that the force acting on an object is directly proportional to the acceleration of the object and inversely proportional to its mass.",
         categories: ["Physics", "Math", "Force"],
         calculators: [
             {
                 id: "19u230u23",
                 latex: "F=ma",
-                preview: "F = ma",
+                preview: "force = mass * acceleration",
             },
         ],
     },
     {
         id: "8",
         name: "Density",
+        description:
+            "Density is the mass per unit volume of a substance. It is given by the formula ρ = m/V, where m is the mass of the substance and V is its volume.",
         categories: ["Physics", "Math", "Density"],
         calculators: [
             {
                 id: "j02u3jho32",
                 latex: "\\rho=\\frac{m}{V}",
-                preview: "ρ = m/V",
+                preview: "density = mass / volume",
             },
         ],
     },
     {
         id: "9",
         name: "Pressure",
+        description:
+            "Pressure is the force applied per unit area. It is given by the formula P = F/A, where F is the force applied to the surface and A is the area of the surface.",
         categories: ["Physics", "Math", "Pressure"],
         calculators: [
             {
                 id: "23uy4923uho",
                 latex: "P=\\frac{F}{A}",
-                preview: "P = F/A",
+                preview: "pressure = force / area",
             },
         ],
     },
     {
         id: "10",
         name: "Ideal Gas Law",
+        description:
+            "The ideal gas law is a fundamental concept in thermodynamics, stating that the pressure of a gas is directly proportional to the product of the number of moles of the gas and its temperature and inversely proportional to its volume.",
         categories: ["Physics", "Math", "Gas"],
         calculators: [
             {
                 id: "as234u234u",
                 latex: "PV=nRT",
-                preview: "PV = nRT",
+                preview:
+                    "pressure * volume = number of moles * gas constant * temperature",
             },
         ],
     },
     {
         id: "11",
         name: "Time Complexity (Big O)",
+        description:
+            "Time complexity is a measure of the amount of time an algorithm takes to complete. It is given by the formula T(n) = O(f(n)), where f(n) is the time complexity of the algorithm.",
         categories: ["Physics", "Math", "Time Complexity"],
         calculators: [
             {
                 id: "j3o;jfl;sdf",
                 latex: "T(n)=O(f(n))",
-                preview: "T(n) = O(f(n))",
+                preview: "time complexity = O(f(n))",
             },
         ],
     },
     {
         id: "12",
         name: "Wavelength-Frequency Relationship",
+        description:
+            "The wavelength-frequency relationship is a fundamental concept in physics, stating that the speed of light is directly proportional to the product of the wavelength and frequency of the light.",
         categories: ["Physics", "Math", "Wave"],
         calculators: [
             {
                 id: "asd;23283008;flj",
                 latex: "c=\\lambda f",
-                preview: "c = λf",
+                preview: "speed of light = wavelength * frequency",
             },
         ],
     },
     {
         id: "13",
         name: "Einstein's Mass-Energy Equivalence",
+        description:
+            "Einstein's mass-energy equivalence is a fundamental concept in physics, stating that the energy of an object is directly proportional to its mass.",
         categories: ["Physics", "Math", "Energy"],
         calculators: [
             {
                 id: "23982398uj23",
                 latex: "E=mc^2",
-                preview: "E = mc²",
+                preview: "energy = mass * speed of light^2",
             },
         ],
     },
     {
         id: "14",
         name: "Capacitance",
+        description:
+            "Capacitance is the ability of a material to store electrical charge. It is given by the formula C = Q/V, where Q is the charge stored on the material and V is the voltage across the material.",
         categories: ["Physics", "Math", "Electronics"],
         calculators: [
             {
                 id: "232jh32j3",
                 latex: "C=\\frac{Q}{V}",
-                preview: "C = Q/V",
+                preview: "capacitance = charge / voltage",
             },
         ],
     },
     {
         id: "15",
         name: "Acceleration",
+        description:
+            "Acceleration is the rate at which velocity changes. It is given by the formula a = (vf - vi)/t, where vf is the final velocity, vi is the initial velocity, and t is the time.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "23j4io3h3o4hu34",
                 latex: "a=\\frac{v_f-v_i}{t}",
-                preview: "a = (vf - vi)/t",
+                preview: "acceleration = △velocity / time",
             },
         ],
     },
     {
         id: "16",
         name: "Displacement (Kinematics)",
+        description:
+            "Displacement is the distance between two points. It is given by the formula s = ut + (1/2)at², where u is the initial velocity, t is the time, and a is the acceleration.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "23jl3k4jl3j4",
                 latex: "s = ut + \\frac{1}{2}at^2",
-                preview: "s = ut + (1/2)at²",
+                preview:
+                    "displacement = initial velocity * time + 1/2 * acceleration * time^2",
             },
         ],
     },
     {
         id: "17",
         name: "Final Velocity (Kinematics)",
+        description:
+            "Final velocity is the velocity of an object at a given time. It is given by the formula v = u + at, where u is the initial velocity, t is the time, and a is the acceleration.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "12o3i23232332",
                 latex: "v = u + at",
-                preview: "v = u + at",
+                preview:
+                    "final velocity = initial velocity + acceleration * time",
             },
         ],
     },
     {
         id: "18",
         name: "Displacement-Velocity (Kinematics)",
+        description:
+            "Displacement is the distance between two points. It is given by the formula s = (u+v)t/2, where u is the initial velocity, v is the final velocity, and t is the time.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "12123ou2391093u2u320",
                 latex: "s = \\frac{(u+v)t}{2}",
-                preview: "s = (u+v)t/2",
+                preview:
+                    "displacement = (initial velocity + final velocity) * time / 2",
             },
         ],
     },
     {
         id: "19",
         name: "Velocity-Time (Kinematics)",
+        description:
+            "Velocity is the rate at which displacement changes. It is given by the formula v = u + at, where u is the initial velocity, t is the time, and a is the acceleration.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "9xk73t25y4zq6",
                 latex: "v^2 = u^2 + 2ax",
-                preview: "v² = u² + 2ax",
+                preview:
+                    "final velocity^2 = initial velocity^2 + 2 * acceleration * displacement",
             },
         ],
     },
     {
         id: "20",
         name: "Centripetal Acceleration",
+        description:
+            "Centripetal acceleration is the acceleration of an object moving in a circular path. It is given by the formula a_c = v²/r, where v is the velocity of the object and r is the radius of the circular path.",
         categories: ["Physics", "Math", "Kinematics"],
         calculators: [
             {
                 id: "234234234234234",
                 latex: "a_c = \\frac{v^2}{r}",
-                preview: "a_c = v²/r",
+                preview: "centripetal acceleration = velocity^2 / radius",
+            },
+        ],
+    },
+    {
+        id: "21",
+        name: "Force of Friction",
+        description:
+            "The force of friction is the force that opposes the motion of an object. It is given by the formula F_f = \\mu_k N, where \\mu_k is the coefficient of kinetic friction and N is the normal force.",
+        categories: ["Physics", "Math", "Friction"],
+        calculators: [
+            {
+                id: "234234234234234",
+                latex: "F_f = \\mu_k N",
+                preview: "friction = coefficient of friction * normal force",
+            },
+        ],
+    },
+    {
+        id: "22",
+        name: "Euler's Formula",
+        description:
+            "Euler's formula is a fundamental concept in complex analysis, stating that the exponential of a complex number is equal to the sum of the exponential of the real part and the exponential of the imaginary part.",
+        categories: ["Signals", "Processing", "Complex Analysis"],
+        calculators: [
+            {
+                id: "234234234234234",
+                latex: "e^{i\\theta} = \\cos\\theta + i\\sin\\theta",
+                preview: "e^iθ = cos(θ) + i*sin(θ)",
+            },
+        ],
+    },
+    {
+        id: "23",
+        name: "Euler's Identity",
+        description:
+            "Euler's identity is a fundamental concept in complex analysis, stating that the exponential of a complex number is equal to the sum of the exponential of the real part and the exponential of the imaginary part.",
+        categories: ["Signals", "Processing", "Complex Analysis"],
+        calculators: [
+            {
+                id: "234234234234234",
+                latex: "E^{i\\pi} + 1 = 0",
+                preview: "e^iπ + 1 = 0",
+            },
+        ],
+    },
+    {
+        id: "24",
+        name: "Simple Harmonic Motion",
+        description:
+            "Simple harmonic motion describes oscillatory motion where the restoring force is proportional to displacement. The equation describes position as a function of time.",
+        categories: ["Physics", "Math", "Oscillations"],
+        calculators: [
+            {
+                id: "shm123456789",
+                latex: "x = A\\cos(\\omega t + \\phi)",
+                preview:
+                    "position = amplitude * cos(angular frequency * time + phase)",
+            },
+        ],
+    },
+    {
+        id: "25",
+        name: "Gravitational Force",
+        description:
+            "Newton's law of universal gravitation states that the gravitational force between two masses is proportional to their masses and inversely proportional to the square of the distance between them.",
+        categories: ["Physics", "Math", "Gravity"],
+        calculators: [
+            {
+                id: "grav987654321",
+                latex: "F_g = G\\frac{m_1m_2}{r^2}",
+                preview:
+                    "force = gravitational constant * (mass1 * mass2) / distance²",
+            },
+        ],
+    },
+    {
+        id: "26",
+        name: "Resonant Frequency",
+        description:
+            "The resonant frequency of an LC circuit is the frequency at which the circuit naturally oscillates. It depends on the inductance and capacitance values.",
+        categories: ["Physics", "Electronics", "Resonance"],
+        calculators: [
+            {
+                id: "res456789123",
+                latex: "f = \\frac{1}{2\\pi\\sqrt{LC}}",
+                preview:
+                    "frequency = 1 / (2π * sqrt(inductance * capacitance))",
+            },
+        ],
+    },
+    {
+        id: "27",
+        name: "Doppler Effect",
+        description:
+            "The Doppler effect describes the change in frequency of a wave for an observer moving relative to its source. This formula gives the observed frequency.",
+        categories: ["Physics", "Waves", "Sound"],
+        calculators: [
+            {
+                id: "dop789123456",
+                latex: "f_{observed} = f_{source}\\frac{v \\pm v_{observer}}{v \\mp v_{source}}",
+                preview:
+                    "observed frequency = source frequency * (wave speed ± observer speed)/(wave speed ∓ source speed)",
+            },
+        ],
+    },
+    {
+        id: "28",
+        name: "Heat Transfer",
+        description:
+            "The rate of heat transfer through conduction is proportional to the temperature difference and the thermal conductivity of the material.",
+        categories: ["Physics", "Thermodynamics", "Heat"],
+        calculators: [
+            {
+                id: "heat123789456",
+                latex: "Q = -k A \\frac{dT}{dx}",
+                preview:
+                    "heat transfer = -thermal conductivity * area * temperature gradient",
             },
         ],
     },

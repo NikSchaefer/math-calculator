@@ -87,7 +87,7 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 }}
                 >
-                    Formulae, actions, constants, batteries included calculator
+                    A formula, action, and constant-enabled calculator.
                 </motion.p>
                 <motion.div
                     className="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-6"

@@ -73,8 +73,8 @@ export function CommandMenu() {
         <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
             <Command>
                 <CommandInput placeholder="Type a command or search..." />
+                <CommandEmpty>No results found.</CommandEmpty>
                 <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Formulae">
                         {formulas.map((preset) => (
                             <CommandItem
@@ -86,9 +86,11 @@ export function CommandMenu() {
                                     <SquareFunction className="w-4 h-4" />
                                     {preset.name}
                                 </span>
-                                <span className="text-muted-foreground">
-                                    {preset.calculators[0].preview}
-                                </span>
+                                <div className="text-muted-foreground flex justify-end flex-grow text-right">
+                                    <p className="text-xs w-full truncate max-w-[200px]">
+                                        {preset.calculators[0].preview}
+                                    </p>
+                                </div>
                             </CommandItem>
                         ))}
                     </CommandGroup>
