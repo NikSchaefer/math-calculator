@@ -1,6 +1,14 @@
-import { MathField, EditableMathField } from "react-mathquill";
+"use client";
+
+import dynamic from "next/dynamic";
+import { MathField } from "react-mathquill";
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
+
+const EditableMathField = dynamic(
+    () => import("react-mathquill").then((mod) => mod.EditableMathField),
+    { ssr: false }
+);
 
 interface MathInputProps {
     id: string;
@@ -34,18 +42,21 @@ export function MathInput({
             transition={{ duration: 0.2 }}
         >
             <EditableMathField
-                mathquillDidMount={(mathField) => {
-                    mathFieldRef.current = mathField;
-                }}
                 id={id}
-                className="w-full p-4 text-2xl bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100 focus:bg-white"
-                aria-label="Math equation input"
                 latex={latex}
                 onKeyDown={onKeyDown}
                 onChange={onLatexChange}
+                mathquillDidMount={(mathField) => {
+                    mathFieldRef.current = mathField;
+                }}
+                className="w-full p-4 text-2xl bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100 focus:bg-white"
+                aria-label="Math equation input"
                 config={{
-                    autoCommands: "pi theta sqrt sum phi int",
-                    autoOperatorNames: "sin cos tan",
+                    autoCommands:
+                        "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle",
+                    autoOperatorNames:
+                        "sin cos tan log sec csc arcsin arccos arctan",
+                    sumStartsWithNEquals: true,
                 }}
             />
         </motion.div>

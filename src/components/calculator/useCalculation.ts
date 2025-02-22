@@ -3,6 +3,7 @@ import { evaluateTex } from "tex-math-parser";
 import { ComplexNumber, Variable } from "@/types";
 import { formatNumber, formatComplexNumber } from "./format-utils";
 import { useCalculator } from "@/app/context";
+import { constants } from "@/data/constants";
 
 export const useCalculation = (id: string, variables: Variable[]) => {
     const [result, setResult] = useState("");
@@ -16,6 +17,15 @@ export const useCalculation = (id: string, variables: Variable[]) => {
             return;
         }
 
+        const variablesAsObject = Object.fromEntries(
+            variables.map((v) => [v.name, v.value])
+        );
+
+        const withExisting = {
+            ...constants,
+            ...variablesAsObject,
+        };
+
         try {
             const assignmentMatch = input.match(
                 /^([a-zA-Z][a-zA-Z0-9]*)\s*=(.+)$/
@@ -24,19 +34,16 @@ export const useCalculation = (id: string, variables: Variable[]) => {
             // If the input is an assignment, evaluate the expression and store the result in variables
             if (assignmentMatch && input.includes("=")) {
                 const [, variableName, expression] = assignmentMatch;
-                const variablesAsObject = Object.fromEntries(
-                    variables.map((v) => [v.name, v.value])
-                );
                 const { evaluated } = evaluateTex(
                     expression.trim(),
-                    variablesAsObject
+                    withExisting
                 );
 
-                // Store the result in variables using the prop setter
                 const value =
                     typeof evaluated === "object"
                         ? evaluated
                         : Number(evaluated);
+
                 addVariable({
                     id,
                     name: variableName,
@@ -53,13 +60,8 @@ export const useCalculation = (id: string, variables: Variable[]) => {
                 } else {
                     setResult(formatNumber(Number(evaluated)));
                 }
-                // If the input is not an assignment, evaluate the expression
             } else {
-                // Normal expression evaluation
-                const variablesAsObject = Object.fromEntries(
-                    variables.map((v) => [v.name, v.value])
-                );
-                const { evaluated } = evaluateTex(input, variablesAsObject);
+                const { evaluated } = evaluateTex(input, withExisting);
 
                 if (
                     typeof evaluated === "object" &&

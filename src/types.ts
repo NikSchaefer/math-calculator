@@ -12,10 +12,12 @@ export type Variable = {
 export type Calculator = {
     id: string;
     latex: string;
+    preview?: string;
 };
 
 export type Preset = {
     id: string;
     name: string;
+    categories: string[];
     calculators: Calculator[];
 };

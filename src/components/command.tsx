@@ -40,27 +40,10 @@ export function CommandMenu() {
                 <CommandInput placeholder="Type a command or search..." />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Quick Actions">
-                        <CommandItem
-                            onSelect={() => {
-                                setOpen(false);
-                                resetCalculator();
-                            }}
-                        >
-                            Clear
-                        </CommandItem>
-                        <CommandItem
-                            onSelect={() => {
-                                setOpen(false);
-                                exportCalculations();
-                            }}
-                        >
-                            Export
-                        </CommandItem>
-                    </CommandGroup>
                     <CommandGroup heading="Formulas">
                         {formulas.map((preset) => (
                             <CommandItem
+                                className="flex justify-between items-center"
                                 key={preset.id}
                                 onSelect={() => {
                                     setOpen(false);
@@ -84,9 +67,30 @@ export function CommandMenu() {
                                     }
                                 }}
                             >
-                                {preset.name}
+                                <span>{preset.name}</span>
+                                <span className="text-muted-foreground">
+                                    {preset.calculators[0].preview}
+                                </span>
                             </CommandItem>
                         ))}
+                    </CommandGroup>
+                    <CommandGroup heading="Quick Actions">
+                        <CommandItem
+                            onSelect={() => {
+                                setOpen(false);
+                                resetCalculator();
+                            }}
+                        >
+                            Clear (Reset)
+                        </CommandItem>
+                        <CommandItem
+                            onSelect={() => {
+                                setOpen(false);
+                                exportCalculations();
+                            }}
+                        >
+                            Export
+                        </CommandItem>
                     </CommandGroup>
                 </CommandList>
             </Command>

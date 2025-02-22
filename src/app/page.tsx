@@ -2,18 +2,18 @@
 
 import { Calculator } from "@/components/calculator";
 import { useEffect } from "react";
-import { addStyles } from "react-mathquill";
 import { AnimatePresence, motion } from "framer-motion";
 import { CommandMenu } from "@/components/command";
 import { useCalculator } from "./context";
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
-    const { calculators, exportCalculations, resetCalculator } =
-        useCalculator();
+    const { calculators } = useCalculator();
 
     useEffect(() => {
-        addStyles();
+        // Dynamically import and add styles only on the client side
+        import("react-mathquill").then((mathquill) => {
+            mathquill.addStyles();
+        });
     }, []);
 
     return (
@@ -26,7 +26,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
             >
-                F1 Calculator
+                Math Calculator
             </motion.h1>
             <motion.p className="text-lg text-muted-foreground mb-4">
                 Math at the Speed of Thought
@@ -47,21 +47,9 @@ export default function Home() {
                         />
                     ))}
                 </AnimatePresence>
-                <div className="mt-4 flex justify-between items-center">
+                <div className="mt-4 flex justify-center items-center">
                     <div className="text-sm text-gray-500">
                         Press Cmd+K to get started
-                    </div>
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={resetCalculator}
-                            variant="ghost"
-                            size="sm"
-                        >
-                            Clear
-                        </Button>
-                        <Button onClick={exportCalculations} size="sm">
-                            Export
-                        </Button>
                     </div>
                 </div>
             </motion.div>

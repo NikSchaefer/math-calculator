@@ -1,12 +1,6 @@
 "use client";
 
-import {
-    createContext,
-    useContext,
-    useState,
-    ReactNode,
-    useEffect,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { Calculator, Variable } from "@/types";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
@@ -29,33 +23,27 @@ interface CalculatorContextType {
     setOpen: (open: boolean) => void;
 }
 
-const existingVariables: Variable[] = [
-    { id: "gravity", name: "g", value: 9.81 },
-    { id: "avogadro", name: "N_A", value: 6.02214076e23 },
-    { id: "speedOfLight", name: "c", value: 299792458 },
-    { id: "planck", name: "h", value: 6.62607015e-34 },
-    { id: "boltzmann", name: "k_B", value: 1.380649e-23 },
-    { id: "electronCharge", name: "e", value: 1.602176634e-19 },
-    { id: "electronMass", name: "m_e", value: 9.1093837015e-31 },
-    { id: "protonMass", name: "m_p", value: 1.67262192369e-27 },
-    { id: "neutronMass", name: "m_n", value: 1.67492749804e-27 },
-];
-
 const CalculatorContext = createContext<CalculatorContextType | undefined>(
     undefined
 );
 
 export function CalculatorProvider({ children }: { children: ReactNode }) {
     const [selectedId, setSelectedId] = useState<string>(generateId());
-    const [variables, setVariables] = useState<Variable[]>(existingVariables);
+    const [variables, setVariables] = useState<Variable[]>([]);
     const [calculators, setCalculators] = useState<Calculator[]>([
         { id: selectedId, latex: "" },
     ]);
     const [open, setOpen] = useState(false);
     function addVariable(variable: Variable) {
-        // Remove the variable if it already exists
-        const removed = variables.filter((v) => v.id !== variable.id);
-        setVariables([...removed, variable]);
+        // Check if the variable already exists by ID and if it has a different value now
+        const existingVariable = variables.find((v) => v.id === variable.id);
+        if (existingVariable && existingVariable.value !== variable.value) {
+            setVariables(
+                variables.map((v) => (v.id === variable.id ? variable : v))
+            );
+        } else if (!existingVariable) {
+            setVariables([...variables, variable]);
+        }
     }
 
     const updateCalculator = (id: string, latex: string) => {
@@ -77,6 +65,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
             (v) => !calculators.some((c) => c.id === v.id)
         );
         setVariables([...removed]);
+
         if (index > 0) {
             setSelectedId(calculators[index - 1].id);
         } else {
@@ -92,20 +81,6 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         setCalculators([{ id: generateId(), latex: "" }]);
         setSelectedId(generateId());
     }
-
-    // Add keyboard event listener
-    useEffect(() => {
-        const handleKeyPress = (e: KeyboardEvent) => {
-            if (e.key === "Enter") {
-                const newId = generateId();
-                setCalculators((prev) => [...prev, { id: newId, latex: "" }]);
-                setSelectedId(newId);
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyPress);
-        return () => window.removeEventListener("keydown", handleKeyPress);
-    }, [open]);
 
     return (
         <CalculatorContext.Provider

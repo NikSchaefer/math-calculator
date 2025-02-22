@@ -1,3 +1,4 @@
+"use client";
 import { MathField } from "react-mathquill";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -6,6 +7,7 @@ import { useCalculator } from "../../app/context";
 import { useCalculation } from "./useCalculation";
 import { MathInput } from "./input";
 import { Result } from "./results";
+import { generateId } from "@/lib/utils";
 
 export function Calculator({ calculator }: { calculator: CalculatorType }) {
     const {
@@ -14,6 +16,8 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
         updateCalculator,
         selectedId,
         setSelectedId,
+        calculators,
+        setCalculators,
     } = useCalculator();
 
     const isSelected = selectedId === calculator.id;
@@ -32,6 +36,10 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
             wasEmpty // Only delete if it was already empty before this keypress
         ) {
             deleteCalculator(calculator.id);
+        } else if (e.key === "Enter") {
+            const newId = generateId();
+            setCalculators([...calculators, { id: newId, latex: "" }]);
+            setSelectedId(newId);
         }
         // else if (e.key === "ArrowUp")
         // {
@@ -46,6 +54,7 @@ export function Calculator({ calculator }: { calculator: CalculatorType }) {
     };
 
     const handleLatexChange = (mathField: MathField) => {
+        if (!mathField) return;
         const newLatex = mathField.latex();
         calculate(newLatex);
         updateCalculator(calculator.id, newLatex);
