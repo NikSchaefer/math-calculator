@@ -53,9 +53,9 @@ export function MathInput({
                 aria-label="Math equation input"
                 config={{
                     autoCommands:
-                        "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle",
+                        "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle square",
                     autoOperatorNames:
-                        "sin cos tan log sec csc arcsin arccos arctan",
+                        "sin cos tan log sec csc arcsin arccos arctan mean median mode proj comp",
                     sumStartsWithNEquals: true,
                 }}
             />

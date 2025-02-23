@@ -15,15 +15,29 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
-const CommandDialog = ({ children, ...props }: DialogProps) => {
+const CommandDialog = ({
+    children,
+    onKeyDown,
+    ...props
+}: DialogProps & {
+    onKeyDown?: (e: React.KeyboardEvent<Element>) => void;
+}) => {
+    const handleEscape = React.useCallback(
+        (event: KeyboardEvent) => {
+            onKeyDown?.(event as unknown as React.KeyboardEvent<Element>);
+        },
+        [onKeyDown]
+    );
+
     return (
         <Dialog {...props}>
             <DialogTitle className="sr-only">Calculator</DialogTitle>
             <DialogContent
                 className="overflow-hidden p-0 shadow-2xl sm:max-w-xl w-screen"
+                onEscapeKeyDown={handleEscape}
                 hideClose
             >
-                <Command>{children}</Command>
+                <Command onKeyDown={onKeyDown}>{children}</Command>
             </DialogContent>
         </Dialog>
     );
@@ -111,7 +125,7 @@ const CommandItem = React.forwardRef<
     <CommandPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm px-4 py-3 text-sm outline-hidden aria-selected:bg-accent text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+            "relative flex cursor-default select-none items-center rounded-sm px-4 py-3 text-sm outline-hidden aria-selected:bg-accent text-accent-foreground data-disabled:pointer-events-none",
             className
         )}
         {...props}

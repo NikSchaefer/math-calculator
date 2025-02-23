@@ -8,6 +8,53 @@ const math = create(all, {
     precision: 64,
 }) as MathJsInstance;
 
+// Configuration for angle mode
+const config = {
+    angles: "deg", // 'rad' or 'deg'
+};
+
+// Create angle-aware trig functions
+const replacements: Record<string, any> = {};
+const trigFunctions = ["sin", "cos", "tan", "sec", "cot", "csc"];
+const arcTrigFunctions = ["asin", "acos", "atan", "asec", "acot", "acsc"];
+
+trigFunctions.forEach((name) => {
+    const originalFn = math[name as keyof MathJsInstance];
+
+    const fnNumber = (x: any) => {
+        // Convert degrees to radians if in deg mode
+        return config.angles === "deg"
+            ? originalFn(math.multiply(x, math.divide(math.pi, 180)))
+            : originalFn(x);
+    };
+
+    replacements[name] = math.typed(name, {
+        "number | BigNumber": fnNumber,
+        "Array | Matrix": (x: any) => math.map(x, fnNumber),
+    });
+});
+
+// Add inverse trig functions
+arcTrigFunctions.forEach((name) => {
+    const originalFn = math[name as keyof MathJsInstance];
+
+    const fnNumber = (x: any) => {
+        const result = originalFn(x);
+        // Convert result from radians to degrees if in deg mode
+        return config.angles === "deg"
+            ? math.multiply(result, math.divide(180, math.pi))
+            : result;
+    };
+
+    replacements[name] = math.typed(name, {
+        "number | BigNumber": fnNumber,
+        "Array | Matrix": (x: any) => math.map(x, fnNumber),
+    });
+});
+
+// Import the replacements first
+math.import(replacements, { override: true });
+
 // Additional functions to be passed to the scope of math.evaluate(scope)
 // (not defined in mathjs)
 const mathImport = {
@@ -24,6 +71,11 @@ const mathImport = {
         ), // projection of b along a
     // TODO: Add integration
     // int: (f: any, a: any, b: any) => mathjsSimpleIntegral(f, a, b),
+    // Function to change angle mode
+    setAngleMode: (mode: "rad" | "deg") => {
+        config.angles = mode;
+    },
+    getAngleMode: () => config.angles,
 };
 
 math.import(mathImport, {

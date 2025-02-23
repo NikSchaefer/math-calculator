@@ -14,19 +14,14 @@ import {
     computeComplexNumberResult,
 } from "./format-utils";
 
-function extractVariable(scope: Context): Variable | null {
-    if (!scope || scope.length === 0) return null;
-    // if (scope.length === 1) {
-    const key = Object.keys(scope)[0];
-    return {
+function extractVariables(scope: Context): Variable[] {
+    if (!scope || scope.length === 0) return [];
+    const keys = Object.keys(scope);
+    return keys.map((key) => ({
         id: key,
         name: key,
         value: scope[key],
-    };
-    // }
-    // TODO: Force one defined variable
-
-    // throw new Error("Only one variable is supported");
+    }));
 }
 
 export function computeCalculator(
@@ -37,8 +32,8 @@ export function computeCalculator(
         ...calculator,
         result: null,
         formattedResult: "",
-        type: "number",
-        variable: null,
+        type: "error",
+        variables: [],
     };
 
     if (calculator.latex.trim() === "") {
@@ -47,7 +42,7 @@ export function computeCalculator(
 
     // First we check if there are any variables in the input that we can use elsewhere
     if (context) {
-        computedCalculator.variable = extractVariable(context);
+        computedCalculator.variables = extractVariables(context);
     }
 
     try {
@@ -63,6 +58,7 @@ export function computeCalculator(
                 computedCalculator.result = computeComplexNumberResult(
                     evaluated as ComplexNumber
                 );
+                computedCalculator.type = "complex";
                 break;
             case "number":
                 computedCalculator.formattedResult = formatNumberResult(
@@ -71,6 +67,7 @@ export function computeCalculator(
                 computedCalculator.result = computeNumberResult(
                     evaluated as number
                 );
+                computedCalculator.type = "number";
                 break;
         }
         return computedCalculator;

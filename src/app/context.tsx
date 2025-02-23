@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { computeCalculator } from "@/components/calculator/calculate";
 import { constants } from "@/data/constants";
+import math from "@/tex-parser/customMath";
 
 interface CalculatorContextType {
     calculators: Calculator[];
@@ -17,6 +18,8 @@ interface CalculatorContextType {
     deleteCalculator: (id: string) => void;
     exportCalculations: () => void;
     resetCalculator: () => void;
+    angleMode: "deg" | "rad";
+    setAngleMode: (mode: "deg" | "rad") => void;
     commandOpen: boolean;
     setCommandOpen: (open: boolean) => void;
 }
@@ -27,6 +30,7 @@ const CalculatorContext = createContext<CalculatorContextType | undefined>(
 
 export function CalculatorProvider({ children }: { children: ReactNode }) {
     const [commandOpen, setCommandOpen] = useState(false);
+    const [angleMode, setAngleMode] = useState<"deg" | "rad">("rad");
 
     const [selectedId, setSelectedId] = useState<string>(generateId());
     const [calculators, setCalculators] = useState<Calculator[]>([
@@ -35,9 +39,16 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
 
     // Two-pass calculation system
     const { computedCalculators } = useMemo(() => {
+        // Set the math angle mode whenever it changes
+        // @ts-expect-error this is a custom function
+        math.setAngleMode(angleMode);
+
         // First pass: Calculate all expressions to identify variables
         const firstPass = calculators.map((c) => computeCalculator(c));
-        const variables = firstPass.map((c) => c.variable).filter(Boolean);
+        const variables = firstPass
+            .map((c) => c.variables)
+            .flat()
+            .filter(Boolean);
 
         const context = variables.reduce((acc, v) => {
             if (!v) return acc;
@@ -62,7 +73,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         );
 
         return { computedCalculators };
-    }, [calculators]);
+    }, [calculators, angleMode]);
 
     const updateCalculator = (id: string, latex: string) => {
         setCalculators((prev) =>
@@ -95,6 +106,11 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         setSelectedId(firstId);
     }
 
+    // Replace your existing setAngleMode reducer with this simpler function
+    const toggleAngleMode = () => {
+        setAngleMode((prev) => (prev === "deg" ? "rad" : "deg"));
+    };
+
     return (
         <CalculatorContext.Provider
             value={{
@@ -109,6 +125,8 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                 resetCalculator,
                 commandOpen,
                 setCommandOpen,
+                angleMode,
+                setAngleMode: toggleAngleMode,
             }}
         >
             {children}

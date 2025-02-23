@@ -1,20 +1,37 @@
 import { ComplexNumber } from "@/types";
 
-const THRESHOLD = 1e-35;
+// const THRESHOLD = 1e-8;
+// const THRESHOLD = 1e-35;
+
+function roundWithDynamicTolerance(
+    value: number,
+    scale = 1,
+    relativeTolerance = 1e-12
+) {
+    // Calculate the absolute tolerance based on the scale
+    const absoluteTolerance = relativeTolerance * scale;
+
+    // Round to zero if the value is within the absolute tolerance
+    if (Math.abs(value) < absoluteTolerance) {
+        return 0;
+    }
+    // Otherwise, return the original value
+    return value;
+}
 
 export function computeNumberResult(num: number): number {
     // Check for numbers very close to common values
-    const commonValues = [0, 0.5, 1, -0.5, -1];
-    for (const value of commonValues) {
-        if (Math.abs(num - value) < THRESHOLD) {
-            return value;
-        }
-    }
+    // const commonValues = [0, 0.5, 1, -0.5, -1];
+    // for (const value of commonValues) {
+    //     if (Math.abs(num - value) < THRESHOLD) {
+    //         return value;
+    //     }
+    // }
 
-    // Increase threshold for "zero" to 1e-32
-    if (Math.abs(num) < THRESHOLD) return 0;
+    // // Increase threshold for "zero" to 1e-32
+    // if (Math.abs(num) < THRESHOLD) return 0;
 
-    return num;
+    return roundWithDynamicTolerance(num);
 }
 
 export function formatNumberResult(num: number): string {
@@ -23,14 +40,15 @@ export function formatNumberResult(num: number): string {
 
     // For very small or large numbers, use scientific notation
     if (Math.abs(computed) < 0.0001 || Math.abs(computed) > 10000) {
-        return Number(computed).toExponential(4);
+        // Limit scientific notation to 8 significant digits
+        return Number(computed.toPrecision(8)).toExponential();
     }
 
+    // Limit to 8 decimal places
     const str = computed.toString();
     if (str.length > 8) {
         return computed.toFixed(8);
     }
-    // Limit to 8 decimal places
     return str;
 }
 

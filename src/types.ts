@@ -9,6 +9,7 @@ export type Variable = {
     id: string;
     name: string;
     value: number | ComplexNumber;
+    description?: string;
 };
 
 export type EvalType = "complex" | "number" | "error";
@@ -17,7 +18,7 @@ export type EvalResult = {
     result: number | ComplexNumber | null;
     formattedResult: string;
     type: EvalType;
-    variable: Variable | null;
+    variables: Variable[];
 };
 
 export type Calculator = {
