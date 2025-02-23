@@ -6,13 +6,17 @@ import {
     Context,
     Calculator,
     ComputedCalculator,
+    EvalType,
 } from "@/types";
 import {
     formatNumberResult,
     computeNumberResult,
     formatComplexNumber,
     computeComplexNumberResult,
+    formatMatrixResult,
+    computeMatrixResult,
 } from "./format-utils";
+import { Matrix } from "mathjs";
 
 function extractVariables(scope: Context): Variable[] {
     if (!scope || scope.length === 0) return [];
@@ -48,7 +52,9 @@ export function computeCalculator(
     try {
         // Then we evaluate the input with the context
         const { evaluated } = evaluateTex(calculator.latex, context);
+        console.log(evaluated);
         const type = getTypeOfResult(evaluated);
+        computedCalculator.type = type;
 
         switch (type) {
             case "complex":
@@ -58,7 +64,14 @@ export function computeCalculator(
                 computedCalculator.result = computeComplexNumberResult(
                     evaluated as ComplexNumber
                 );
-                computedCalculator.type = "complex";
+                break;
+            case "matrix":
+                computedCalculator.formattedResult = formatMatrixResult(
+                    evaluated as Matrix
+                );
+                computedCalculator.result = computeMatrixResult(
+                    evaluated as Matrix
+                );
                 break;
             case "number":
                 computedCalculator.formattedResult = formatNumberResult(
@@ -67,7 +80,6 @@ export function computeCalculator(
                 computedCalculator.result = computeNumberResult(
                     evaluated as number
                 );
-                computedCalculator.type = "number";
                 break;
         }
         return computedCalculator;
@@ -82,7 +94,7 @@ export function computeCalculator(
     }
 }
 
-function getTypeOfResult(evaluated: any) {
+function getTypeOfResult(evaluated: any): EvalType {
     if (
         typeof evaluated === "object" &&
         "im" in evaluated &&
@@ -90,5 +102,10 @@ function getTypeOfResult(evaluated: any) {
     ) {
         return "complex";
     }
+
+    if (typeof evaluated === "object" && "_data" in evaluated) {
+        return "matrix";
+    }
+
     return "number";
 }

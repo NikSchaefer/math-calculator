@@ -1,4 +1,5 @@
 import { ComplexNumber } from "@/types";
+import { Matrix } from "mathjs";
 
 // const THRESHOLD = 1e-8;
 // const THRESHOLD = 1e-35;
@@ -72,4 +73,12 @@ export function formatComplexNumber({ re, im }: ComplexNumber): string {
     // Otherwise return full complex number
     const imSign = im >= 0 ? "+" : "";
     return `${computed.re}${imSign}${computed.im}i`;
+}
+
+export function formatMatrixResult(matrix: Matrix): string {
+    return `[${matrix.toArray().toString()}]`;
+}
+
+export function computeMatrixResult(matrix: Matrix): Array<unknown> {
+    return matrix.toArray();
 }

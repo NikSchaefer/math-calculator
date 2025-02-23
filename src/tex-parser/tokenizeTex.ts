@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { convertArraysToMatrices } from "./prepareTokens";
 import Token, { TokenType, lexemeToType } from "./Token";
 
 function isWhitespace(c: string) {
@@ -19,13 +20,18 @@ function isDigit(c: string) {
 
 // Returns the next word starting at pos in the string.
 // If the string begins with non-alphabetic characters at pos, returns an empty string.
+// For variables (no \ prefix), returns a single character
+// For commands (with \ prefix), returns the full command word
 function scanWord(str: string, pos: number) {
     if (!isAlpha(str[pos])) {
         return "";
     }
-    // For variables, only return a single character
-    // For commands (called with \ prefix), keep original behavior
-    return str.slice(pos, pos + 1);
+
+    let end = pos + 1;
+    while (end < str.length && isAlpha(str[end])) {
+        end += 1;
+    }
+    return str.slice(pos, end);
 }
 
 // Returns the next number starting at pos in the string.
@@ -58,8 +64,11 @@ class LexError extends Error {
 }
 
 // Convert a TeX string to an array of tokens
-export default function tokenizeTex(texStr: string) {
+export default function tokenizeTex(latex: string) {
     let i = 0;
+    console.log(latex);
+    const texStr = convertArraysToMatrices(latex);
+    console.log(texStr);
     const { length } = texStr;
     const tokens = [];
     while (i < length) {
@@ -108,7 +117,10 @@ export default function tokenizeTex(texStr: string) {
                     lexeme = `\\${command}`;
                     type = lexemeToType[lexeme];
                     if (type === undefined) {
-                        throw new LexError(`unknown command "${lexeme}"`, i);
+                        throw new LexError(
+                            `unknown lexeme command "${lexeme}"`,
+                            i
+                        );
                     }
                 }
             }

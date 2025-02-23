@@ -12,10 +12,10 @@ export type Variable = {
     description?: string;
 };
 
-export type EvalType = "complex" | "number" | "error";
+export type EvalType = "complex" | "number" | "matrix" | "error";
 
 export type EvalResult = {
-    result: number | ComplexNumber | null;
+    result: number | ComplexNumber | Array<unknown> | null;
     formattedResult: string;
     type: EvalType;
     variables: Variable[];
