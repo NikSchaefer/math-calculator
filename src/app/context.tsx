@@ -1,7 +1,20 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useMemo } from "react";
-import { Calculator, ComputedCalculator, Context } from "@/types";
+import {
+    createContext,
+    useContext,
+    useState,
+    ReactNode,
+    useMemo,
+    useCallback,
+} from "react";
+import {
+    Calculator,
+    ComputedCalculator,
+    Context,
+    Preset,
+    Variable,
+} from "@/types";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { computeCalculator } from "@/components/calculator/calculate";
@@ -22,6 +35,7 @@ interface CalculatorContextType {
     setAngleMode: (mode: "deg" | "rad") => void;
     commandOpen: boolean;
     setCommandOpen: (open: boolean) => void;
+    onUseItem: (item: Preset | Variable | null) => void;
 }
 
 const CalculatorContext = createContext<CalculatorContextType | undefined>(
@@ -38,7 +52,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
     ]);
 
     // Two-pass calculation system
-    const { computedCalculators } = useMemo(() => {
+    const { computedCalculators, combinedContext } = useMemo(() => {
         // Set the math angle mode whenever it changes
         // @ts-expect-error this is a custom function
         math.setAngleMode(angleMode);
@@ -72,7 +86,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
             computeCalculator(c, combinedContext)
         );
 
-        return { computedCalculators };
+        return { computedCalculators, combinedContext };
     }, [calculators, angleMode]);
 
     const updateCalculator = (id: string, latex: string) => {
@@ -106,10 +120,59 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         setSelectedId(firstId);
     }
 
-    // Replace your existing setAngleMode reducer with this simpler function
-    const toggleAngleMode = () => {
-        setAngleMode((prev) => (prev === "deg" ? "rad" : "deg"));
-    };
+    const onUseItem = useCallback(
+        (item: Preset | Variable | null) => {
+            setCommandOpen(false);
+            if (!item) return;
+            // handle presets
+            if ("calculators" in item) {
+                const calculatorsToAdd = item.calculators;
+
+                // If the input variables are not found in the variables array, create them on a single line
+                const inputVariablesNotInVariables = item.inputVariables.filter(
+                    (v: string) =>
+                        !Object.keys(combinedContext).find((key) => v === key)
+                );
+
+                if (inputVariablesNotInVariables.length > 0) {
+                    calculatorsToAdd.unshift({
+                        id: generateId(),
+                        latex: inputVariablesNotInVariables
+                            .map((v) => `${v} = 1`)
+                            .join(",\\ "),
+                    });
+                }
+
+                // if the previous calculator is empty, replace that calculator with the new preset
+                const length = calculators.length;
+                const isPreviousCalculatorEmpty =
+                    calculators[length - 1].latex === "";
+
+                if (isPreviousCalculatorEmpty) {
+                    return setCalculators([
+                        ...calculators.slice(0, length - 1),
+                        {
+                            ...calculators[length - 1],
+                            latex: item.calculators[0].latex,
+                        },
+                        ...item.calculators.slice(1),
+                    ]);
+                }
+
+                return setCalculators([...calculators, ...item.calculators]);
+            }
+
+            // handle variables
+            setCalculators([
+                ...calculators,
+                {
+                    id: generateId(),
+                    latex: item.name,
+                },
+            ]);
+        },
+        [setCommandOpen, calculators, setCalculators, combinedContext]
+    );
 
     return (
         <CalculatorContext.Provider
@@ -126,7 +189,8 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                 commandOpen,
                 setCommandOpen,
                 angleMode,
-                setAngleMode: toggleAngleMode,
+                setAngleMode,
+                onUseItem,
             }}
         >
             {children}

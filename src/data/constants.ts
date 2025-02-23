@@ -24,7 +24,7 @@ export const constantsAsArray: Variable[] = [
     },
     {
         id: "Planck's Constant",
-        name: "h",
+        name: "h_bar",
         value: 6.62607015e-34,
         description:
             "Fundamental constant relating energy of a photon to its frequency (in J⋅s). Example: A green light photon (540nm) has energy E = h × f ≈ 3.68 × 10⁻¹⁹ J.",

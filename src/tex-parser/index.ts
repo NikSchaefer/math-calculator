@@ -11,7 +11,6 @@ type Scope = { [key: string]: any };
  *          and variables that need to be defined.
  */
 function parseTex(texStr: string) {
-    console.log(tokenizeTex(texStr));
     return parseTokens(tokenizeTex(texStr));
 }
 

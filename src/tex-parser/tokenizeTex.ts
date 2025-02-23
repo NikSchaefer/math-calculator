@@ -23,12 +23,9 @@ function scanWord(str: string, pos: number) {
     if (!isAlpha(str[pos])) {
         return "";
     }
-    let end = pos;
-    // Changed to allow numbers after the first character
-    while (isAlpha(str[end])) {
-        end += 1;
-    }
-    return str.slice(pos, end);
+    // For variables, only return a single character
+    // For commands (called with \ prefix), keep original behavior
+    return str.slice(pos, pos + 1);
 }
 
 // Returns the next number starting at pos in the string.
@@ -130,7 +127,7 @@ export default function tokenizeTex(texStr: string) {
                 lexeme = identifier;
                 type = lexemeToType[identifier];
             } else {
-                // Take the entire identifier as one variable token
+                // Take single character as variable token
                 lexeme = identifier;
                 type = TokenType.Variable;
             }

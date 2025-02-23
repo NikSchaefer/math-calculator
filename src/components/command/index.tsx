@@ -7,15 +7,13 @@ import { formulas } from "@/data/formulas";
 import { Preset, Variable } from "@/types";
 import { Command, CommandDialog } from "../ui/command";
 import { constantsAsArray } from "@/data/constants";
-import { generateId } from "@/lib/utils";
 import { useEffect } from "react";
 import InfoView from "./info-view";
 import CommandListView from "./list-view";
 import CommandFooter from "./footer";
 
 export function CommandMenu() {
-    const { calculators, setCalculators, commandOpen, setCommandOpen } =
-        useCalculator();
+    const { commandOpen, setCommandOpen, onUseItem } = useCalculator();
 
     const [selectedId, setSelectedId] = React.useState("");
     const [search, setSearch] = React.useState("");
@@ -30,38 +28,6 @@ export function CommandMenu() {
         setSelectedId(item.id);
         setShowInfo(true);
     }
-
-    const onUseItem = React.useCallback(
-        (item: Preset | Variable | null) => {
-            setCommandOpen(false);
-            if (!item) return;
-            if ("calculators" in item) {
-                // if the previous calculator is empty, replace that calculator with the latex
-                const length = calculators.length;
-                if (calculators[length - 1].latex === "") {
-                    setCalculators([
-                        ...calculators.slice(0, length - 1),
-                        {
-                            ...calculators[length - 1],
-                            latex: item.calculators[0].latex,
-                        },
-                        ...item.calculators.slice(1),
-                    ]);
-                } else {
-                    setCalculators([...calculators, ...item.calculators]);
-                }
-            } else {
-                setCalculators([
-                    ...calculators,
-                    {
-                        id: generateId(),
-                        latex: item.name,
-                    },
-                ]);
-            }
-        },
-        [setCommandOpen, calculators, setCalculators]
-    );
 
     const onCommandKeyDown = React.useCallback(
         (e: React.KeyboardEvent<Element>) => {

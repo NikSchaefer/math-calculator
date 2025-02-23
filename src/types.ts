@@ -34,6 +34,7 @@ export type Preset = {
     name: string;
     categories: string[];
     calculators: Calculator[];
+    inputVariables: string[];
     // Markdown description of how to use the preset
     description: string;
 };
