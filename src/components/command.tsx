@@ -81,7 +81,7 @@ export function CommandMenu() {
         ]);
     }
 
-    function onKeyDown(e: React.KeyboardEvent<Element>) {
+    function onKeyDown(e: React.KeyboardEvent<Element> | KeyboardEvent) {
         // if the user presses enter and the command is open, show the info view
         if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
@@ -144,7 +144,7 @@ export function CommandMenu() {
             <Command
                 value={selectedId}
                 onValueChange={setSelectedId}
-                onKeyDown={onKeyDown}
+                // onKeyDown={onKeyDown}
             >
                 {!showInfo ? (
                     <CommandListView
@@ -200,6 +200,7 @@ function CommandListView({
                             className="flex justify-between items-center"
                             key={preset.id}
                             onSelect={() => onSelectItem(preset)}
+                            onClick={() => onSelectItem(preset)}
                         >
                             <span className="flex items-center gap-2">
                                 <SquareFunction className="w-4 h-4" />
@@ -221,6 +222,7 @@ function CommandListView({
                             keywords={[constant.id, constant.name]}
                             className="flex justify-between items-center"
                             onSelect={() => onSelectItem(constant)}
+                            onClick={() => onSelectItem(constant)}
                         >
                             <span className="flex items-center gap-2">
                                 <SquareAsterisk className="w-4 h-4" />

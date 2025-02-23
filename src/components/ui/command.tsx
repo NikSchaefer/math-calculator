@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DialogProps } from "@radix-ui/react-dialog";
+import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 
 import { cn } from "@/lib/utils";
@@ -11,7 +11,14 @@ const Command = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(({ className, ...props }, ref) => (
-    <CommandPrimitive ref={ref} className={cn(className)} {...props} />
+    <CommandPrimitive
+        ref={ref}
+        className={cn(
+            "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
+            className
+        )}
+        {...props}
+    />
 ));
 Command.displayName = CommandPrimitive.displayName;
 
@@ -19,25 +26,24 @@ const CommandDialog = ({
     children,
     onKeyDown,
     ...props
-}: DialogProps & {
-    onKeyDown?: (e: React.KeyboardEvent<Element>) => void;
-}) => {
+}: DialogProps & { onKeyDown: (event: KeyboardEvent) => void }) => {
     const handleEscape = React.useCallback(
         (event: KeyboardEvent) => {
-            onKeyDown?.(event as unknown as React.KeyboardEvent<Element>);
+            onKeyDown?.(event);
         },
         [onKeyDown]
     );
-
     return (
         <Dialog {...props}>
-            <DialogTitle className="sr-only">Calculator</DialogTitle>
             <DialogContent
-                className="overflow-hidden p-0 shadow-2xl sm:max-w-xl w-screen"
                 onEscapeKeyDown={handleEscape}
+                className="overflow-hidden p-0 shadow-lg sm:max-w-xl"
                 hideClose
             >
-                <Command onKeyDown={onKeyDown}>{children}</Command>
+                <DialogTitle className="sr-only">Command Menu</DialogTitle>
+                <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-16 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+                    {children}
+                </Command>
             </DialogContent>
         </Dialog>
     );
@@ -125,7 +131,7 @@ const CommandItem = React.forwardRef<
     <CommandPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm px-4 py-3 text-sm outline-hidden aria-selected:bg-accent text-accent-foreground data-disabled:pointer-events-none",
+            "relative flex cursor-default gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
             className
         )}
         {...props}
