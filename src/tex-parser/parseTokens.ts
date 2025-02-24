@@ -73,6 +73,7 @@ function createMathJSNode(
         case TokenType.Median:
         case TokenType.Mode:
         case TokenType.Sum:
+        case TokenType.Round:
         case TokenType.Abs:
         case TokenType.Total:
             return new (math as any).FunctionNode(fn, children);

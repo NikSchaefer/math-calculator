@@ -62,7 +62,15 @@ export default function HowDoI() {
                                     <code>ln(e)</code>
                                 </li>
                                 <li>
-                                    • Absolute value: <code>abs(-5)</code>
+                                    • Absolute value: <code>abs(-5)</code> or{" "}
+                                    <code>|-5|</code>
+                                </li>
+                                <li>
+                                    • Round: <code>round(3.14159)</code>.
+                                    Specify a second argument to round to a
+                                    specific decimal place. For example,{" "}
+                                    <code>round(3.14159, 2)</code> rounds to 2
+                                    decimal places.
                                 </li>
                             </ul>
                         </div>

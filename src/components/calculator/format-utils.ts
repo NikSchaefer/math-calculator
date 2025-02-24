@@ -1,9 +1,6 @@
 import { ComplexNumber, EvalType } from "@/types";
 import { Matrix } from "mathjs";
 
-// const THRESHOLD = 1e-8;
-// const THRESHOLD = 1e-35
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getTypeOfResult(evaluated: any): EvalType {
     if (Array.isArray(evaluated)) {
@@ -45,7 +42,7 @@ export function formatResult(evaluated: any): string {
 function roundWithDynamicTolerance(
     value: number,
     scale = 1,
-    relativeTolerance = 1e-12
+    relativeTolerance = 1e-35
 ) {
     // Calculate the absolute tolerance based on the scale
     const absoluteTolerance = relativeTolerance * scale;
@@ -59,17 +56,6 @@ function roundWithDynamicTolerance(
 }
 
 export function computeNumberResult(num: number): number {
-    // Check for numbers very close to common values
-    // const commonValues = [0, 0.5, 1, -0.5, -1];
-    // for (const value of commonValues) {
-    //     if (Math.abs(num - value) < THRESHOLD) {
-    //         return value;
-    //     }
-    // }
-
-    // // Increase threshold for "zero" to 1e-32
-    // if (Math.abs(num) < THRESHOLD) return 0;
-
     return roundWithDynamicTolerance(num);
 }
 
@@ -78,9 +64,13 @@ export function formatNumberResult(num: number): string {
     if (computed === 0) return "0";
 
     // For very small or large numbers, use scientific notation
-    if (Math.abs(computed) < 0.0001 || Math.abs(computed) > 10000) {
+    if (Math.abs(computed) < 1e-8 || Math.abs(computed) > 1e8) {
+        const length = Math.min(computed.toString().length, 8);
+        if (length === 8) {
+            return Number(computed.toPrecision(length)).toExponential();
+        }
         // Limit scientific notation to 8 significant digits
-        return Number(computed.toPrecision(8)).toExponential();
+        return Number(computed.toFixed(length)).toExponential();
     }
 
     // Limit to 8 decimal places

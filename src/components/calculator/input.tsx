@@ -12,7 +12,7 @@ const EditableMathField = dynamic(
 
 const autoOperatorNames = [
     "sin cos tan log sec csc arcsin arccos arctan mean median mode proj comp sort std nPr nCr len ln",
-    "det cross proj comp norm inv abs total",
+    "det cross proj comp norm inv abs total round",
 ];
 
 interface MathInputProps {
@@ -61,6 +61,7 @@ export function MathInput({
                         "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle square",
                     autoOperatorNames: autoOperatorNames.join(" "),
                     sumStartsWithNEquals: true,
+                    charsThatBreakOutOfSupSub: "+-=()<>[]",
                 }}
             />
         </motion.div>
