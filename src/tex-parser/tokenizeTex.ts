@@ -66,9 +66,7 @@ class LexError extends Error {
 // Convert a TeX string to an array of tokens
 export default function tokenizeTex(latex: string) {
     let i = 0;
-    console.log(latex);
     const texStr = convertArraysToMatrices(latex);
-    console.log(texStr);
     const { length } = texStr;
     const tokens = [];
     while (i < length) {

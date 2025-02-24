@@ -509,7 +509,7 @@ class Parser {
         // grouping is parenthetical and the values are comma-seperated
         const children: math.MathNode[] = [grouping];
         if (leftGrouping.type === TokenType.Lparen) {
-            while (this.match(TokenType.Comma)) {
+            while (this.match(TokenType.Comma) || this.match(TokenType.Amp)) {
                 this.nextToken(); // consume comma
                 children.push(this.nextExpression());
             }
