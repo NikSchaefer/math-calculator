@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { githubLink } from "@/config";
 
 export function Header() {
     return (
@@ -30,7 +31,7 @@ export function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.2 }}
                 >
-                    <Link tabIndex={-1} href="https://github.com/nikschaefer">
+                    <Link tabIndex={-1} href={githubLink}>
                         <Button tabIndex={-1} variant="ghost" size="sm">
                             <svg
                                 width="14"

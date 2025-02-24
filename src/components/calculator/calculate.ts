@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { evaluateTex } from "@/tex-parser";
 import {
     ComplexNumber,
@@ -6,7 +5,6 @@ import {
     Context,
     Calculator,
     ComputedCalculator,
-    EvalType,
 } from "@/types";
 import {
     formatNumberResult,
@@ -17,6 +15,7 @@ import {
     computeMatrixResult,
     computeArrayResult,
     formatArrayResult,
+    getTypeOfResult,
 } from "./format-utils";
 import { Matrix } from "mathjs";
 
@@ -101,24 +100,4 @@ export function computeCalculator(
             type: "error",
         };
     }
-}
-
-function getTypeOfResult(evaluated: any): EvalType {
-    if (Array.isArray(evaluated)) {
-        return "array";
-    }
-
-    if (
-        typeof evaluated === "object" &&
-        "im" in evaluated &&
-        "re" in evaluated
-    ) {
-        return "complex";
-    }
-
-    if (typeof evaluated === "object" && "_data" in evaluated) {
-        return "matrix";
-    }
-
-    return "number";
 }

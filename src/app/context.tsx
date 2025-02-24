@@ -13,7 +13,7 @@ import {
     ComputedCalculator,
     Context,
     Preset,
-    Variable,
+    PresetVariable,
 } from "@/types";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
@@ -35,7 +35,7 @@ interface CalculatorContextType {
     setAngleMode: (mode: "deg" | "rad") => void;
     commandOpen: boolean;
     setCommandOpen: (open: boolean) => void;
-    onUseItem: (item: Preset | Variable | null) => void;
+    onUseItem: (item: Preset | PresetVariable | null) => void;
 }
 
 const CalculatorContext = createContext<CalculatorContextType | undefined>(
@@ -104,9 +104,9 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         ]);
 
         if (index > 0) {
-            setSelectedId(calculators[index - 1].id);
+            setSelectedId(calculators[index - 1].id!);
         } else {
-            setSelectedId(calculators[index + 1].id);
+            setSelectedId(calculators[index + 1].id!);
         }
     };
 
@@ -117,11 +117,11 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
     function resetCalculator() {
         const firstId = calculators[0].id;
         setCalculators([{ id: firstId, latex: "" }]);
-        setSelectedId(firstId);
+        setSelectedId(firstId!);
     }
 
     const onUseItem = useCallback(
-        (item: Preset | Variable | null) => {
+        (item: Preset | PresetVariable | null) => {
             setCommandOpen(false);
             if (!item) return;
             // handle presets
@@ -142,6 +142,11 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                             .join(",\\ "),
                     });
                 }
+
+                // Add ids to the calculators
+                calculatorsToAdd.forEach((c) => {
+                    c.id = generateId();
+                });
 
                 // if the previous calculator is empty, replace that calculator with the new preset
                 const length = calculators.length;
@@ -167,7 +172,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                 ...calculators,
                 {
                     id: generateId(),
-                    latex: item.name,
+                    latex: item.variable,
                 },
             ]);
         },

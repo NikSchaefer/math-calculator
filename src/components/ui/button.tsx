@@ -5,16 +5,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-300 ease-in-out focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 overflow-hidden",
     {
         variants: {
             variant: {
-                default:
-                    "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary hover:to-primary",
+                default: [
+                    "bg-white/80 backdrop-blur-sm text-neutral-900 border border-white/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] hover:shadow-md hover:brightness-[1.02] active:scale-[0.98]",
+                    "before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(circle_at_27%_37%,#60A5FA_0px,transparent_50%)_,radial-gradient(circle_at_97%_21%,#C4B5FD_0px,transparent_50%)_,radial-gradient(circle_at_52%_99%,#FDA4AF_0px,transparent_50%)_,radial-gradient(circle_at_10%_29%,#86EFAC_0px,transparent_50%)] before:blur-xl before:transition-opacity hover:before:opacity-30",
+                    "after:absolute after:inset-0 after:rounded-md after:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]",
+                ],
                 outline:
-                    "border-2 border-primary/20 bg-background hover:border-primary hover:bg-primary/10",
-                ghost: "hover:bg-primary/10",
-                link: "text-primary underline-offset-4 hover:underline decoration-primary/50",
+                    "border border-neutral-200 bg-white/50 backdrop-blur-sm hover:bg-white/80",
+                ghost: "hover:bg-neutral-100/50",
+                link: "text-neutral-900 underline-offset-4 hover:underline decoration-neutral-300",
             },
             size: {
                 default: "h-10 px-6 py-2",

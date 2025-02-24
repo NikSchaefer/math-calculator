@@ -1,162 +1,159 @@
-import { Variable } from "@/types";
+import { PresetVariable } from "@/types";
 
-export const constantsAsArray: Variable[] = [
+export const constantsAsArray: PresetVariable[] = [
     {
-        id: "Gravitational Acceleration",
-        name: "g",
-        value: 9.81,
+        name: "Acceleration due to gravity",
+        variable: "g",
+        value: 9.80665,
         description:
-            "The acceleration due to gravity on Earth's surface (in m/s²). Example: A falling apple accelerates at 9.81 m/s².",
+            "The acceleration experienced by an object falling freely near the Earth's surface.  This is a standard value, and may vary slightly depending on location. Units are meters per second squared (m/s²).",
     },
     {
-        id: "Avogadro's Number",
-        name: "N_A",
+        name: "Avogadro's number",
+        variable: "N_A",
         value: 6.02214076e23,
         description:
-            "Number of particles in one mole of a substance. Example: 1 mole of water (18g) contains 6.02214076e23 water molecules.",
+            "The number of constituent particles (atoms, molecules, ions, etc.) that are contained in one mole of a substance. It's a fundamental constant in chemistry. Units are per mole (mol⁻¹).",
     },
     {
-        id: "Speed of Light",
-        name: "c",
-        value: 299792458,
-        description:
-            "The speed at which light travels in a vacuum (in m/s). Example: Light takes about 8 minutes to travel from the Sun to Earth.",
-    },
-    {
-        id: "Planck's Constant",
-        name: "h_bar",
+        name: "Planck's constant",
+        variable: "h_P",
         value: 6.62607015e-34,
         description:
-            "Fundamental constant relating energy of a photon to its frequency (in J⋅s). Example: A green light photon (540nm) has energy E = h × f ≈ 3.68 × 10⁻¹⁹ J.",
+            "A fundamental constant in quantum mechanics that relates the energy of a photon to its frequency. Units are Joule-seconds (J⋅s).",
     },
     {
-        id: "Boltzmann Constant",
-        name: "k_B",
+        name: "Speed of light in vacuum",
+        variable: "c_{light}",
+        value: 299792458,
+        description:
+            "The speed at which light travels in a vacuum. It's a universal constant in physics. Units are meters per second (m/s).",
+    },
+    {
+        name: "Boltzmann constant",
+        variable: "k_B",
         value: 1.380649e-23,
         description:
-            "Relates temperature to particle energy (in J/K). Example: At room temperature (300K), average molecular kinetic energy is (3/2)k_B T ≈ 6.21 × 10⁻²¹ J.",
+            "Relates the average kinetic energy of particles in a gas to the absolute temperature. It's a fundamental constant in thermodynamics and statistical mechanics. Units are Joules per Kelvin (J/K).",
     },
     {
-        id: "Electron Charge",
-        name: "e_c",
+        name: "Elementary charge",
+        variable: "q_e",
         value: 1.602176634e-19,
         description:
-            "The magnitude of electric charge carried by an electron (in Coulombs). Example: Current of 1 ampere means 6.242 × 10¹⁸ electrons passing per second.",
+            "The magnitude of the electric charge carried by a single proton or electron. It's a fundamental constant in physics. Units are Coulombs (C).",
     },
     {
-        id: "Electron Mass",
-        name: "m_e",
-        value: 9.1093837015e-31,
+        name: "Permittivity of free space",
+        variable: "ε_0",
+        value: 8.854187817e-12,
         description:
-            "Mass of an electron at rest (in kg). Example: The mass-energy of an electron is m_e c² ≈ 8.187 × 10⁻¹⁴ Joules.",
+            "A constant that relates the electric field to electric displacement in a vacuum. It's a fundamental constant in electromagnetism. Units are Farads per meter (F/m).",
     },
     {
-        id: "Proton Mass",
-        name: "m_p",
-        value: 1.67262192369e-27,
+        name: "Permeability of free space",
+        variable: "μ_0",
+        value: 4 * Math.PI * 1e-7, // 4π × 10⁻⁷
         description:
-            "Mass of a proton at rest (in kg). Example: A proton is about 1836 times heavier than an electron.",
+            "A constant that relates the magnetic field to magnetic flux density in a vacuum. It's a fundamental constant in electromagnetism. Units are Henrys per meter (H/m) or Tesla-meters per ampere (T⋅m/A).",
     },
     {
-        id: "Neutron Mass",
-        name: "m_n",
-        value: 1.67492749804e-27,
+        name: "Gas constant",
+        variable: "R",
+        value: 8.314462618,
         description:
-            "Mass of a neutron at rest (in kg). Example: A neutron is slightly heavier than a proton by about 0.14%.",
+            "The ideal gas constant, relating the pressure, volume, temperature, and number of moles of an ideal gas. Units are Joules per mole-Kelvin (J/(mol⋅K)).",
     },
     {
-        id: "Vacuum Permittivity",
-        name: "ε_0",
-        value: 8.8541878128e-12,
-        description:
-            "Permittivity of free space (in F/m). Example: It determines the speed of light in a vacuum.",
-    },
-    {
-        id: "Vacuum Permeability",
-        name: "μ_0",
-        value: 1.25663706212e-6,
-        description:
-            "Magnetic constant (in N/A²). Example: It determines the permeability of free space.",
-    },
-    {
-        id: "Universal Gas Constant",
-        name: "R",
-        value: 8.31446261815324,
-        description:
-            "Gas constant (in J/(mol⋅K)). Example: It relates pressure, volume, and temperature of an ideal gas.",
-    },
-    {
-        id: "Stefan-Boltzmann Constant",
-        name: "σ",
-        value: 5.670374419e-8,
-        description:
-            "Stefan-Boltzmann constant (in W/(m²⋅K⁴)). Example: It describes the power radiated from a black body.",
-    },
-    {
-        id: "Fine Structure Constant",
-        name: "α",
-        value: 7.297352569e-3,
-        description:
-            "Fine-structure constant (dimensionless). Example: It determines the strength of the electromagnetic force.",
-    },
-    {
-        id: "Rydberg Constant",
-        name: "R_∞",
-        value: 10973731.56816,
-        description:
-            "Rydberg constant (in m⁻¹). Example: It is used to calculate the wavelengths of spectral lines.",
-    },
-    {
-        id: "Atomic Mass Unit",
-        name: "m_u",
+        name: "Atomic mass unit",
+        variable: "m_{amu}",
         value: 1.6605390666e-27,
         description:
-            "Atomic mass unit (in kg). Example: It is used to express the mass of atoms and molecules.",
+            "A standard unit of mass used to express the mass of atoms and molecules. One atomic mass unit is approximately equal to the mass of one proton or neutron. Units are kilograms (kg).",
     },
     {
-        id: "Faraday Constant",
-        name: "F_c",
-        value: 96485.33212,
+        name: "Rydberg constant",
+        variable: "R_y",
+        value: 1.0973731568e7,
         description:
-            "Faraday constant (in C/mol). Example: It relates the charge of a mole of electrons to the current.",
+            "A fundamental constant in atomic physics that relates to the atomic spectra of hydrogen. Units are per meter (m⁻¹).",
     },
     {
-        id: "Ideal Gas Volume",
-        name: "V_m",
-        value: 0.022413996,
+        name: "Fine-structure constant",
+        variable: "α",
+        value: 7.2973525664e-3,
         description:
-            "Molar volume of an ideal gas at STP (in m³/mol). Example: It is used to calculate the volume of a gas.",
+            "A dimensionless physical constant that characterizes the strength of the electromagnetic interaction. It's related to the elementary charge, speed of light, and Planck's constant. It is dimensionless.",
     },
     {
-        id: "Standard Atmosphere",
-        name: "atm",
+        name: "Bohr radius",
+        variable: "a_0",
+        value: 5.291772109e-11,
+        description:
+            "The approximate radius of the electron's orbit in the ground state of the hydrogen atom. Units are meters (m).",
+    },
+    {
+        name: "Electron mass",
+        variable: "m_e",
+        value: 9.1093837015e-31,
+        description: "The mass of an electron. Units are kilograms (kg).",
+    },
+    {
+        name: "Proton mass",
+        variable: "m_p",
+        value: 1.67262192369e-27,
+        description: "The mass of a proton. Units are kilograms (kg).",
+    },
+    {
+        name: "Neutron mass",
+        variable: "m_n",
+        value: 1.674927495e-27,
+        description: "The mass of a neutron. Units are kilograms (kg).",
+    },
+    {
+        name: "Magnetic constant",
+        variable: "μ",
+        value: 4 * Math.PI * 1e-7, // Same as μ_0
+        description:
+            "Relates the magnetic field to its sources. Units are Henrys per meter (H/m) or Tesla-meters per ampere (T⋅m/A).",
+    },
+    {
+        name: "Atmospheric pressure (standard)",
+        variable: "P_atm",
         value: 101325,
         description:
-            "Standard atmosphere (in Pa). Example: It is the pressure at sea level.",
+            "The standard atmospheric pressure at sea level. Units are Pascals (Pa).",
     },
     {
-        id: "Golden Ratio",
-        name: "φ",
-        value: 1.618033988749895,
+        name: "Molar mass of carbon-12",
+        variable: "M_C12",
+        value: 0.012,
         description:
-            "Golden ratio (dimensionless). Example: It is used in art and architecture for aesthetically pleasing designs.",
+            "The mass of one mole of carbon-12 atoms. Units are kilograms per mole (kg/mol).",
     },
     {
-        id: "Speed of Sound in Air",
-        name: "v_s",
+        name: "Faraday constant",
+        variable: "F_A",
+        value: 96485.33212,
+        description:
+            "The amount of electric charge carried by one mole of electrons. Units are Coulombs per mole (C/mol).",
+    },
+    {
+        name: "Speed of sound in air (at 20°C)",
+        variable: "v_s",
         value: 343,
         description:
-            "Speed of sound in air at 20°C (in m/s). Example: It is the speed at which sound waves propagate.",
+            "The speed of sound in air at approximately 20°C.  This value can vary slightly with temperature and air pressure. Units are meters per second (m/s).",
     },
     {
-        id: "Earth Radius",
-        name: "R_⊕",
-        value: 6.371e6,
+        name: "Golden ratio",
+        variable: "φ", // or phi
+        value: 1.6180339887,
         description:
-            "Mean radius of Earth (in m). Example: It is used to calculate the surface area and volume of Earth.",
+            "An irrational mathematical constant approximately equal to 1.6180339887. It appears in many areas of mathematics, nature, and art. It is dimensionless.",
     },
 ];
 
 export const constants = Object.fromEntries(
-    constantsAsArray.map((c) => [c.name, c.value])
+    constantsAsArray.map((c) => [c.variable, c.value])
 );

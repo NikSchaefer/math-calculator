@@ -50,7 +50,7 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 }}
                 >
-                    A formula, action, and constant-enabled calculator.
+                    A formula, command, and constant-enabled calculator.
                 </motion.p>
 
                 <motion.div

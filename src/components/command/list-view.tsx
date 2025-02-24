@@ -10,7 +10,7 @@ import { constantsAsArray } from "@/data/constants";
 import { formulas } from "@/data/formulas";
 import { SquareFunction, SquareAsterisk, SquareCode } from "lucide-react";
 import { formatNumberResult } from "../calculator/format-utils";
-import { Preset, Variable } from "@/types";
+import { Preset, PresetVariable } from "@/types";
 export default function CommandListView({
     search,
     setSearch,
@@ -18,7 +18,7 @@ export default function CommandListView({
 }: {
     search: string;
     setSearch: (search: string) => void;
-    onSelectItem: (item: Preset | Variable) => void;
+    onSelectItem: (item: Preset | PresetVariable) => void;
 }) {
     const { resetCalculator, exportCalculations, setCommandOpen } =
         useCalculator();
@@ -34,10 +34,10 @@ export default function CommandListView({
                 <CommandGroup heading="Formulae">
                     {formulas.map((preset) => (
                         <CommandItem
-                            value={preset.id}
+                            value={preset.name}
                             keywords={[preset.name]}
                             className="flex justify-between items-center"
-                            key={preset.id}
+                            key={preset.name}
                             onSelect={() => onSelectItem(preset)}
                             onClick={() => onSelectItem(preset)}
                         >
@@ -56,16 +56,16 @@ export default function CommandListView({
                 <CommandGroup heading="Constants">
                     {constantsAsArray.map((constant) => (
                         <CommandItem
-                            value={constant.id}
-                            key={constant.id}
-                            keywords={[constant.id, constant.name]}
+                            value={constant.name}
+                            key={constant.name}
+                            keywords={[constant.name]}
                             className="flex justify-between items-center"
                             onSelect={() => onSelectItem(constant)}
                             onClick={() => onSelectItem(constant)}
                         >
                             <span className="flex items-center gap-2">
                                 <SquareAsterisk className="w-4 h-4" />
-                                {constant.id}
+                                {constant.name} - {constant.variable}
                             </span>
                             <span className="text-muted-foreground">
                                 {formatNumberResult(constant.value as number)}

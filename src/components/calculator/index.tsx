@@ -26,7 +26,7 @@ export function Calculator({
     const [wasEmpty, setWasEmpty] = useState(true);
 
     const clearInput = () => {
-        updateCalculator(computed.id, "");
+        updateCalculator(computed.id!, "");
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -36,7 +36,7 @@ export function Calculator({
             (e.key === "Backspace" || e.key === "Delete") &&
             wasEmpty // Only delete if it was already empty before this keypress
         ) {
-            deleteCalculator(computed.id);
+            deleteCalculator(computed.id!);
         } else if (e.key === "Enter") {
             const newId = generateId();
 
@@ -69,7 +69,7 @@ export function Calculator({
     const handleLatexChange = (mathField: MathField) => {
         if (!mathField) return;
         const newLatex = mathField.latex();
-        updateCalculator(computed.id, newLatex);
+        updateCalculator(computed.id!, newLatex);
     };
 
     useEffect(() => {
@@ -86,10 +86,10 @@ export function Calculator({
                 exit: { duration: 0 },
             }}
             className="flex flex-col sm:flex-row gap-4 items-center"
-            onClick={() => setSelectedId(computed.id)}
+            onClick={() => setSelectedId(computed.id!)}
         >
             <MathInput
-                id={computed.id}
+                id={computed.id!}
                 latex={computed.latex}
                 isSelected={isSelected}
                 onLatexChange={handleLatexChange}

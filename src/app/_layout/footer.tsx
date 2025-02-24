@@ -1,5 +1,6 @@
 "use client";
 
+import { githubLink } from "@/config";
 import { motion } from "motion/react";
 import Link from "next/link";
 export default function Footer() {
@@ -12,13 +13,11 @@ export default function Footer() {
         >
             <Link href="/what-is-this">What is this?</Link>
             <hr className="w-px h-3 bg-gray-300" />
-            <Link href="/formulas">Formulas</Link>
+            <Link href="/how-do-i">How do I ...?</Link>
             <hr className="w-px h-3 bg-gray-300" />
-            <Link href="/constants">Constants</Link>
+            <Link href="/docs">Formulas, Constants, Commands</Link>
             <hr className="w-px h-3 bg-gray-300" />
-            <Link href="/help">Help</Link>
-            <hr className="w-px h-3 bg-gray-300" />
-            <p className="">Made with ❤️</p>
+            <a href={githubLink}>Made with ❤️</a>
         </motion.div>
     );
 }

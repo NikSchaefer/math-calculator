@@ -37,7 +37,7 @@ const CommandDialog = ({
         <Dialog {...props}>
             <DialogContent
                 onEscapeKeyDown={handleEscape}
-                className="overflow-hidden p-0 shadow-lg sm:max-w-xl outline-none"
+                className="overflow-hidden p-0 shadow-lg sm:max-w-2xl outline-none"
                 hideClose
             >
                 <DialogTitle className="sr-only">Command Menu</DialogTitle>

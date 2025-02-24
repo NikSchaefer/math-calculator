@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { useCalculator } from "@/app/context";
 import { formulas } from "@/data/formulas";
-import { Preset, Variable } from "@/types";
+import { Preset, PresetVariable } from "@/types";
 import { Command, CommandDialog } from "../ui/command";
 import { constantsAsArray } from "@/data/constants";
 import { useEffect } from "react";
@@ -21,11 +21,11 @@ export function CommandMenu() {
 
     const selectedItem =
         [...formulas, ...constantsAsArray].find(
-            (item) => item.id === selectedId
+            (item) => item.name === selectedId
         ) || null;
 
-    function onSelectItem(item: Preset | Variable) {
-        setSelectedId(item.id);
+    function onSelectItem(item: Preset | PresetVariable) {
+        setSelectedId(item.name);
         setShowInfo(true);
     }
 

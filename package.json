@@ -20,6 +20,7 @@
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.0.0",
     "react-mathquill": "^1.0.3",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.1",

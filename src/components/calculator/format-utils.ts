@@ -1,8 +1,46 @@
-import { ComplexNumber } from "@/types";
+import { ComplexNumber, EvalType } from "@/types";
 import { Matrix } from "mathjs";
 
 // const THRESHOLD = 1e-8;
-// const THRESHOLD = 1e-35;
+// const THRESHOLD = 1e-35
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getTypeOfResult(evaluated: any): EvalType {
+    if (Array.isArray(evaluated)) {
+        return "array";
+    }
+
+    if (
+        typeof evaluated === "object" &&
+        "im" in evaluated &&
+        "re" in evaluated
+    ) {
+        return "complex";
+    }
+
+    if (typeof evaluated === "object" && "_data" in evaluated) {
+        return "matrix";
+    }
+
+    return "number";
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function formatResult(evaluated: any): string {
+    const type = getTypeOfResult(evaluated);
+    switch (type) {
+        case "complex":
+            return formatComplexNumber(evaluated);
+        case "matrix":
+            return formatMatrixResult(evaluated);
+        case "array":
+            return formatArrayResult(evaluated);
+        case "number":
+            return formatNumberResult(evaluated);
+        default:
+            return evaluated.toString();
+    }
+}
 
 function roundWithDynamicTolerance(
     value: number,

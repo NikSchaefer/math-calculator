@@ -62,6 +62,8 @@ export const enum TokenType {
     nPr,
     nCr,
     Sum,
+    Abs,
+    Total,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -123,6 +125,8 @@ export const lexemeToType: { [key: string]: TokenType } = {
     nPr: TokenType.nPr,
     nCr: TokenType.nCr,
     sum: TokenType.Sum,
+    abs: TokenType.Abs,
+    total: TokenType.Total,
 };
 
 /**
@@ -171,6 +175,8 @@ export const typeToOperation: { [key in TokenType]?: string } = {
     [TokenType.nCr]: "nCr",
     [TokenType.Len]: "len",
     [TokenType.Sum]: "sum",
+    [TokenType.Abs]: "abs",
+    [TokenType.Total]: "total",
 };
 
 interface Token {

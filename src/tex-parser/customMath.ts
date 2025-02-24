@@ -89,6 +89,12 @@ const mathImport = {
     },
     // TODO: Add integration
     // int: (f: any, a: any, b: any) => mathjsSimpleIntegral(f, a, b),
+    total: (array: any) => {
+        return array
+            .toArray()
+            .flat()
+            .reduce((a: any, b: any) => a + b, 0);
+    },
 };
 
 math.import(mathImport, {

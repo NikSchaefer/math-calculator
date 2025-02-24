@@ -12,6 +12,13 @@ export type Variable = {
     description?: string;
 };
 
+export type PresetVariable = {
+    name: string;
+    variable: string;
+    value: number | ComplexNumber;
+    description: string;
+};
+
 export type EvalType = "complex" | "number" | "matrix" | "array" | "error";
 
 export type EvalResult = {
@@ -22,7 +29,7 @@ export type EvalResult = {
 };
 
 export type Calculator = {
-    id: string;
+    id?: string;
     latex: string;
     preview?: string;
 };
@@ -30,7 +37,6 @@ export type Calculator = {
 export type ComputedCalculator = Calculator & EvalResult;
 
 export type Preset = {
-    id: string;
     name: string;
     categories: string[];
     calculators: Calculator[];

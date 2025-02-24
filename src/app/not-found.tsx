@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -12,7 +10,7 @@ export default function NotFound() {
                     This page doesn&apos;t exist.
                 </p>
                 <Link href="/">
-                    <Button variant="outline">Return to calculator</Button>
+                    <Button>Return to calculator</Button>
                 </Link>
             </div>
         </main>
