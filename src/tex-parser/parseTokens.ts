@@ -63,14 +63,23 @@ function createMathJSNode(
         case TokenType.Proj:
         case TokenType.Comp:
         case TokenType.Norm:
+        case TokenType.Sort:
+        case TokenType.Std:
+        case TokenType.Len:
+        case TokenType.nPr:
+        case TokenType.nCr:
         case TokenType.Inv:
+        case TokenType.Mean:
+        case TokenType.Median:
+        case TokenType.Mode:
+        case TokenType.Sum:
             return new (math as any).FunctionNode(fn, children);
         case TokenType.Equals:
             return new (math as any).AssignmentNode(children[0], children[1]);
         case TokenType.Variable:
             return new (math as any).SymbolNode(token.lexeme);
         case TokenType.Number: {
-            // convert string lexeme to number if posssible
+            // convert string lexeme to number if possible
             const constant = Number.isNaN(Number(token.lexeme))
                 ? token.lexeme
                 : +token.lexeme;
@@ -84,6 +93,7 @@ function createMathJSNode(
             return new (math as any).ArrayNode(children);
         case TokenType.T:
             return new (math as any).SymbolNode("T");
+
         default:
             throw new ParseError("unknown token type", token);
     }
@@ -451,6 +461,9 @@ class Parser {
                 // token of lookahead would be required to know which environnment to parse
                 primary = this.nextMatrix();
                 break;
+            case TokenType.Mean:
+            case TokenType.Median:
+            case TokenType.Mode:
             default:
                 throw new ParseError(
                     "unknown token encountered during parsing",

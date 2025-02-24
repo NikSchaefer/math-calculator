@@ -82,3 +82,11 @@ export function formatMatrixResult(matrix: Matrix): string {
 export function computeMatrixResult(matrix: Matrix): Array<unknown> {
     return matrix.toArray();
 }
+
+export function formatArrayResult(array: Array<unknown>): string {
+    return `[${array.toString()}]`;
+}
+
+export function computeArrayResult(array: Array<unknown>): Array<unknown> {
+    return array;
+}

@@ -35,7 +35,7 @@ export default function Home() {
 
     return (
         <motion.main
-            className="p-4 relative w-full min-h-screen flex justify-center items-center flex-col"
+            className="p-4 w-full min-h-screen flex justify-center items-center flex-col"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { create, all, MathJsInstance } from "mathjs";
+import { create, all, MathJsInstance, sort } from "mathjs";
 // import mathjsSimpleIntegral from "mathjs-simple-integral";
 
 // use BigNumber to reduce floating-point rounding errors
@@ -10,13 +10,20 @@ const math = create(all, {
 
 // Configuration for angle mode
 const config = {
-    angles: "deg", // 'rad' or 'deg'
+    angles: "rad", // 'rad' or 'deg'
 };
 
 // Create angle-aware trig functions
 const replacements: Record<string, any> = {};
 const trigFunctions = ["sin", "cos", "tan", "sec", "cot", "csc"];
-const arcTrigFunctions = ["asin", "acos", "atan", "asec", "acot", "acsc"];
+const arcTrigFunctions = [
+    "arcsin",
+    "arccos",
+    "arctan",
+    "arcsec",
+    "arccot",
+    "arccsc",
+];
 
 trigFunctions.forEach((name) => {
     const originalFn = math[name as keyof MathJsInstance];
@@ -69,13 +76,19 @@ const mathImport = {
             math.divide(a, math.norm(a)),
             math.divide(math.dot(a, b), math.norm(a))
         ), // projection of b along a
-    // TODO: Add integration
-    // int: (f: any, a: any, b: any) => mathjsSimpleIntegral(f, a, b),
-    // Function to change angle mode
     setAngleMode: (mode: "rad" | "deg") => {
         config.angles = mode;
     },
     getAngleMode: () => config.angles,
+    sort: (array: any) => {
+        const sorted = sort(array.toArray().flat(), "asc");
+        return sorted;
+    },
+    len: (array: any) => {
+        return array.toArray().flat().length;
+    },
+    // TODO: Add integration
+    // int: (f: any, a: any, b: any) => mathjsSimpleIntegral(f, a, b),
 };
 
 math.import(mathImport, {

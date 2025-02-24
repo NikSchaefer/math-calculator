@@ -10,6 +10,11 @@ const EditableMathField = dynamic(
     { ssr: false }
 );
 
+const autoOperatorNames = [
+    "sin cos tan log sec csc arcsin arccos arctan mean median mode proj comp sort std nPr nCr len",
+    "det cross proj comp norm inv",
+];
+
 interface MathInputProps {
     id: string;
     latex: string;
@@ -54,8 +59,7 @@ export function MathInput({
                 config={{
                     autoCommands:
                         "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle square",
-                    autoOperatorNames:
-                        "sin cos tan log sec csc arcsin arccos arctan mean median mode proj comp",
+                    autoOperatorNames: autoOperatorNames.join(" "),
                     sumStartsWithNEquals: true,
                 }}
             />

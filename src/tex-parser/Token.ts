@@ -53,6 +53,15 @@ export const enum TokenType {
     Inv,
     Space, // ignored by the lexer
     Underscore,
+    Mean,
+    Median,
+    Mode,
+    Sort,
+    Std,
+    Len,
+    nPr,
+    nCr,
+    Sum,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -105,7 +114,15 @@ export const lexemeToType: { [key: string]: TokenType } = {
     comp: TokenType.Comp,
     norm: TokenType.Norm,
     inv: TokenType.Inv,
+    mean: TokenType.Mean,
+    median: TokenType.Median,
+    sort: TokenType.Sort,
     _: TokenType.Underscore,
+    std: TokenType.Std,
+    len: TokenType.Len,
+    nPr: TokenType.nPr,
+    nCr: TokenType.nCr,
+    sum: TokenType.Sum,
 };
 
 /**
@@ -145,6 +162,15 @@ export const typeToOperation: { [key in TokenType]?: string } = {
     [TokenType.Comp]: "comp",
     [TokenType.Norm]: "norm",
     [TokenType.Inv]: "inv",
+    [TokenType.Mean]: "mean",
+    [TokenType.Median]: "median",
+    [TokenType.Mode]: "mode",
+    [TokenType.Sort]: "sort",
+    [TokenType.Std]: "std",
+    [TokenType.nPr]: "nPr",
+    [TokenType.nCr]: "nCr",
+    [TokenType.Len]: "len",
+    [TokenType.Sum]: "sum",
 };
 
 interface Token {

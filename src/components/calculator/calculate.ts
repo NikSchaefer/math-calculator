@@ -15,6 +15,8 @@ import {
     computeComplexNumberResult,
     formatMatrixResult,
     computeMatrixResult,
+    computeArrayResult,
+    formatArrayResult,
 } from "./format-utils";
 import { Matrix } from "mathjs";
 
@@ -52,7 +54,6 @@ export function computeCalculator(
     try {
         // Then we evaluate the input with the context
         const { evaluated } = evaluateTex(calculator.latex, context);
-        console.log(evaluated);
         const type = getTypeOfResult(evaluated);
         computedCalculator.type = type;
 
@@ -71,6 +72,14 @@ export function computeCalculator(
                 );
                 computedCalculator.result = computeMatrixResult(
                     evaluated as Matrix
+                );
+                break;
+            case "array":
+                computedCalculator.formattedResult = formatArrayResult(
+                    evaluated as Array<unknown>
+                );
+                computedCalculator.result = computeArrayResult(
+                    evaluated as Array<unknown>
                 );
                 break;
             case "number":
@@ -95,6 +104,10 @@ export function computeCalculator(
 }
 
 function getTypeOfResult(evaluated: any): EvalType {
+    if (Array.isArray(evaluated)) {
+        return "array";
+    }
+
     if (
         typeof evaluated === "object" &&
         "im" in evaluated &&

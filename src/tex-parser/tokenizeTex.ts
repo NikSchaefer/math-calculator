@@ -140,7 +140,7 @@ export default function tokenizeTex(latex: string) {
                 type = lexemeToType[identifier];
             } else {
                 // Take single character as variable token
-                lexeme = identifier;
+                lexeme = c;
                 type = TokenType.Variable;
             }
         } else {

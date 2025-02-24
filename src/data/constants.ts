@@ -108,14 +108,14 @@ export const constantsAsArray: Variable[] = [
     },
     {
         id: "Atomic Mass Unit",
-        name: "u",
+        name: "m_u",
         value: 1.6605390666e-27,
         description:
             "Atomic mass unit (in kg). Example: It is used to express the mass of atoms and molecules.",
     },
     {
-        id: "faraday",
-        name: "F",
+        id: "Faraday Constant",
+        name: "F_c",
         value: 96485.33212,
         description:
             "Faraday constant (in C/mol). Example: It relates the charge of a mole of electrons to the current.",
