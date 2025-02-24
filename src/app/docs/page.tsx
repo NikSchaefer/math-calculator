@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function DocsPage() {
     return (
-        <main className="p-4 py-32 w-full min-h-screen">
-            <div className="content max-w-4xl mx-auto space-y-12">
+        <main className="py-32 w-full min-h-screen">
+            <div className="content px-4 max-w-4xl mx-auto space-y-12">
                 <div className="space-y-4">
                     <h1 className="text-4xl font-bold">Documentation</h1>
                     <p className="text-lg text-muted-foreground">

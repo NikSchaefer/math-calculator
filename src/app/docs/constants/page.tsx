@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { formatResult } from "@/components/calculator/format-utils";
 import Markdown from "react-markdown";
+import { Copy } from "@/components/copy";
 
 export default function ConstantsPage() {
     return (
@@ -35,9 +36,14 @@ export default function ConstantsPage() {
                                 <Markdown>{constant.description}</Markdown>
                             </div>
                             <div className="pt-2 flex items-center gap-2">
-                                <code className="bg-muted px-2 py-1 rounded text-sm">
-                                    {constant.variable}
-                                </code>
+                                <Copy
+                                    text={constant.variable}
+                                    className="relative"
+                                >
+                                    <code className="bg-muted px-2 py-1 rounded text-sm cursor-pointer">
+                                        {constant.variable}
+                                    </code>
+                                </Copy>
                                 <span className="text-sm text-muted-foreground">
                                     = {formatResult(constant.value)}
                                 </span>
