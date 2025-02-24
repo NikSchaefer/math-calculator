@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { CircleHelp } from "lucide-react";
 import { motion } from "motion/react";
 import { useCalculator } from "../context";
 
@@ -47,10 +46,6 @@ export function CalculatorControls() {
                     <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                         <span className="text-xs">⌘</span>U
                     </kbd>
-                </Button>
-                <hr className="w-px h-3 bg-gray-300" />
-                <Button variant="ghost" size="icon" className="font-normal">
-                    <CircleHelp className="w-4 h-4" />
                 </Button>
             </div>
         </motion.div>

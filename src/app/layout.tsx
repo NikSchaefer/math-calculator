@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { CalculatorProvider } from "./context";
+import Footer from "./_layout/footer";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
                     duration={1500}
                 />
                 <CalculatorProvider>{children}</CalculatorProvider>
+                <Footer />
             </body>
         </html>
     );
