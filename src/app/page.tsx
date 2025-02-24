@@ -35,17 +35,17 @@ export default function Home() {
 
     return (
         <motion.main
-            className="p-4 w-full min-h-screen flex justify-center items-center flex-col"
+            className="p-4 sm:p-4 w-full min-h-screen flex justify-center items-center flex-col"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
         >
             <CommandMenu />
-            <div className="content w-full max-w-2xl">
+            <div className="content w-full max-w-2xl px-2 sm:px-0">
                 <Header />
 
                 <motion.p
-                    className="text-lg text-muted-foreground mb-4"
+                    className="text-sm sm:text-lg text-muted-foreground mb-4 text-left"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 }}
@@ -54,7 +54,7 @@ export default function Home() {
                 </motion.p>
 
                 <motion.div
-                    className="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-6"
+                    className="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-3 sm:p-6"
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}

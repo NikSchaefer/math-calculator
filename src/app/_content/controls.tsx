@@ -7,7 +7,7 @@ export function CalculatorControls() {
         useCalculator();
     return (
         <motion.div
-            className="mt-4 flex justify-between items-center"
+            className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-y-2 sm:gap-y-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2, delay: 0.4 }}
@@ -21,11 +21,11 @@ export function CalculatorControls() {
                 </button>{" "}
                 to get started
             </div>
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-1 w-full sm:w-auto justify-end">
                 <Button
                     variant="ghost"
                     size="highlight"
-                    className="font-normal w-fit"
+                    className="font-normal w-fit text-sm sm:text-base"
                     onClick={resetCalculator}
                 >
                     Clear All
@@ -33,11 +33,11 @@ export function CalculatorControls() {
                         <span className="text-xs">⌘</span>J
                     </kbd>
                 </Button>
-                <hr className="w-px h-3 bg-gray-300" />
+                <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
                 <Button
                     variant="ghost"
                     size="highlight"
-                    className="font-normal w-fit"
+                    className="font-normal w-fit text-sm sm:text-base"
                     onClick={() =>
                         setAngleMode(angleMode === "deg" ? "rad" : "deg")
                     }
