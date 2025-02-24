@@ -1,1 +1,1 @@
-export const githubLink = "https://github.com/nikschaefer";
+export const githubLink = "https://github.com/nikschaefer/formula-pro";
