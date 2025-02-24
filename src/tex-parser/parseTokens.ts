@@ -74,6 +74,10 @@ function createMathJSNode(
         case TokenType.Mode:
         case TokenType.Sum:
         case TokenType.Round:
+        case TokenType.Max:
+        case TokenType.Min:
+        case TokenType.Gcd:
+        case TokenType.Lcm:
         case TokenType.Abs:
         case TokenType.Total:
             return new (math as any).FunctionNode(fn, children);
@@ -141,6 +145,9 @@ const primaryTypes = [
     TokenType.T, // e.g. [[1,2],[3,4]]^T
     TokenType.Opname,
     TokenType.Underscore,
+    TokenType.Max,
+    TokenType.Min,
+    TokenType.Gcd,
 ];
 
 class Parser {
@@ -450,6 +457,9 @@ class Parser {
             case TokenType.Tanh:
             case TokenType.Log:
             case TokenType.Ln:
+            case TokenType.Max:
+            case TokenType.Min:
+            case TokenType.Gcd:
             case TokenType.Det:
                 primary = this.nextUnaryFunc();
                 break;

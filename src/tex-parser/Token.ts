@@ -65,6 +65,10 @@ export const enum TokenType {
     Abs,
     Total,
     Round,
+    Max,
+    Min,
+    Gcd,
+    Lcm,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -129,6 +133,10 @@ export const lexemeToType: { [key: string]: TokenType } = {
     abs: TokenType.Abs,
     total: TokenType.Total,
     round: TokenType.Round,
+    "\\max": TokenType.Max,
+    "\\min": TokenType.Min,
+    "\\gcd": TokenType.Gcd,
+    lcm: TokenType.Lcm,
 };
 
 /**
@@ -180,6 +188,10 @@ export const typeToOperation: { [key in TokenType]?: string } = {
     [TokenType.Abs]: "abs",
     [TokenType.Total]: "total",
     [TokenType.Round]: "round",
+    [TokenType.Max]: "max",
+    [TokenType.Min]: "min",
+    [TokenType.Gcd]: "gcd",
+    [TokenType.Lcm]: "lcm",
 };
 
 interface Token {

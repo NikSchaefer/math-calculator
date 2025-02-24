@@ -24,6 +24,7 @@ export default function WhatIsThis() {
                     <li>Includes trigonometry functions in both rad/deg</li>
                     <li>Variable support with context aware variable values</li>
                     <li>Keyboard first support for quick calculations</li>
+                    <li>Fraction support for precise answers</li>
                 </ul>
 
                 <p className="mt-8">

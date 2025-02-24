@@ -12,7 +12,7 @@ const EditableMathField = dynamic(
 
 const autoOperatorNames = [
     "sin cos tan log sec csc arcsin arccos arctan mean median mode proj comp sort std nPr nCr len ln",
-    "det cross proj comp norm inv abs total round",
+    "det cross proj comp norm inv abs total round max min gcd lcm",
 ];
 
 interface MathInputProps {
