@@ -19,6 +19,7 @@ const autoOperatorNames = [
     "ones",
     "rand",
     "randi",
+    "ans",
 ];
 
 interface MathInputProps {
@@ -64,7 +65,7 @@ export function MathInput({
                 aria-label="Math equation input"
                 config={{
                     autoCommands:
-                        "pi theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle square",
+                        "pi ans theta sqrt sum phi int rho lambda alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega triangle square",
                     autoOperatorNames: autoOperatorNames.join(" "),
                     sumStartsWithNEquals: true,
                     charsThatBreakOutOfSupSub: "+-=()<>[]",

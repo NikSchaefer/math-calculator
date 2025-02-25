@@ -85,6 +85,7 @@ export default function tokenizeTex(latex: string) {
                 i
             );
         }
+
         // scan for single-char non-alphabetical lexemes
         if (!isAlpha(c) && c in lexemeToType) {
             type = lexemeToType[c];
@@ -132,7 +133,10 @@ export default function tokenizeTex(latex: string) {
             // scan for identifiers
             const identifier = scanWord(texStr, i);
 
-            if (identifier in lexemeToType) {
+            if (identifier === "ans") {
+                lexeme = identifier;
+                type = TokenType.Ans;
+            } else if (identifier in lexemeToType) {
                 // identifier is a "keyword" (e.g. matrix)
                 lexeme = identifier;
                 type = lexemeToType[identifier];
@@ -147,6 +151,7 @@ export default function tokenizeTex(latex: string) {
         // ignore space characters
         if (type !== TokenType.Space) {
             tokens.push(new Token(lexeme, type, i));
+            console.log(tokens);
         }
         i += lexeme.length;
     }

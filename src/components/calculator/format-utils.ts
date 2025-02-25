@@ -1,3 +1,4 @@
+import { MAX_ARRAY_LENGTH } from "@/config";
 import { ComplexNumber, EvalType } from "@/types";
 import { Matrix } from "mathjs";
 
@@ -104,7 +105,11 @@ export function formatComplexNumber({ re, im }: ComplexNumber): string {
 }
 
 export function formatMatrixResult(matrix: Matrix): string {
-    return `[${matrix.toArray().toString()}]`;
+    const array = matrix.toArray();
+    if (array.length > MAX_ARRAY_LENGTH) {
+        return `[${array.slice(0, MAX_ARRAY_LENGTH).toString()}, ...]`;
+    }
+    return `[${array.toString()}]`;
 }
 
 export function computeMatrixResult(matrix: Matrix): Array<unknown> {
@@ -112,6 +117,9 @@ export function computeMatrixResult(matrix: Matrix): Array<unknown> {
 }
 
 export function formatArrayResult(array: Array<unknown>): string {
+    if (array.length > MAX_ARRAY_LENGTH) {
+        return `[${array.slice(0, MAX_ARRAY_LENGTH).toString()}, ...]`;
+    }
     return `[${array.toString()}]`;
 }
 

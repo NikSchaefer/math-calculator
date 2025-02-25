@@ -75,6 +75,7 @@ export const enum TokenType {
     Ones,
     Rand,
     Randi,
+    Ans,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -149,6 +150,7 @@ export const lexemeToType: { [key: string]: TokenType } = {
     ones: TokenType.Ones,
     rand: TokenType.Rand,
     randi: TokenType.Randi,
+    ans: TokenType.Ans,
 };
 
 /**
@@ -210,6 +212,7 @@ export const typeToOperation: { [key in TokenType]?: string } = {
     [TokenType.Ones]: "ones",
     [TokenType.Rand]: "rand",
     [TokenType.Randi]: "randi",
+    [TokenType.Ans]: "ans",
 };
 
 interface Token {

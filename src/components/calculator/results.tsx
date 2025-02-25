@@ -5,6 +5,13 @@ import { useMemo, useState } from "react";
 import { Fraction } from "mathjs";
 import { SquareDivide } from "lucide-react";
 import { Copy } from "@/components/copy";
+import { MAX_ARRAY_LENGTH } from "@/config";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function Result({ formattedResult, result, type }: EvalResult) {
     const [showFraction, setShowFraction] = useState(false);
@@ -32,11 +39,16 @@ export function Result({ formattedResult, result, type }: EvalResult) {
 
     const copyText = useMemo(() => {
         if (!result) return "";
-        return showFraction && canShowFraction && asFraction
-            ? `${asFraction.n}/${asFraction.d}`
-            : type === "number"
-            ? result.toString()
-            : formattedResult;
+        if (showFraction && canShowFraction && asFraction) {
+            return `${asFraction.n}/${asFraction.d}`;
+        }
+        if (type === "array" || type === "matrix") {
+            return `[${result.toString()}]`;
+        }
+        if (type === "number") {
+            return result.toString();
+        }
+        return formattedResult;
     }, [
         result,
         showFraction,
@@ -45,6 +57,16 @@ export function Result({ formattedResult, result, type }: EvalResult) {
         type,
         formattedResult,
     ]);
+
+    const isCutoffArray = useMemo(() => {
+        if (!result || !Array.isArray(result)) return false;
+        return result.length > MAX_ARRAY_LENGTH;
+    }, [result]);
+
+    const fullArrayDisplay = useMemo(() => {
+        if (!Array.isArray(result)) return null;
+        return result.join(", ");
+    }, [result]);
 
     return (
         <motion.div
@@ -57,7 +79,7 @@ export function Result({ formattedResult, result, type }: EvalResult) {
             <div className="flex items-center gap-2 relative">
                 <Copy
                     text={copyText}
-                    className="bg-blue-50 rounded-xl min-w-[120px] text-center relative group cursor-pointer hover:bg-blue-100 transition-colors"
+                    className="bg-blue-50 rounded-xl min-w-[120px] text-center relative cursor-pointer hover:bg-blue-100 transition-colors"
                 >
                     <div className="text-2xl font-semibold text-blue-800 whitespace-nowrap select-text">
                         {showFraction && canShowFraction ? (
@@ -67,13 +89,36 @@ export function Result({ formattedResult, result, type }: EvalResult) {
                                 <span>{`${asFraction?.d}`}</span>
                             </div>
                         ) : (
-                            <div className="p-4">{formattedResult || "-"}</div>
+                            <div className="p-4 relative">
+                                {isCutoffArray ? (
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <div>{formattedResult}</div>
+                                            </TooltipTrigger>
+                                            <TooltipContent
+                                                side="top"
+                                                className="max-w-[400px] max-h-[300px] overflow-y-auto"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                }}
+                                            >
+                                                <div className="text-sm">
+                                                    [{fullArrayDisplay}]
+                                                </div>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                ) : (
+                                    formattedResult || "-"
+                                )}
+                            </div>
                         )}
                     </div>
                 </Copy>
                 {canShowFraction && (
                     <button
-                        className="absolute -right-2 top-1/2 -translate-y-1/2 bg-blue-200 rounded-full p-1 hover:bg-blue-300 transition-colors"
+                        className="absolute -right-0 translate-x-1/2 top-1/2 -translate-y-1/2 bg-blue-200 rounded-full p-1 hover:bg-blue-300 transition-colors"
                         onClick={(e) => {
                             e.stopPropagation();
                             setShowFraction(!showFraction);

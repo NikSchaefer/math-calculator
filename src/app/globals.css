@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @plugin 'tailwindcss-animate';
 
 @theme {
@@ -164,4 +166,13 @@ main {
         #fff calc(100% - 4rem),
         transparent
     );
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
 }

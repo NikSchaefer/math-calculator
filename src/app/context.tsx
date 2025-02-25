@@ -79,6 +79,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         const combinedContext = {
             ...constants,
             ...context,
+            ans: 7,
         };
 
         // Second pass: Recalculate with known variables

@@ -90,6 +90,8 @@ function createMathJSNode(
         case TokenType.Equals:
             return new (math as any).AssignmentNode(children[0], children[1]);
         case TokenType.Variable:
+        case TokenType.Ans:
+            console.log("SYMBOL NODE");
             return new (math as any).SymbolNode(token.lexeme);
         case TokenType.Number: {
             // convert string lexeme to number if possible
@@ -448,6 +450,10 @@ class Parser {
                     primary = new (math as any).SymbolNode(combinedName);
                 }
                 break;
+            case TokenType.Ans:
+                console.log("ANS");
+                primary = new (math as any).SymbolNode("ans");
+                break;
             case TokenType.Sqrt:
             case TokenType.Sin:
             case TokenType.Cos:
@@ -581,7 +587,11 @@ class Parser {
     nextArgument(): math.MathNode[] {
         let argument;
         // try to match grouping e.g. (), {}, ||
-        if (
+
+        if (this.match(TokenType.Ans)) {
+            console.log("ANS");
+            argument = [new (math as any).SymbolNode("ans")];
+        } else if (
             this.match(
                 TokenType.Left,
                 TokenType.Lparen,
