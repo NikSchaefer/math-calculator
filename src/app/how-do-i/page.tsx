@@ -166,7 +166,7 @@ export default function HowDoI() {
                                         </li>
                                         <li>
                                             - Random integer:{" "}
-                                            <code>randn(1, 5)</code> → 3
+                                            <code>randi(1, 5)</code> → 3
                                         </li>
                                     </ul>
                                 </li>

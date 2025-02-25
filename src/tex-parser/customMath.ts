@@ -98,8 +98,14 @@ const mathImport = {
     rand: (n: number, m: number) => {
         return math.random(n, m);
     },
-    randn: (n: number, m: number) => {
+    randi: (n: number, m: number) => {
         return math.randomInt(n, m);
+    },
+    nCr: (n: number, r: number) => {
+        return math.combinations(n, r);
+    },
+    nPr: (n: number, r: number) => {
+        return math.permutations(n, r);
     },
 };
 

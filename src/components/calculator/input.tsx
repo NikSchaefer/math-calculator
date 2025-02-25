@@ -18,7 +18,7 @@ const autoOperatorNames = [
     "zeros",
     "ones",
     "rand",
-    "randn",
+    "randi",
 ];
 
 interface MathInputProps {
