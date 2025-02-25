@@ -69,6 +69,12 @@ export const enum TokenType {
     Min,
     Gcd,
     Lcm,
+    Range,
+    Flat,
+    Zeros,
+    Ones,
+    Rand,
+    Randn,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -137,6 +143,12 @@ export const lexemeToType: { [key: string]: TokenType } = {
     "\\min": TokenType.Min,
     "\\gcd": TokenType.Gcd,
     lcm: TokenType.Lcm,
+    range: TokenType.Range,
+    flat: TokenType.Flat,
+    zeros: TokenType.Zeros,
+    ones: TokenType.Ones,
+    rand: TokenType.Rand,
+    randn: TokenType.Randn,
 };
 
 /**
@@ -192,6 +204,12 @@ export const typeToOperation: { [key in TokenType]?: string } = {
     [TokenType.Min]: "min",
     [TokenType.Gcd]: "gcd",
     [TokenType.Lcm]: "lcm",
+    [TokenType.Range]: "range",
+    [TokenType.Flat]: "flatten",
+    [TokenType.Zeros]: "zeros",
+    [TokenType.Ones]: "ones",
+    [TokenType.Rand]: "rand",
+    [TokenType.Randn]: "randn",
 };
 
 interface Token {

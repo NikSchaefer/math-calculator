@@ -29,13 +29,16 @@ export default function CommandListView({
                 value={search}
                 onValueChange={setSearch}
             />
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>Nothing found.</CommandEmpty>
             <CommandList className="focus-visible:outline-none">
                 <CommandGroup heading="Formulae">
                     {formulas.map((preset) => (
                         <CommandItem
                             value={preset.name}
-                            keywords={[preset.name]}
+                            keywords={[
+                                preset.name,
+                                preset.calculators[0].preview ?? "",
+                            ]}
                             className="flex justify-between items-center"
                             key={preset.name}
                             onSelect={() => onSelectItem(preset)}
@@ -58,7 +61,7 @@ export default function CommandListView({
                         <CommandItem
                             value={constant.name}
                             key={constant.name}
-                            keywords={[constant.name]}
+                            keywords={[constant.name, constant.variable]}
                             className="flex justify-between items-center"
                             onSelect={() => onSelectItem(constant)}
                             onClick={() => onSelectItem(constant)}

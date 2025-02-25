@@ -95,6 +95,12 @@ const mathImport = {
             .flat()
             .reduce((a: any, b: any) => a + b, 0);
     },
+    rand: (n: number, m: number) => {
+        return math.random(n, m);
+    },
+    randn: (n: number, m: number) => {
+        return math.randomInt(n, m);
+    },
 };
 
 math.import(mathImport, {

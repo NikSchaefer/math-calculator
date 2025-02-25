@@ -54,16 +54,6 @@ export function Calculator({
 
             setSelectedId(newId);
         }
-        // else if (e.key === "ArrowUp")
-        // {
-        //     const index = calculators.findIndex((c) => c.id === calculator.id);
-        //     if (index === -1) return;
-        //     setSelectedId(calculators[index - 1].id);
-        // } else if (e.key === "ArrowDown") {
-        //     const index = calculators.findIndex((c) => c.id === calculator.id);
-        //     if (index === -1) return;
-        //     setSelectedId(calculators[index + 1].id);
-        // }
     };
 
     const handleLatexChange = (mathField: MathField) => {

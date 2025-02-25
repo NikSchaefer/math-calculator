@@ -141,6 +141,33 @@ export default function HowDoI() {
                                             <code>total([1, 2, 3, 4])</code> →
                                             10
                                         </li>
+                                        <li>
+                                            - Range: <code>range(1, 5)</code> →
+                                            [1, 2, 3, 4]
+                                        </li>
+                                        <li>
+                                            - Flatten:{" "}
+                                            <code>flat([1, 2, 3, 4])</code> →
+                                            [1, 2, 3, 4]
+                                        </li>
+                                        <li>
+                                            - Zeros: <code>zeros(3, 4)</code> →
+                                            [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0,
+                                            0, 0]]
+                                        </li>
+                                        <li>
+                                            - Ones: <code>ones(3, 4)</code> →
+                                            [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1,
+                                            1, 1]]
+                                        </li>
+                                        <li>
+                                            - Random: <code>rand(1, 5)</code> →
+                                            3
+                                        </li>
+                                        <li>
+                                            - Random integer:{" "}
+                                            <code>randn(1, 5)</code> → 3
+                                        </li>
                                     </ul>
                                 </li>
                                 <li>

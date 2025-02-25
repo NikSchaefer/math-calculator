@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-    title: "Calculator",
-    description: "Calculator",
+    title: "Formula Pro",
+    description: "A formula, command, and constant-enabled calculator.",
 };
 
 export default function RootLayout({
