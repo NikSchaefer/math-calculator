@@ -14,6 +14,7 @@ import {
     Context,
     Preset,
     PresetVariable,
+    Variable,
 } from "@/types";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
@@ -59,11 +60,12 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
 
         // First pass: Calculate all expressions to identify variables
         const firstPass = calculators.map((c) => computeCalculator(c));
-        const variables = firstPass
-            .map((c) => c.variables)
+        const variables: Variable[] = firstPass
+            .map((c) => c.results.map((r) => r.variables).flat())
             .flat()
             .filter(Boolean);
 
+        // Combine the variables into a single context
         const context = variables.reduce((acc, v) => {
             if (!v) return acc;
 
@@ -140,7 +142,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
                         id: generateId(),
                         latex: inputVariablesNotInVariables
                             .map((v) => `${v} = 1`)
-                            .join(",\\ "),
+                            .join(";\\ "),
                     });
                 }
 

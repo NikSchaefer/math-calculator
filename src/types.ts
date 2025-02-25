@@ -34,7 +34,9 @@ export type Calculator = {
     preview?: string;
 };
 
-export type ComputedCalculator = Calculator & EvalResult;
+export type ComputedCalculator = Calculator & {
+    results: EvalResult[];
+};
 
 export type Preset = {
     name: string;

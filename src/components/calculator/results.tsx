@@ -1,17 +1,62 @@
-import { EvalResult } from "@/types";
-import math from "@/tex-parser/customMath";
-import { motion } from "motion/react";
-import { useMemo, useState } from "react";
 import { Fraction } from "mathjs";
+import math from "@/tex-parser/customMath";
+import { FractionDisplay } from "./results/fraction-display";
+import { ArrayTooltip } from "./results/tooltip";
+import { useMemo } from "react";
+import { EvalResult } from "@/types";
 import { SquareDivide } from "lucide-react";
-import { Copy } from "@/components/copy";
+import { useState } from "react";
 import { MAX_ARRAY_LENGTH } from "@/config";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { motion } from "motion/react";
+import { Copy } from "../copy";
+
+function ResultDisplay({
+    showFraction,
+    canShowFraction,
+    asFraction,
+    isCutoffArray,
+    formattedResult,
+    fullArrayDisplay,
+}: {
+    showFraction: boolean;
+    canShowFraction: boolean;
+    asFraction: Fraction | null;
+    isCutoffArray: boolean;
+    formattedResult: string;
+    fullArrayDisplay: string | null;
+}) {
+    if (showFraction && canShowFraction && asFraction) {
+        return (
+            <FractionDisplay
+                numerator={asFraction.n}
+                denominator={asFraction.d}
+            />
+        );
+    }
+
+    if (isCutoffArray) {
+        return (
+            <div className="p-4 relative">
+                <ArrayTooltip
+                    formattedResult={formattedResult}
+                    fullArrayDisplay={fullArrayDisplay || ""}
+                />
+            </div>
+        );
+    }
+
+    return <div className="p-4 relative">{formattedResult || "-"}</div>;
+}
+
+export function CompileResults({ results }: { results: EvalResult[] }) {
+    const result = {
+        result: results.map((r) => r.result).flat(),
+        formattedResult: results.map((r) => r.formattedResult).join("; "),
+        type: results[0].type,
+        variables: results.map((r) => r.variables).flat(),
+    };
+    return <Result {...result} />;
+}
 
 export function Result({ formattedResult, result, type }: EvalResult) {
     const [showFraction, setShowFraction] = useState(false);
@@ -82,38 +127,14 @@ export function Result({ formattedResult, result, type }: EvalResult) {
                     className="bg-blue-50 rounded-xl min-w-[120px] text-center relative cursor-pointer hover:bg-blue-100 transition-colors"
                 >
                     <div className="text-2xl font-semibold text-blue-800 whitespace-nowrap select-text">
-                        {showFraction && canShowFraction ? (
-                            <div className="flex p-2 text-base flex-col items-center">
-                                <span>{asFraction?.n}</span>
-                                <hr className="w-1/2 border-t border-gray-300" />
-                                <span>{`${asFraction?.d}`}</span>
-                            </div>
-                        ) : (
-                            <div className="p-4 relative">
-                                {isCutoffArray ? (
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <div>{formattedResult}</div>
-                                            </TooltipTrigger>
-                                            <TooltipContent
-                                                side="top"
-                                                className="max-w-[400px] max-h-[300px] overflow-y-auto"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                }}
-                                            >
-                                                <div className="text-sm">
-                                                    [{fullArrayDisplay}]
-                                                </div>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                ) : (
-                                    formattedResult || "-"
-                                )}
-                            </div>
-                        )}
+                        <ResultDisplay
+                            showFraction={showFraction}
+                            canShowFraction={canShowFraction}
+                            asFraction={asFraction}
+                            isCutoffArray={isCutoffArray}
+                            formattedResult={formattedResult}
+                            fullArrayDisplay={fullArrayDisplay}
+                        />
                     </div>
                 </Copy>
                 {canShowFraction && (

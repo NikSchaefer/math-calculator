@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ComputedCalculator } from "@/types";
 import { useCalculator } from "../../app/context";
 import { MathInput } from "./input";
-import { Result } from "./results";
+import { CompileResults } from "./results";
 import { generateId } from "@/lib/utils";
 
 export function Calculator({
@@ -85,7 +85,7 @@ export function Calculator({
                 onLatexChange={handleLatexChange}
                 onKeyDown={handleKeyDown}
             />
-            <Result {...computed} />
+            <CompileResults results={computed.results} />
         </motion.div>
     );
 }

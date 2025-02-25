@@ -5,6 +5,7 @@ import {
     Context,
     Calculator,
     ComputedCalculator,
+    EvalResult,
 } from "@/types";
 import {
     formatNumberResult,
@@ -33,68 +34,99 @@ export function computeCalculator(
     calculator: Calculator,
     context?: Context
 ): ComputedCalculator {
-    const computedCalculator: ComputedCalculator = {
+    const computed: ComputedCalculator = {
         ...calculator,
+    } as ComputedCalculator;
+
+    const isMultiple = calculator.latex.includes(";");
+
+    if (isMultiple) {
+        const split = calculator.latex.split(";");
+
+        const results: EvalResult[] = [];
+
+        for (const latex of split) {
+            results.push(computeExpression(latex, context));
+        }
+
+        return {
+            ...computed,
+            results,
+        };
+    }
+
+    // Compute the expression normally
+    return {
+        ...computed,
+        results: [computeExpression(calculator.latex, context)],
+    };
+}
+
+export function computeExpression(
+    latex: string,
+    context?: Context
+): EvalResult {
+    const computedResult: EvalResult = {
         result: null,
         formattedResult: "",
         type: "error",
         variables: [],
     };
 
-    if (calculator.latex.trim() === "") {
-        return computedCalculator;
+    if (latex.trim() === "") {
+        return computedResult;
     }
 
     // First we check if there are any variables in the input that we can use elsewhere
     if (context) {
-        computedCalculator.variables = extractVariables(context);
+        computedResult.variables = extractVariables(context);
     }
 
     try {
         // Then we evaluate the input with the context
-        const { evaluated } = evaluateTex(calculator.latex, context);
+        const { evaluated } = evaluateTex(latex, context);
         const type = getTypeOfResult(evaluated);
-        computedCalculator.type = type;
+        computedResult.type = type;
 
         switch (type) {
             case "complex":
-                computedCalculator.formattedResult = formatComplexNumber(
+                computedResult.formattedResult = formatComplexNumber(
                     evaluated as ComplexNumber
                 );
-                computedCalculator.result = computeComplexNumberResult(
+                computedResult.result = computeComplexNumberResult(
                     evaluated as ComplexNumber
                 );
                 break;
             case "matrix":
-                computedCalculator.formattedResult = formatMatrixResult(
+                computedResult.formattedResult = formatMatrixResult(
                     evaluated as Matrix
                 );
-                computedCalculator.result = computeMatrixResult(
+                computedResult.result = computeMatrixResult(
                     evaluated as Matrix
                 );
                 break;
             case "array":
-                computedCalculator.formattedResult = formatArrayResult(
+                computedResult.formattedResult = formatArrayResult(
                     evaluated as Array<unknown>
                 );
-                computedCalculator.result = computeArrayResult(
+                computedResult.result = computeArrayResult(
                     evaluated as Array<unknown>
                 );
                 break;
             case "number":
-                computedCalculator.formattedResult = formatNumberResult(
+                computedResult.formattedResult = formatNumberResult(
                     evaluated as number
                 );
-                computedCalculator.result = computeNumberResult(
+                computedResult.result = computeNumberResult(
                     evaluated as number
                 );
                 break;
         }
-        return computedCalculator;
+        return computedResult;
     } catch (error) {
         console.log(error);
         return {
-            ...computedCalculator,
+            ...computedResult,
             formattedResult: "Error",
             result: null,
             type: "error",
