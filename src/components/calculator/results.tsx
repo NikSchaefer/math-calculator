@@ -18,7 +18,7 @@ export function Result({ formattedResult, result, type }: EvalResult) {
 
     const { asFraction, canShowFraction } = useMemo(() => {
         try {
-            if (typeof result !== "number") {
+            if (typeof result !== "number" || Number.isNaN(result)) {
                 return { asFraction: null, canShowFraction: false };
             }
 

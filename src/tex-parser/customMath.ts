@@ -80,20 +80,32 @@ const mathImport = {
         config.angles = mode;
     },
     getAngleMode: () => config.angles,
-    sort: (array: any) => {
-        const sorted = sort(array.toArray().flat(), "asc");
-        return sorted;
+    sort: (...args: any[]) => {
+        if (args.length === 1 && "toArray" in args[0]) {
+            const array = args[0].toArray().flat();
+            return sort(array, "asc");
+        } else {
+            return sort(args, "asc");
+        }
     },
-    len: (array: any) => {
-        return array.toArray().flat().length;
+    len: (...args: any[]) => {
+        if (args.length === 1 && "toArray" in args[0]) {
+            return args[0].toArray().flat().length;
+        } else {
+            return args.length;
+        }
     },
     // TODO: Add integration
     // int: (f: any, a: any, b: any) => mathjsSimpleIntegral(f, a, b),
-    total: (array: any) => {
-        return array
-            .toArray()
-            .flat()
-            .reduce((a: any, b: any) => a + b, 0);
+    total: (...args: any[]) => {
+        if (args.length === 1 && "toArray" in args[0]) {
+            return args[0]
+                .toArray()
+                .flat()
+                .reduce((a: any, b: any) => a + b, 0);
+        } else {
+            return args.reduce((a: any, b: any) => a + b, 0);
+        }
     },
     rand: (n: number, m: number) => {
         return math.random(n, m);
@@ -106,6 +118,22 @@ const mathImport = {
     },
     nPr: (n: number, r: number) => {
         return math.permutations(n, r);
+    },
+    // Calculate the magnitude of a vector in however many dimensions
+    mag: (...args: any[]) => {
+        if (args.length === 1 && "toArray" in args[0]) {
+            // Handle matrix input
+            const matrix = args[0];
+            return math.sqrt(
+                matrix
+                    .toArray()
+                    .flat()
+                    .reduce((a: any, b: any) => a + b ** 2, 0)
+            );
+        } else {
+            // Handle multiple number inputs
+            return math.sqrt(args.reduce((a: any, b: any) => a + b ** 2, 0));
+        }
     },
 };
 

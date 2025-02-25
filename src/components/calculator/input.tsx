@@ -20,6 +20,7 @@ const autoOperatorNames = [
     "rand",
     "randi",
     "ans",
+    "mag",
 ];
 
 interface MathInputProps {
