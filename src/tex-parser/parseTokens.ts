@@ -91,8 +91,17 @@ function createMathJSNode(
         case TokenType.Equals:
             return new (math as any).AssignmentNode(children[0], children[1]);
         case TokenType.Variable:
+        case TokenType.Omega:
+        case TokenType.Alpha:
+        case TokenType.Beta:
+        case TokenType.Gamma:
+        case TokenType.Delta:
+        case TokenType.Epsilon:
+        case TokenType.Zeta:
+        case TokenType.Theta:
+        case TokenType.Iota:
         case TokenType.Ans:
-            console.log("SYMBOL NODE");
+            console.log("VARIABLE NODE");
             return new (math as any).SymbolNode(token.lexeme);
         case TokenType.Number: {
             // convert string lexeme to number if possible
@@ -150,6 +159,20 @@ const primaryTypes = [
     TokenType.Det,
     TokenType.Pi,
     TokenType.E,
+    TokenType.Omega,
+    TokenType.Alpha,
+    TokenType.Beta,
+    TokenType.Gamma,
+    TokenType.Delta,
+    TokenType.Epsilon,
+    TokenType.Zeta,
+    TokenType.Theta,
+    TokenType.Iota,
+    TokenType.Kappa,
+    TokenType.Lambda,
+    TokenType.Mu,
+    TokenType.Nu,
+    TokenType.Xi,
     TokenType.Begin,
     TokenType.T, // e.g. [[1,2],[3,4]]^T
     TokenType.Opname,

@@ -58,7 +58,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the slope (m) of a line given two points (x₁, y₁) and (x₂, y₂).\n\n**Formula:** m = (y₂ - y₁) / (x₂ - x₁)\n\n**Units:** The slope is a dimensionless quantity.\n\n**Why it works:** The slope represents the rate of change of the y-value with respect to the x-value. It indicates the steepness and direction of the line.\n\n**Example:** If (x₁, y₁) = (1, 2) and (x₂, y₂) = (4, 6), then m = (6 - 2) / (4 - 1) = 4/3.",
         categories: ["math", "algebra"],
-        inputVariables: ["x1", "y1", "x2", "y2"],
+        inputVariables: ["x_1", "y_1", "x_2", "y_2"],
         calculators: [
             {
                 latex: "m=\\frac{y_2-y_1}{x_2-x_1}",
@@ -284,8 +284,8 @@ export const formulas: Preset[] = [
         inputVariables: ["m", "v"],
         calculators: [
             {
-                latex: "KE=\\frac{1}{2}mv^2",
-                preview: "KE = (1/2)mv²",
+                latex: "K = \\frac{1}{2}mv^2",
+                preview: "Kinetic energy = (1/2)mv²",
             },
         ],
     },
@@ -297,8 +297,8 @@ export const formulas: Preset[] = [
         inputVariables: ["m", "g", "h"],
         calculators: [
             {
-                latex: "PE=mgh",
-                preview: "PE = mgh",
+                latex: "U = mgh",
+                preview: "Potential energy = mass * gravity * height",
             },
         ],
     },
@@ -370,8 +370,8 @@ export const formulas: Preset[] = [
         inputVariables: ["Q", "W"],
         calculators: [
             {
-                latex: "\\Delta U = Q - W",
-                preview: "ΔU = Q - W",
+                latex: "U = Q - W",
+                preview: "zU = Q - W",
             },
         ],
     },
@@ -393,10 +393,10 @@ export const formulas: Preset[] = [
         description:
             "Calculates the impulse (J) experienced by an object due to a force (F) acting over a time interval (Δt).\n\n**Formula:** J = FΔt\n\n**Units:** J is typically in Newton-seconds (N⋅s), F is in Newtons (N), and Δt is in seconds (s).\n\n**Why it works:** Impulse is the change in momentum of an object. It's related to the average force acting on the object and the time for which it acts.\n\n**Example:** A force of 50 N is applied to an object for 0.1 seconds. The impulse is J = (50 N) * (0.1 s) = 5 N⋅s.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["F", "Δt"],
+        inputVariables: ["F", "t"],
         calculators: [
             {
-                latex: "J = F\\Delta t",
+                latex: "J = F t",
                 preview: "J = FΔt",
             },
         ],
@@ -419,7 +419,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the gravitational force (F) between two objects with masses m₁ and m₂ separated by a distance r.\n\n**Formula:** F = G(m₁m₂)/r², where G is the gravitational constant (approximately 6.674 x 10⁻¹¹ N⋅m²/kg²).\n\n**Units:** F is in Newtons (N), m₁ and m₂ are in kilograms (kg), and r is in meters (m).\n\n**Why it works:** This law describes the attractive force between any two objects with mass. The force is proportional to the product of the masses and inversely proportional to the square of the distance between them.\n\n**Example:** The gravitational force between two 1 kg masses separated by 1 meter is F = (6.674 x 10⁻¹¹ N⋅m²/kg²) * (1 kg * 1 kg) / (1 m)² ≈ 6.674 x 10⁻¹¹ N.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["m1", "m2", "r"],
+        inputVariables: ["m_1", "m_2", "r"],
         calculators: [
             {
                 latex: "F = G\\frac{m_1m_2}{r^2}",
@@ -458,7 +458,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the change in position (Δx) of an object.\n\n**Formula:** Δx = x₂ - x₁, where x₁ is the initial position and x₂ is the final position.\n\n**Units:** Δx is typically in meters (m).\n\n**Why it works:** Displacement is a vector quantity representing the shortest distance between two points. It's the change in position, not the total distance traveled.\n\n**Example:** An object moves from x₁ = 2 m to x₂ = 5 m. Its displacement is Δx = 5 m - 2 m = 3 m.",
         categories: ["physics", "kinematics"],
-        inputVariables: ["x1", "x2"],
+        inputVariables: ["x_1", "x_2"],
         calculators: [
             {
                 latex: "\\Delta x = x_2 - x_1",
@@ -471,10 +471,10 @@ export const formulas: Preset[] = [
         description:
             "Calculates the average velocity (v̄) of an object over a time interval (Δt).\n\n**Formula:** v̄ = Δx / Δt\n\n**Units:** v̄ is typically in meters per second (m/s), Δx is in meters (m), and Δt is in seconds (s).\n\n**Why it works:** Average velocity is the total displacement divided by the total time taken. It's a vector quantity.\n\n**Example:** An object moves 3 meters in 2 seconds. Its average velocity is v̄ = 3 m / 2 s = 1.5 m/s.",
         categories: ["physics", "kinematics"],
-        inputVariables: ["Δx", "Δt"],
+        inputVariables: ["x", "t"],
         calculators: [
             {
-                latex: "\\bar{v} = \\frac{\\Delta x}{\\Delta t}",
+                latex: "v = \\frac{x}{t}",
                 preview: "v̄ = Δx / Δt",
             },
         ],
@@ -487,7 +487,7 @@ export const formulas: Preset[] = [
         inputVariables: ["Δv", "Δt"],
         calculators: [
             {
-                latex: "\\bar{a} = \\frac{\\Delta v}{\\Delta t}",
+                latex: "a = \\frac{v}{t}",
                 preview: "ā = Δv / Δt",
             },
         ],
@@ -497,7 +497,7 @@ export const formulas: Preset[] = [
         description:
             "Relates final velocity (v), initial velocity (v₀), acceleration (a), and time (t).\n\n**Formula:** v = v₀ + at\n\n**Units:** v and v₀ are typically in m/s, a is in m/s², and t is in s.\n\n**Why it works:** This equation is derived from the definition of acceleration and is useful when you know the initial velocity, acceleration, and time, and you want to find the final velocity.\n\n**Example:** An object starts at 2 m/s and accelerates at 3 m/s² for 4 seconds. Its final velocity is v = 2 m/s + (3 m/s²)(4 s) = 14 m/s.",
         categories: ["physics", "kinematics"],
-        inputVariables: ["v0", "a", "t"],
+        inputVariables: ["v_0", "a", "t"],
         calculators: [
             {
                 latex: "v = v_0 + at",
@@ -510,10 +510,10 @@ export const formulas: Preset[] = [
         description:
             "Relates displacement (Δx), initial velocity (v₀), acceleration (a), and time (t).\n\n**Formula:** Δx = v₀t + (1/2)at²\n\n**Units:** Δx is typically in m, v₀ is in m/s, a is in m/s², and t is in s.\n\n**Why it works:** This equation is useful when you know the initial velocity, acceleration, and time, and you want to find the displacement.\n\n**Example:** An object starts at 2 m/s and accelerates at 3 m/s² for 4 seconds. Its displacement is Δx = (2 m/s)(4 s) + (1/2)(3 m/s²)(4 s)² = 32 m.",
         categories: ["physics", "kinematics"],
-        inputVariables: ["v0", "a", "t"],
+        inputVariables: ["v_0", "a", "t"],
         calculators: [
             {
-                latex: "\\Delta x = v_0t + \\frac{1}{2}at^2",
+                latex: "x = v_0t + \\frac{1}{2}at^2",
                 preview: "Δx = v₀t + (1/2)at²",
             },
         ],
@@ -523,10 +523,10 @@ export const formulas: Preset[] = [
         description:
             "Relates final velocity (v), initial velocity (v₀), acceleration (a), and displacement (Δx).\n\n**Formula:** v² = v₀² + 2aΔx\n\n**Units:** v and v₀ are typically in m/s, a is in m/s², and Δx is in m.\n\n**Why it works:** This equation is useful when you know the initial velocity, acceleration, and displacement, and you want to find the final velocity (or vice-versa), without knowing the time.\n\n**Example:** An object starts at 2 m/s and accelerates at 3 m/s² over a displacement of 4 meters. Its final velocity is v² = (2 m/s)² + 2(3 m/s²)(4 m) = 28 m²/s², so v ≈ 5.29 m/s.",
         categories: ["physics", "kinematics"],
-        inputVariables: ["v0", "a", "Δx"],
+        inputVariables: ["v_0", "a", "x"],
         calculators: [
             {
-                latex: "v^2 = v_0^2 + 2a\\Delta x",
+                latex: "v^2 = v_0^2 + 2a x",
                 preview: "v² = v₀² + 2aΔx",
             },
         ],
@@ -536,7 +536,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the maximum static friction force (fₛ) between two surfaces.\n\n**Formula:** fₛ ≤ μₛN, where μₛ is the coefficient of static friction and N is the normal force.\n\n**Units:** fₛ and N are typically in Newtons (N). μₛ is dimensionless.\n\n**Why it works:** Static friction prevents objects from starting to move. The maximum static friction force is proportional to the normal force between the surfaces.\n\n**Example:** A 10 kg block is on a surface with a coefficient of static friction μₛ = 0.5. The normal force is equal to the weight of the block (N = mg = (10 kg)(9.8 m/s²) = 98 N). The maximum static friction force is fₛ ≤ (0.5)(98 N) = 49 N.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["μs", "N"],
+        inputVariables: ["\\mu_s", "N"],
         calculators: [
             {
                 latex: "f_s \\le \\mu_s N",
@@ -549,7 +549,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the kinetic friction force (fₖ) between two surfaces when they are in relative motion.\n\n**Formula:** fₖ = μₖN, where μₖ is the coefficient of kinetic friction and N is the normal force.\n\n**Units:** fₖ and N are typically in Newtons (N). μₖ is dimensionless.\n\n**Why it works:** Kinetic friction opposes the relative motion between two surfaces. The kinetic friction force is proportional to the normal force.\n\n**Example:** A 10 kg block is sliding on a surface with a coefficient of kinetic friction μₖ = 0.3. The normal force is equal to the weight of the block (N = mg = (10 kg)(9.8 m/s²) = 98 N). The kinetic friction force is fₖ = (0.3)(98 N) = 29.4 N.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["μk", "N"],
+        inputVariables: ["\\mu_k", "N"],
         calculators: [
             {
                 latex: "f_k = \\mu_k N",
@@ -578,7 +578,7 @@ export const formulas: Preset[] = [
         inputVariables: ["k", "x"],
         calculators: [
             {
-                latex: "PE = \\frac{1}{2}kx^2",
+                latex: "P_{elastic} = \\frac{1}{2}kx^2",
                 preview: "PE = (1/2)kx²",
             },
         ],
@@ -588,7 +588,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the torque (τ) exerted by a force (F) at a distance (r) from the axis of rotation.\n\n**Formula:** τ = rFsin(θ), where θ is the angle between the force vector and the lever arm (r).\n\n**Units:** τ is typically in Newton-meters (N⋅m), r is in meters (m), and F is in Newtons (N).\n\n**Why it works:** Torque is the rotational equivalent of force. It measures the tendency of a force to cause rotation.\n\n**Example:** A force of 10 N is applied at a distance of 0.5 meters from the axis of rotation, at an angle of 90 degrees. The torque is τ = (0.5 m)(10 N)sin(90°) = 5 N⋅m.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["r", "F", "θ"],
+        inputVariables: ["r", "F", "\\theta"],
         calculators: [
             {
                 latex: "\\tau = rF\\sin(\\theta)",
@@ -601,7 +601,7 @@ export const formulas: Preset[] = [
         description:
             "Calculates the angular momentum (L) of an object with moment of inertia (I) rotating at an angular velocity (ω).\n\n**Formula:** L = Iω\n\n**Units:** L is typically in kilogram-meter squared per second (kg⋅m²/s), I is in kg⋅m², and ω is in radians per second (rad/s).\n\n**Why it works:** Angular momentum is the rotational equivalent of linear momentum. It's a measure of an object's resistance to changes in its rotation.\n\n**Example:** A rotating object has a moment of inertia of 2 kg⋅m² and an angular velocity of 3 rad/s. Its angular momentum is L = (2 kg⋅m²)(3 rad/s) = 6 kg⋅m²/s.",
         categories: ["physics", "classical mechanics"],
-        inputVariables: ["I", "ω"],
+        inputVariables: ["I", "\\omega"],
         calculators: [
             {
                 latex: "L = I\\omega",
@@ -640,11 +640,11 @@ export const formulas: Preset[] = [
         description:
             "Calculates the present value (PV) of a future sum (FV), given the discount rate (r) and the number of periods (n).\n\n**Formula:** PV = FV / (1 + r)^n\n\n**Units:** PV and FV are in the same monetary unit. r is the discount rate per period (as a decimal), and n is the number of periods.\n\n**Why it works:** Present value is the current worth of a future sum of money, given a specified rate of return. It is used to compare cash flows occurring at different times.\n\n**Example:**  You need $1000 in 5 years. Assuming a discount rate of 6% per year, the present value is PV = 1000 / (1 + 0.06)^5 ≈ $747.26.",
         categories: ["finance"],
-        inputVariables: ["FV", "r", "n"],
+        inputVariables: ["F_{value}", "rate", "n"],
         calculators: [
             {
-                latex: "PV = \\frac{FV}{(1 + r)^n}",
-                preview: "PV = FV / (1 + r)ⁿ",
+                latex: "P_{value} = \\frac{F_{value}}{(1 + rate)^n}",
+                preview: "Present value = Future value / (1 + rate)ⁿ",
             },
         ],
     },
@@ -653,11 +653,11 @@ export const formulas: Preset[] = [
         description:
             "Calculates the future value (FV) of a present sum (PV), given the interest rate (r) and the number of periods (n).\n\n**Formula:** FV = PV * (1 + r)^n\n\n**Units:** FV and PV are in the same monetary unit. r is the interest rate per period (as a decimal), and n is the number of periods.\n\n**Why it works:** Future value is the value of a current asset at a specified date in the future, based on an assumed rate of growth over time.\n\n**Example:** You invest $500 today at an interest rate of 4% per year for 10 years. The future value is FV = 500 * (1 + 0.04)^10 ≈ $740.12.",
         categories: ["finance"],
-        inputVariables: ["PV", "r", "n"],
+        inputVariables: ["P_{value}", "rate", "n"],
         calculators: [
             {
-                latex: "FV = PV * (1 + r)^n",
-                preview: "FV = PV * (1 + r)ⁿ",
+                latex: "F_{value} = P_{value} * (1 + rate)^n",
+                preview: "Future value = present value * (1 + rate)ⁿ",
             },
         ],
     },
