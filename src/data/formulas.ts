@@ -674,4 +674,73 @@ export const formulas: Preset[] = [
             },
         ],
     },
+    {
+        name: "Normalized Digital Frequency",
+        description:
+            "Calculates the normalized frequency (f) from the actual frequency (F) and sampling frequency (fs).\n\n**Formula:** f = F/fs\n\n**Units:** f is dimensionless (cycles/sample), F and fs are in Hertz (Hz).\n\n**Why it works:** Normalized frequency represents how many cycles a signal completes per sample, making it independent of the actual sampling rate.\n\n**Example:** With a 1000 Hz signal and 44100 Hz sampling rate, the normalized frequency is f = 1000/44100 ≈ 0.023 cycles/sample.",
+        categories: ["signals", "electronics"],
+        inputVariables: ["F", "fs"],
+        calculators: [
+            {
+                latex: "f = \\frac{F}{f_s}",
+                preview: "frequency = frequency_actual / frequency_sample",
+            },
+        ],
+    },
+    {
+        name: "Nyquist Frequency",
+        description:
+            "Calculates the Nyquist frequency (fn), which is the highest frequency that can be accurately represented in a digital system.\n\n**Formula:** fn = fs/2\n\n**Units:** Both fn and fs are in Hertz (Hz).\n\n**Why it works:** According to the Nyquist-Shannon sampling theorem, a signal must be sampled at more than twice its highest frequency component to avoid aliasing.\n\n**Example:** For a system sampling at 44100 Hz, the Nyquist frequency is fn = 44100/2 = 22050 Hz.",
+        categories: ["signals", "electronics"],
+        inputVariables: ["f_s"],
+        calculators: [
+            {
+                latex: "f_n = \\frac{f_s}{2}",
+                preview: "frequency = frequency_sample / 2",
+            },
+        ],
+    },
+    {
+        name: "Angular Frequency",
+        description:
+            "Converts normalized frequency (f) to angular frequency (ω) in the digital domain.\n\n**Formula:** ω = 2πf\n\n**Units:** ω is in radians per sample, f is in cycles per sample (dimensionless).\n\n**Why it works:** Angular frequency represents the rate of change of phase angle in radians, with one complete cycle being 2π radians.\n\n**Example:** A normalized frequency of 0.25 cycles/sample corresponds to ω = 2π(0.25) = π/2 radians/sample.",
+        categories: ["signals", "electronics"],
+        inputVariables: ["f"],
+        calculators: [
+            {
+                latex: "\\omega = 2\\pi f",
+                preview: "angular_frequency = 2π * frequency",
+            },
+        ],
+    },
+    {
+        name: "Sampling Period",
+        description:
+            "Calculates the sampling period (Ts) from the sampling frequency (fs).\n\n**Formula:** Ts = 1/fs\n\n**Units:** Ts is in seconds (s), fs is in Hertz (Hz).\n\n**Why it works:** The sampling period is the time interval between consecutive samples in a digital system.\n\n**Example:** For a sampling frequency of 44100 Hz, the sampling period is Ts = 1/44100 ≈ 22.7 microseconds.",
+        categories: ["signals", "electronics"],
+        inputVariables: ["f_s"],
+        calculators: [
+            {
+                latex: "T_s = \\frac{1}{f_s}",
+                preview: "sampling_period = 1 / frequency_sample",
+            },
+        ],
+    },
+    {
+        name: "Aliasing Condition",
+        description:
+            "Determines whether aliasing will occur by comparing the signal frequency (F) to the Nyquist frequency (fs/2).\n\n**Formula:** Aliasing occurs when F > fs/2\n\n**Units:** Both F and fs are in Hertz (Hz).\n\n**Why it works:** When a signal's frequency exceeds the Nyquist frequency (half the sampling rate), it creates false lower-frequency components in the sampled signal. This is because the sampling rate is too low to capture the signal's true oscillations.\n\n**Example:** For a system sampling at 44100 Hz:\n- A 20000 Hz signal: 20000 < 44100/2 (22050 Hz) → No aliasing\n- A 30000 Hz signal: 30000 > 44100/2 (22050 Hz) → Aliasing occurs, appears as 14100 Hz signal\n\nThe aliased frequency can be calculated as: |fs - F| for F > fs/2",
+        categories: ["signals", "electronics"],
+        inputVariables: ["F", "f_s"],
+        calculators: [
+            {
+                latex: "F > \\frac{f_s}{2}",
+                preview: "frequency_actual > frequency_sample / 2",
+            },
+            {
+                latex: "f_{aliased} = |f_s - F|",
+                preview: "frequency_aliased = |frequency_sample - frequency_actual|",
+            },
+        ],
+    },
 ];

@@ -49,10 +49,18 @@ function ResultDisplay({
 }
 
 export function CompileResults({ results }: { results: EvalResult[] }) {
-    const result = {
+    if (results.length === 0) {
+        return null;
+    }
+
+    if (results.length === 1) {
+        return <Result {...results[0]} />;
+    }
+
+    const result: EvalResult = {
         result: results.map((r) => r.result).flat(),
         formattedResult: results.map((r) => r.formattedResult).join("; "),
-        type: results[0].type,
+        type: "array",
         variables: results.map((r) => r.variables).flat(),
     };
     return <Result {...result} />;
@@ -63,6 +71,25 @@ export function Result({ formattedResult, result, type }: EvalResult) {
 
     const { asFraction, canShowFraction } = useMemo(() => {
         try {
+            if (Array.isArray(result)) {
+                const allNumbers = result.every(
+                    (r) => typeof r === "number" && !Number.isNaN(r)
+                );
+                if (!allNumbers) {
+                    return { asFraction: null, canShowFraction: false };
+                }
+
+                const fractions = result.map((r) => math.fraction(r as number));
+                const hasNonTrivialFractions = fractions.some(
+                    (f) => f.d !== BigInt(1)
+                );
+
+                return {
+                    asFraction: hasNonTrivialFractions ? fractions : null,
+                    canShowFraction: hasNonTrivialFractions,
+                };
+            }
+
             if (typeof result !== "number" || Number.isNaN(result)) {
                 return { asFraction: null, canShowFraction: false };
             }
@@ -85,6 +112,9 @@ export function Result({ formattedResult, result, type }: EvalResult) {
     const copyText = useMemo(() => {
         if (!result) return "";
         if (showFraction && canShowFraction && asFraction) {
+            if (Array.isArray(asFraction)) {
+                return asFraction.map((f) => `${f.n}/${f.d}`).join("; ");
+            }
             return `${asFraction.n}/${asFraction.d}`;
         }
         if (type === "array" || type === "matrix") {
@@ -130,7 +160,11 @@ export function Result({ formattedResult, result, type }: EvalResult) {
                         <ResultDisplay
                             showFraction={showFraction}
                             canShowFraction={canShowFraction}
-                            asFraction={asFraction}
+                            asFraction={
+                                Array.isArray(asFraction)
+                                    ? asFraction[0]
+                                    : asFraction
+                            }
                             isCutoffArray={isCutoffArray}
                             formattedResult={formattedResult}
                             fullArrayDisplay={fullArrayDisplay}

@@ -25,6 +25,10 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} relative antialiased min-h-screen bg-background text-foreground`}
             >
+                {/* <Script
+                    crossOrigin="anonymous"
+                    src="//unpkg.com/react-scan/dist/auto.global.js"
+                /> */}
                 <Toaster
                     richColors
                     position="top-center"
