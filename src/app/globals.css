@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 @plugin 'tailwindcss-animate';
 
 @theme {
@@ -65,7 +63,7 @@
 
 main {
     @apply relative;
-    /* &:before {
+    &:before {
         background: radial-gradient(
             circle at center,
             rgba(2, 0, 36, 0.1) 0%,
@@ -73,17 +71,17 @@ main {
         );
         position: absolute;
         content: "";
-        z-index: 2;
+        z-index: -1;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
-    } */
+    }
 
     &:after {
         content: "";
         background-image: url("/grid.svg");
-        z-index: -1;
+        z-index: -2;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -169,10 +167,10 @@ main {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }
