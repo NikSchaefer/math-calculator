@@ -15,7 +15,7 @@ export default function Footer() {
             <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
             <Link href="/how-do-i">How do I ...?</Link>
             <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
-            <Link href="/docs">Formulas, Constants, Commands</Link>
+            <Link href="/docs">Docs</Link>
             <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
             <Link href={githubLink}>Made with ❤️</Link>
         </motion.div>

@@ -101,7 +101,7 @@ function createMathJSNode(
         case TokenType.Theta:
         case TokenType.Iota:
         case TokenType.Ans:
-            console.log("VARIABLE NODE");
+            console.log("VARIABLE NODE - ANS");
             return new (math as any).SymbolNode(token.lexeme);
         case TokenType.Number: {
             // convert string lexeme to number if possible

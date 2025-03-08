@@ -10,7 +10,7 @@ import { Copy } from "@/components/copy";
 export default function ConstantsPage() {
     return (
         <main className="p-4 pt-16 pb-32 w-full min-h-screen">
-            <div className="content max-w-4xl mx-auto space-y-12">
+            <div className="max-w-4xl mx-auto space-y-12">
                 <div className="flex justify-start">
                     <Link href="/docs">
                         <Button variant="ghost" className="mb-8">

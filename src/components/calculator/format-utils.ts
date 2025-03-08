@@ -88,16 +88,19 @@ export function formatComplexNumber({ re, im }: ComplexNumber): string {
   // Format real and imaginary parts
   const computed = computeComplexNumberResult({ re, im });
 
+  const formattedRe = formatNumberResult(computed.re);
+  const formattedIm = formatNumberResult(computed.im);
+
   // If both parts are "0", return just "0"
   if (computed.re === 0 && computed.im === 0) return "0";
   // If imaginary part is "0", return just real part
-  if (computed.im === 0) return computed.re.toString();
+  if (computed.im === 0) return formattedRe.toString();
   // If real part is "0", return just imaginary part with i
-  if (computed.re === 0) return `${computed.im}i`;
+  if (computed.re === 0) return `${formattedIm}i`;
 
   // Otherwise return full complex number
   const imSign = im >= 0 ? "+" : "";
-  return `${computed.re}${imSign}${computed.im}i`;
+  return `${formattedRe}${imSign}${formattedIm}i`;
 }
 
 export function formatMatrixResult(matrix: Matrix): string {

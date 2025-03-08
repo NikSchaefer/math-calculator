@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function WhatIsThis() {
     return (
         <main className="p-4 w-full min-h-screen flex justify-center items-center">
-            <div className="max-w-2xl w-full space-y-4 content">
+            <div className="max-w-2xl w-full space-y-4">
                 <h1 className="text-4xl font-bold">What is this?</h1>
 
                 <p className="text-lg text-muted-foreground">
