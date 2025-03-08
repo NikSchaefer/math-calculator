@@ -3,11 +3,12 @@ export function prepareTokens(latex: string): string {
   return convertMatrices(latex);
 }
 
-// Will replace things like .4 with .04
+// Will replace things like .4 with 0.4, but only if there's not a number before the dot
 function addZeroesToDotNumbers(latex: string): string {
-  return latex.replace(/(\.\d+)/g, (match) => match.padStart(match.length + 1, '0'));
+  return latex.replace(/(?<!\d)(\.\d+)/g, (match) => match.padStart(match.length + 1, '0'));
 }
 
+// Will replace brackets with matrix environments
 function convertMatrices(latex: string): string {
   // Stack to keep track of nested brackets
   const stack: number[] = [];
