@@ -1,49 +1,76 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function WhatIsThis() {
-    return (
-        <main className="p-4 w-full min-h-screen flex justify-center items-center">
-            <div className="max-w-2xl w-full space-y-4">
-                <h1 className="text-4xl font-bold">What is this?</h1>
+  return (
+    <main className="min-h-screen content">
+      <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="mb-8">
+          <Link href="/">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              ← Back to Calculator
+            </Button>
+          </Link>
+        </div>
+        <div className="space-y-8">
+          <div>
+            <h1 className="text-3xl font-light tracking-tight mb-4">
+              Math Calculator
+            </h1>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              A modern calculator reimagined for precision and elegance.
+            </p>
+          </div>
 
-                <p className="text-lg text-muted-foreground">
-                    This is a beautiful, keyboard-first, modern calculator
-                    designed for developers and power users. It combines the
-                    simplicity of a standard calculator with powerful features
-                    like:
-                </p>
+          <div className="space-y-4">
+            <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+              Features
+            </h2>
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Formula evaluation with mathematical expressions</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Built-in formulas, commands, and constants</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Complex mathematical expressions</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Vector and matrix operations</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Trigonometry in rad/deg</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Context-aware variables</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Keyboard-first workflow</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-muted-foreground mr-2">•</span>
+                <span>Precise fraction support</span>
+              </li>
+            </ul>
+          </div>
 
-                <ul className="space-y-2 my-4 list-decimal list-inside">
-                    <li>Formula evaluation with mathematical expressions</li>
-                    <li>Built in set of formulas, commands, and constants</li>
-                    <li>Handles complex mathematical expressions</li>
-                    <li>Supports vector and matrix operations</li>
-                    <li>Includes trigonometry functions in both rad/deg</li>
-                    <li>Variable support with context aware variable values</li>
-                    <li>Keyboard first support for quick calculations</li>
-                    <li>Fraction support for precise answers</li>
-                </ul>
-
-                <p className="mt-8">
-                    Built with React, TypeScript, and Framer Motion for smooth
-                    animations. Open source and ready for your calculations.
-                </p>
-
-                <p className="mt-4">
-                    Get started by trying some calculations, or check out our{" "}
-                    <Link href="/how-do-i" className="underline">
-                        how do I...?
-                    </Link>{" "}
-                    for more information.
-                </p>
-
-                <Link href="/">
-                    <Button variant="outline">← Back to calculator</Button>
-                </Link>
-            </div>
-        </main>
-    );
+          <p className="text-sm text-muted-foreground">
+            Built with React, TypeScript, and Framer Motion
+          </p>
+        </div>
+      </div>
+    </main>
+  );
 }

@@ -3,174 +3,137 @@
 @plugin 'tailwindcss-animate';
 
 @theme {
-    --color-background: #fff;
-    --color-foreground: #000;
+  --color-background: #fff;
+  --color-foreground: #000;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
 
-    /* Chart colors - using a pleasant color palette */
-    --chart-1: 222.2 47.4% 11.2%;
-    --chart-2: 221 83% 53%;
-    --chart-3: 142 71% 45%;
-    --chart-4: 48 96% 53%;
-    --chart-5: 358 75% 59%;
-
-    /* Keep your existing HSL color definitions */
-    --color-card: hsl(var(--card));
-    --color-card-foreground: hsl(var(--card-foreground));
-    --color-popover: hsl(var(--popover));
-    --color-popover-foreground: hsl(var(--popover-foreground));
-    --color-primary: #193cb8;
-    --color-primary-foreground: #fff;
-    --color-secondary: hsl(var(--secondary));
-    --color-secondary-foreground: hsl(var(--secondary-foreground));
-    --color-muted: hsl(var(--muted));
-    --color-muted-foreground: hsl(var(--muted-foreground));
-    --color-accent: #f4f4f4;
-    --color-accent-foreground: #000;
-    --color-destructive: hsl(var(--destructive));
-    --color-destructive-foreground: hsl(var(--destructive-foreground));
-    --color-border: hsl(var(--border));
-    --color-input: hsl(var(--input));
-    --color-ring: hsl(var(--ring));
-    --color-chart-1: hsl(var(--chart-1));
-    --color-chart-2: hsl(var(--chart-2));
-    --color-chart-3: hsl(var(--chart-3));
-    --color-chart-4: hsl(var(--chart-4));
-    --color-chart-5: hsl(var(--chart-5));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: #193cb8;
+  --color-primary-foreground: #fff;
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: #f4f4f4;
+  --color-accent-foreground: #000;
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
 }
 
 @layer base {
-    * {
-        @apply border-border;
-    }
+  * {
+    @apply border-border;
+  }
 }
 
 main {
-    @apply relative;
-    &:before {
-        background: radial-gradient(
-            circle at center,
-            rgba(2, 0, 36, 0.1) 0%,
-            var(--color-background) 100%
-        );
-        position: absolute;
-        content: "";
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-    }
+  @apply relative;
+  &:before {
+    background: radial-gradient(
+      circle at center,
+      rgba(2, 0, 36, 0.1) 0%,
+      var(--color-background) 100%
+    );
+    position: absolute;
+    content: "";
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 
-    &:after {
-        content: "";
-        background-image: url("/grid.svg");
-        z-index: -2;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        opacity: 0.2;
-        filter: invert(1);
-    }
+  &:after {
+    content: "";
+    background-image: url("/grid.svg");
+    z-index: -2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0.2;
+    filter: invert(1);
+  }
 
-    h1 {
-        font-size: 32px;
-        color: var(--color-foreground);
-        font-weight: 600;
-        letter-spacing: -2px;
-        line-height: 40px;
-    }
+  h1 {
+    font-size: 32px;
+    color: var(--color-foreground);
+    font-weight: 600;
+    letter-spacing: -2px;
+    line-height: 40px;
+  }
 
-    p {
-        color: var(--color-muted-foreground);
-        margin-top: 8px;
-        font-size: 16px;
-    }
+  p {
+    color: var(--color-muted-foreground);
+    margin-top: 8px;
+    font-size: 16px;
+  }
 }
 
 .content {
-    &:after {
-        background-image: radial-gradient(
-                at 27% 37%,
-                hsla(215, 98%, 61%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 97% 21%,
-                hsla(256, 98%, 72%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 52% 99%,
-                hsla(354, 98%, 61%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 10% 29%,
-                hsla(133, 96%, 67%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 97% 96%,
-                hsla(38, 60%, 74%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 33% 50%,
-                hsla(222, 67%, 73%, 1) 0px,
-                transparent 50%
-            ),
-            radial-gradient(
-                at 79% 53%,
-                hsla(343, 68%, 79%, 1) 0px,
-                transparent 50%
-            );
-        position: absolute;
-        content: "";
-        z-index: -1;
-        @apply w-full h-full left-0 top-0 opacity-20;
-        filter: blur(100px) saturate(150%);
-        transform: translateZ(0);
-    }
+  &:after {
+    background-image: radial-gradient(
+        at 27% 37%,
+        hsla(215, 98%, 61%, 1) 0px,
+        transparent 50%
+      ),
+      radial-gradient(at 97% 21%, hsla(256, 98%, 72%, 1) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, hsla(133, 96%, 67%, 1) 0px, transparent 50%),
+      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+    position: absolute;
+    content: "";
+    z-index: -1;
+    @apply w-full h-full left-0 top-0 opacity-20;
+    filter: blur(100px) saturate(150%);
+    transform: translateZ(0);
+  }
 }
 
 .line {
-    height: 20px;
-    width: 180px;
-    margin: 64px auto;
-    background-image: url("/line.svg");
-    filter: invert(1);
-    mask-image: linear-gradient(
-        90deg,
-        transparent,
-        #fff 4rem,
-        #fff calc(100% - 4rem),
-        transparent
-    );
+  height: 20px;
+  width: 180px;
+  margin: 64px auto;
+  background-image: url("/line.svg");
+  filter: invert(1);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #fff 4rem,
+    #fff calc(100% - 4rem),
+    transparent
+  );
 }
 
 @layer base {
-    * {
-        @apply border-border outline-ring/50;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -1,8 +1,9 @@
-# Formula Pro
+# Math Calculator
 
-A modern, powerful scientific calculator application built with Next.js, React, and TypeScript, designed for developers and power users who need advanced mathematical capabilities combined with a clean, intuitive interface.
+A modern, powerful scientific calculator application built for the new age.
 
 ### Roadmap
+
 - [ ] f(x) functions
 - [ ] Comments
 - [ ] Ans variable
