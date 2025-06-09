@@ -1,6 +1,6 @@
 # Math Calculator
 
-A modern, powerful scientific calculator application built for the new age.
+An opinionated and modern scientific calculator.
 
 ### Roadmap
 
