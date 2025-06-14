@@ -96,7 +96,7 @@ export default function tokenizeTex(latex: string) {
       throw new LexError(
         "invalid control sequence encountered " +
           "(forgot to escape backslashes (\\begin => \\\\begin)?",
-        i,
+        i
       );
     }
 
@@ -124,7 +124,7 @@ export default function tokenizeTex(latex: string) {
           throw new LexError(
             "expected command " +
               "(a non-alphabetic character was encountered)",
-            i,
+            i
           );
         } else {
           lexeme = `\\${command}`;
@@ -149,8 +149,8 @@ export default function tokenizeTex(latex: string) {
         lexeme = identifier;
         type = lexemeToType[identifier];
       } else {
-        // Take single character as variable token
-        lexeme = c;
+        // Use the full identifier as variable token
+        lexeme = identifier;
         type = TokenType.Variable;
       }
     } else {

@@ -175,6 +175,7 @@ const primaryTypes = [
   TokenType.Max,
   TokenType.Min,
   TokenType.Gcd,
+  TokenType.Ans,
 ];
 
 class Parser {
@@ -581,6 +582,12 @@ class Parser {
     this.tryConsume("expected '{' after \\operatorname", TokenType.Lbrace);
     const customFunc = this.nextToken();
     this.tryConsume("expected '}' after operator name", TokenType.Rbrace);
+
+    // Special case for ans - it doesn't need an argument
+    if (customFunc.lexeme === "ans") {
+      return new (math as any).SymbolNode("ans");
+    }
+
     const argument = this.nextArgument();
     return createMathJSNode(customFunc, argument);
   }
