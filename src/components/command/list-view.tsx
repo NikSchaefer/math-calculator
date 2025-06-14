@@ -11,6 +11,7 @@ import { formulas } from "@/data/formulas";
 import { SquareFunction, SquareAsterisk, SquareCode } from "lucide-react";
 import { formatNumberResult } from "../calculator/format-utils";
 import { Preset, PresetVariable } from "@/types";
+import { useEffect, useRef } from "react";
 export default function CommandListView({
   search,
   setSearch,
@@ -22,9 +23,17 @@ export default function CommandListView({
 }) {
   const { resetCalculator, exportCalculations, setCommandOpen } =
     useCalculator();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <>
       <CommandInput
+        ref={inputRef}
         placeholder="Search for formulas, constants, and actions..."
         value={search}
         onValueChange={setSearch}
