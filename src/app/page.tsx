@@ -40,7 +40,7 @@ export default function Home() {
       transition={{ duration: 0.3 }}
     >
       <CommandMenu />
-      <div className="content w-full max-w-2xl text-center px-2 sm:px-0">
+      <div className="content w-full max-w-2xl text-center px-2 sm:px-0 pb-40">
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,13 +75,6 @@ export default function Home() {
 
           <CalculatorControls />
         </motion.div>
-
-        <motion.div
-          className="line"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.3, delay: 0.5 }}
-        />
       </div>
     </motion.main>
   );

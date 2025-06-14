@@ -6,7 +6,7 @@ const DefaultFooter = ({
     return (
         <div className="flex gap-2 border-t items-center justify-end mt-4 p-3">
             <button
-                className="flex items-center gap-2 text-xs"
+                className="flex items-center gap-2 text-xs font-medium"
                 onClick={() => setShowInfo(true)}
             >
                 Learn More
@@ -15,7 +15,7 @@ const DefaultFooter = ({
                 </kbd>
             </button>
             <div className="h-3 w-px bg-slate-300" />
-            <button className="flex items-center text-xs text-muted-foreground">
+            <button className="flex items-center text-xs text-muted-foreground font-medium">
                 Use Formula
                 <kbd className="ml-2 mr-0.5 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                     <span className="text-base">⌘</span>
@@ -38,7 +38,7 @@ const InfoFooter = ({
     return (
         <div className="flex gap-2 border-t items-center justify-end mt-4 p-3">
             <button
-                className="flex items-center gap-2 text-xs focus:outline-none"
+                className="flex items-center gap-2 text-xs focus:outline-none font-medium"
                 autoFocus
                 onClick={onUseItem}
             >
@@ -49,7 +49,7 @@ const InfoFooter = ({
             </button>
             <div className="h-3 w-px bg-slate-300" />
             <button
-                className="flex items-center text-xs text-muted-foreground"
+                className="flex items-center text-xs text-muted-foreground font-medium"
                 onClick={() => setShowInfo(false)}
             >
                 Back
