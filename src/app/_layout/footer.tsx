@@ -13,7 +13,7 @@ export default function Footer() {
     >
       <Link href="/what-is-this">What is this?</Link>
       <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
-      <Link href={githubLink}>Made with ❤️</Link>
+      <Link href={githubLink}>GitHub ❤️</Link>
     </motion.div>
   );
 }

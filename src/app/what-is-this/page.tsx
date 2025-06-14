@@ -1,28 +1,25 @@
-import { Button } from "@/components/ui/button";
+import { Undo2 } from "lucide-react";
 import Link from "next/link";
 
 export default function WhatIsThis() {
   return (
-    <main className="min-h-screen content">
+    <div className="mx-auto content max-w-[692px] px-6 py-12 text-gray-1200 antialiased sm:py-32">
+      <div className="relative">
+        <Link
+          href="/"
+          className="text-foreground italic absolute top-0 left-0 flex items-center gap-2 -translate-x-48 mb-4"
+        >
+          <Undo2 className="w-4 h-4" /> Back to Calculator
+        </Link>
+      </div>
       <div className="max-w-2xl mx-auto px-6 py-12">
-        <div className="mb-8">
-          <Link href="/">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              ← Back to Calculator
-            </Button>
-          </Link>
-        </div>
         <div className="space-y-8">
           <div>
-            <h1 className="text-3xl font-light tracking-tight mb-4">
+            <h1 className="text-3xl font-medium tracking-tight mb-4">
               Math Calculator
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              A modern calculator reimagined for precision and elegance.
+              An opinionated and modern scientific calculator.
             </p>
           </div>
 
@@ -65,12 +62,18 @@ export default function WhatIsThis() {
               </li>
             </ul>
           </div>
-
           <p className="text-sm text-muted-foreground">
-            Built with React, TypeScript, and Framer Motion
+            Made with ❤️ by{" "}
+            <a
+              className="text-foreground underline hover:no-underline"
+              href="https://nikschaefer.com"
+              target="_blank"
+            >
+              Nik Schaefer
+            </a>
           </p>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
