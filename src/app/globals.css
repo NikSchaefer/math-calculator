@@ -96,7 +96,7 @@ main {
     position: absolute;
     content: "";
     z-index: -1;
-    @apply w-full h-full left-0 top-0 opacity-20;
+    @apply w-full h-full left-0 top-0 opacity-15;
     filter: blur(100px) saturate(150%);
     transform: translateZ(0);
   }
