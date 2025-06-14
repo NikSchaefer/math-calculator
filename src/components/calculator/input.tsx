@@ -29,6 +29,7 @@ interface MathInputProps {
   isSelected: boolean;
   onLatexChange: (mathField: MathField) => void;
   onKeyDown: (e: React.KeyboardEvent) => void;
+  onFocus: () => void;
 }
 
 export function MathInput({
@@ -37,6 +38,7 @@ export function MathInput({
   isSelected,
   onLatexChange,
   onKeyDown,
+  onFocus,
 }: MathInputProps) {
   const mathFieldRef = useRef<MathField>(null);
 
@@ -55,6 +57,7 @@ export function MathInput({
       transition={{ duration: 0.2 }}
     >
       <EditableMathField
+        onFocus={onFocus}
         id={id}
         latex={latex}
         onKeyDown={onKeyDown}

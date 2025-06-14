@@ -13,94 +13,101 @@ import CommandListView from "./list-view";
 import CommandFooter from "./footer";
 
 export function CommandMenu() {
-    const { commandOpen, setCommandOpen, onUseItem } = useCalculator();
+  const { commandOpen, setCommandOpen, onUseItem } = useCalculator();
 
-    const [selectedId, setSelectedId] = React.useState("");
-    const [search, setSearch] = React.useState("");
-    const [showInfo, setShowInfo] = React.useState(false);
+  const [selectedId, setSelectedId] = React.useState("");
+  const [search, setSearch] = React.useState("");
+  const [showInfo, setShowInfo] = React.useState(false);
 
-    const selectedItem =
-        [...formulas, ...constantsAsArray].find(
-            (item) => item.name === selectedId
-        ) || null;
+  const selectedItem =
+    [...formulas, ...constantsAsArray].find(
+      (item) => item.name === selectedId
+    ) || null;
 
-    function onSelectItem(item: Preset | PresetVariable) {
-        setSelectedId(item.name);
-        setShowInfo(true);
-    }
+  function onSelectItem(item: Preset | PresetVariable) {
+    setSelectedId(item.name);
+    setShowInfo(true);
+  }
 
-    const onCommandKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<Element>) => {
-            // Handle Command component specific key events first
-            if (e.key === "Enter" && showInfo) {
-                onUseItem(selectedItem);
-            }
-        },
-        [onUseItem, showInfo, selectedItem]
-    );
+  const onCommandKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<Element>) => {
+      // Handle Command component specific key events first
 
-    const onKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<Element> | KeyboardEvent) => {
-            // if the user presses escape, close the command or go back
-            if (e.key === "Escape") {
-                e.preventDefault();
-                e.stopPropagation();
+      if (e.key === "Enter" && e.metaKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        onUseItem(selectedItem);
+      }
 
-                if (showInfo) {
-                    setShowInfo(false);
-                    return;
-                }
+      if (e.key === "Enter" && showInfo) {
+        onUseItem(selectedItem);
+      }
+    },
+    [onUseItem, showInfo, selectedItem]
+  );
 
-                if (search.trim() !== "") {
-                    setSearch("");
-                    return;
-                }
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<Element> | KeyboardEvent) => {
+      // if the user presses escape, close the command or go back
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
 
-                setCommandOpen(false);
-            }
-        },
-        [setCommandOpen, showInfo, search]
-    );
+        if (showInfo) {
+          setShowInfo(false);
+          return;
+        }
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            const hasCommandKey = e.metaKey || e.ctrlKey;
-            if (e.key === "k" && hasCommandKey) {
-                e.preventDefault();
-                setCommandOpen(!commandOpen);
-                setShowInfo(false); // Reset info view when closing
-            }
-        };
-        document.addEventListener("keydown", handleKeyDown);
-        return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [commandOpen, onUseItem, selectedItem, setCommandOpen, showInfo]);
+        if (search.trim() !== "") {
+          setSearch("");
+          return;
+        }
 
-    return (
-        <CommandDialog
-            open={commandOpen}
-            onOpenChange={setCommandOpen}
-            onKeyDown={onKeyDown}
-        >
-            <Command
-                value={selectedId}
-                onValueChange={setSelectedId}
-                onKeyDown={onCommandKeyDown}
-            >
-                {!showInfo ? (
-                    <CommandListView
-                        onSelectItem={onSelectItem}
-                        search={search}
-                        setSearch={setSearch}
-                    />
-                ) : (
-                    <InfoView selectedItem={selectedItem} />
-                )}
-                <CommandFooter
-                    showInfo={showInfo}
-                    onUseItem={() => onUseItem(selectedItem)}
-                    setShowInfo={setShowInfo}
-                />
-            </Command>
-        </CommandDialog>
-    );
+        setCommandOpen(false);
+      }
+    },
+    [setCommandOpen, showInfo, search]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const hasCommandKey = e.metaKey || e.ctrlKey;
+      if (e.key === "k" && hasCommandKey) {
+        e.preventDefault();
+        setCommandOpen(!commandOpen);
+        setShowInfo(false); // Reset info view when closing
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [commandOpen, onUseItem, selectedItem, setCommandOpen, showInfo]);
+
+  return (
+    <CommandDialog
+      open={commandOpen}
+      onOpenChange={setCommandOpen}
+      onKeyDown={onKeyDown}
+    >
+      <Command
+        value={selectedId}
+        onValueChange={setSelectedId}
+        onKeyDown={onCommandKeyDown}
+      >
+        {!showInfo ? (
+          <CommandListView
+            onSelectItem={onSelectItem}
+            search={search}
+            setSearch={setSearch}
+          />
+        ) : (
+          <InfoView selectedItem={selectedItem} />
+        )}
+        <CommandFooter
+          showInfo={showInfo}
+          onUseItem={() => onUseItem(selectedItem)}
+          setShowInfo={setShowInfo}
+        />
+      </Command>
+    </CommandDialog>
+  );
 }
