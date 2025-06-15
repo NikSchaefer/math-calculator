@@ -6,7 +6,6 @@ An opinionated and modern scientific calculator.
 
 - [ ] f(x) functions
 - [ ] Comments
-- [ ] Ans variable
 - [ ] Access array indices
 - [ ] Logs of many bases
 - [ ] N-th root
