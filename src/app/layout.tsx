@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} relative antialiased min-h-screen bg-background text-foreground`}
+        className={`${inter.variable} ${inter.className} relative antialiased min-h-screen bg-background text-foreground`}
       >
         {/* <Script
                     crossOrigin="anonymous"

@@ -1,19 +1,26 @@
-"use client";
-
-import { githubLink } from "@/config";
-import { motion } from "motion/react";
-import Link from "next/link";
 export default function Footer() {
   return (
-    <motion.div
-      className="absolute bottom-2 left-1/2 px-8 gap-1 -translate-x-1/2 w-full justify-center flex-col sm:flex-row flex sm:items-center text-xs text-muted-foreground"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: 0.6 }}
-    >
-      <Link href="/what-is-this">What is this?</Link>
-      <hr className="w-px h-3 bg-gray-300 hidden sm:block" />
-      <Link href={githubLink}>GitHub ❤️</Link>
-    </motion.div>
+    <footer className="fixed bottom-6 left-8">
+      <p className="text-balance text-center text-xs leading-loose text-muted-foreground md:text-left">
+        Built by{" "}
+        <a
+          href="https://github.com/NikSchaefer"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-4 font-medium"
+        >
+          Nik Schaefer
+        </a>
+        . The source code is available on{" "}
+        <a
+          href="https://github.com/NikSchaefer/math-calculator"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-4 font-medium"
+        >
+          GitHub
+        </a>
+      </p>
+    </footer>
   );
 }

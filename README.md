@@ -2,7 +2,18 @@
 
 An opinionated and modern scientific calculator.
 
-### Roadmap
+## Features
+
+- [ ] Formula evaluation with mathematical expressions
+- [ ] Built-in formulas, commands, and constants
+- [ ] Complex mathematical expressions
+- [ ] Vector and matrix operations
+- [ ] Trigonometry in rad/deg
+- [ ] Context-aware variables
+- [ ] Keyboard-first workflow
+- [ ] Precise fraction support
+
+## Roadmap
 
 - [ ] f(x) functions
 - [ ] Comments
@@ -17,3 +28,7 @@ An opinionated and modern scientific calculator.
 - [ ] Save custom formulas
 - [ ] Solve quadratic formulas
 - [ ] AI integration
+
+## License
+
+MIT License
