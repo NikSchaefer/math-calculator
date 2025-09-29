@@ -4,14 +4,14 @@ An opinionated and modern scientific calculator.
 
 ## Features
 
-- [ ] Formula evaluation with mathematical expressions
-- [ ] Built-in formulas, commands, and constants
-- [ ] Complex mathematical expressions
-- [ ] Vector and matrix operations
-- [ ] Trigonometry in rad/deg
-- [ ] Context-aware variables
-- [ ] Keyboard-first workflow
-- [ ] Precise fraction support
+- [x] Formula evaluation with mathematical expressions
+- [x] Built-in formulas, commands, and constants
+- [x] Complex mathematical expressions
+- [x] Vector and matrix operations
+- [x] Trigonometry in rad/deg
+- [x] Context-aware variables
+- [x] Keyboard-first workflow
+- [x] Precise fraction support
 
 ## Roadmap
 
