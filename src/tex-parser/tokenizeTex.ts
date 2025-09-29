@@ -96,7 +96,7 @@ export default function tokenizeTex(latex: string) {
       throw new LexError(
         "invalid control sequence encountered " +
           "(forgot to escape backslashes (\\begin => \\\\begin)?",
-        i
+        i,
       );
     }
 
@@ -124,7 +124,7 @@ export default function tokenizeTex(latex: string) {
           throw new LexError(
             "expected command " +
               "(a non-alphabetic character was encountered)",
-            i
+            i,
           );
         } else {
           lexeme = `\\${command}`;
@@ -144,18 +144,22 @@ export default function tokenizeTex(latex: string) {
       // scan for identifiers
       const identifier = scanWord(texStr, i);
 
+      console.log({ identifier });
+      console.log("Trying to tokenize identifier:", identifier);
+
       if (identifier in lexemeToType) {
         // identifier is a "keyword" (e.g. matrix)
         lexeme = identifier;
         type = lexemeToType[identifier];
       } else {
-        // Use the full identifier as variable token
-        lexeme = identifier;
+        // Use the first character as a variable
+        lexeme = c;
         type = TokenType.Variable;
       }
     } else {
       throw new LexError(`unrecognized character "${c}"`, i);
     }
+
     // ignore space characters
     if (type !== TokenType.Space) {
       tokens.push(new Token(lexeme, type, i));
