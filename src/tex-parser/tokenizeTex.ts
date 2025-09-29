@@ -144,17 +144,35 @@ export default function tokenizeTex(latex: string) {
       // scan for identifiers
       const identifier = scanWord(texStr, i);
 
-      console.log({ identifier });
-      console.log("Trying to tokenize identifier:", identifier);
-
       if (identifier in lexemeToType) {
         // identifier is a "keyword" (e.g. matrix)
         lexeme = identifier;
         type = lexemeToType[identifier];
       } else {
-        // Use the first character as a variable
-        lexeme = c;
-        type = TokenType.Variable;
+        // Check if the identifier has an underscore for subscript as the second character
+        const nextChar = texStr[i + 1];
+        if (nextChar === "_") {
+          // e.g. x_i, A_{output}
+          //
+          // Check if the subscript is enclosed in braces
+          if (texStr[i + 2] === "{") {
+            // Find the closing brace
+            const closingBraceIndex = texStr.indexOf("}", i + 3);
+            if (closingBraceIndex === -1) {
+              throw new LexError("missing closing brace for subscript", i);
+            }
+            lexeme = texStr.slice(i, closingBraceIndex + 1);
+            type = TokenType.Variable;
+          } else {
+            // Subscript is a single character
+            lexeme = texStr.slice(i, i + 3); // e.g. x_i
+            type = TokenType.Variable;
+          }
+        } else {
+          // Use the first character as a variable
+          lexeme = c;
+          type = TokenType.Variable;
+        }
       }
     } else {
       throw new LexError(`unrecognized character "${c}"`, i);
@@ -163,6 +181,7 @@ export default function tokenizeTex(latex: string) {
     // ignore space characters
     if (type !== TokenType.Space) {
       tokens.push(new Token(lexeme, type, i));
+      console.log(`Tokenized: ${lexeme} (type: ${type}) at pos ${i}`);
     }
     i += lexeme.length;
   }

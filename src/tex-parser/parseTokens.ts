@@ -9,7 +9,7 @@ import Token, { TokenType, typeToOperation, lexemeToType } from "./Token";
  */
 function createMathJSNode(
   token: Token,
-  children: math.MathNode[] = []
+  children: math.MathNode[] = [],
 ): math.MathNode {
   let fn = typeToOperation[token.type];
   switch (token.type) {
@@ -96,7 +96,7 @@ function createMathJSNode(
     case TokenType.Theta:
     case TokenType.Iota:
     case TokenType.Ans:
-      console.log("VARIABLE NODE - ANS");
+      // console.log("VARIABLE NODE - ANS");
       return new (math as any).SymbolNode(token.lexeme);
     case TokenType.Number: {
       // convert string lexeme to number if possible
@@ -281,7 +281,7 @@ class Parser {
       if (!leftTerm.isSymbolNode) {
         throw new ParseError(
           "expected variable (SymbolNode) on left hand of assignment",
-          this.previousToken()
+          this.previousToken(),
         );
       }
       const equals = this.nextToken();
@@ -321,7 +321,7 @@ class Parser {
         TokenType.Star,
         TokenType.Times,
         TokenType.Slash,
-        ...primaryTypes
+        ...primaryTypes,
       );
       if (lookaheadType === undefined) {
         break;
@@ -334,7 +334,7 @@ class Parser {
         throw new ParseError(
           "multiplication is not implicit between two different" +
             "numbers: expected * or \\cdot",
-          this.currentToken()
+          this.currentToken(),
         );
       } else if (this.match(TokenType.Star, TokenType.Times, TokenType.Slash)) {
         operator = this.nextToken();
@@ -448,7 +448,7 @@ class Parser {
             const subscriptToken = this.tryConsume(
               "expected variable or number after underscore",
               TokenType.Variable,
-              TokenType.Number
+              TokenType.Number,
             );
             subscript = createMathJSNode(subscriptToken);
           }
@@ -461,7 +461,7 @@ class Parser {
         }
         break;
       case TokenType.Ans:
-        console.log("ANS");
+        // console.log("ANS");
         primary = new (math as any).SymbolNode("ans");
         break;
       case TokenType.Sqrt:
@@ -502,7 +502,7 @@ class Parser {
       default:
         throw new ParseError(
           "unknown token encountered during parsing",
-          this.nextToken()
+          this.nextToken(),
         );
     }
     return primary;
@@ -531,7 +531,7 @@ class Parser {
       "expected '(', '|', '{'",
       TokenType.Lparen,
       TokenType.Bar,
-      TokenType.Lbrace
+      TokenType.Lbrace,
     );
     let grouping = this.nextExpression();
 
@@ -552,7 +552,7 @@ class Parser {
     if (leftRight) {
       this.tryConsume(
         "expected \\right to match corresponding \\left after expression",
-        TokenType.Right
+        TokenType.Right,
       );
     }
     // look for corresponding right grouping
@@ -605,14 +605,14 @@ class Parser {
     // try to match grouping e.g. (), {}, ||
 
     if (this.match(TokenType.Ans)) {
-      console.log("ANS");
+      // console.log("ANS");
       argument = [new (math as any).SymbolNode("ans")];
     } else if (
       this.match(
         TokenType.Left,
         TokenType.Lparen,
         TokenType.Lbrace,
-        TokenType.Bar
+        TokenType.Bar,
       )
     ) {
       // grouping around argument e.g. \sin (x)
@@ -635,12 +635,12 @@ class Parser {
     const frac = this.nextToken();
     this.tryConsume(
       "expected '{' for the numerator in \\frac",
-      TokenType.Lbrace
+      TokenType.Lbrace,
     );
     const numerator = this.nextExpression();
     this.tryConsume(
       "expected '}' for the numerator in \\frac",
-      TokenType.Rbrace
+      TokenType.Rbrace,
     );
     let denominator;
     // {} is optional for the denominator of \frac
@@ -649,7 +649,7 @@ class Parser {
       denominator = this.nextExpression();
       this.tryConsume(
         "expected '}' for the denominator in \\frac",
-        TokenType.Rbrace
+        TokenType.Rbrace,
       );
     } else {
       denominator = this.nextExpression();
@@ -671,7 +671,7 @@ class Parser {
       "expected 'matrix' after '\\begin{' " +
         "(no other environnments" +
         "are supported yet)",
-      TokenType.Matrix
+      TokenType.Matrix,
     );
     this.tryConsume("expected '}' after \\begin{matrix", TokenType.Rbrace);
     let row = [];
@@ -701,12 +701,12 @@ class Parser {
       } else if (this.match(TokenType.Eof)) {
         throw new ParseError(
           "unexpected EOF encountered while parsing matrix",
-          this.currentToken()
+          this.currentToken(),
         );
       } else {
         throw new ParseError(
           "unexpected delimiter while parsing matrix",
-          this.currentToken()
+          this.currentToken(),
         );
       }
     }
@@ -714,7 +714,7 @@ class Parser {
     this.tryConsume(
       "expected 'matrix' after '\\end{' (no other environnments" +
         "are supported yet)",
-      TokenType.Matrix
+      TokenType.Matrix,
     );
     this.tryConsume("expected '}' after \\end{matrix", TokenType.Rbrace);
     return createMathJSNode(matrixToken, rows);
@@ -737,7 +737,7 @@ class Parser {
       // insert quotes (e.g. { => '{')
       .map((lexeme) => `'${lexeme}'`);
     const errMsg = `expected ${expectedLexemes.join(
-      " or "
+      " or ",
     )} to match corresponding '${leftGroupingToken.lexeme}'`;
     this.tryConsume(errMsg, rightGrouping[leftGroupingToken.type]!);
   }
