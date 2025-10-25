@@ -99,10 +99,10 @@ function createMathJSNode(
       // console.log("VARIABLE NODE - ANS");
       return new (math as any).SymbolNode(token.lexeme);
     case TokenType.Number: {
-      // convert string lexeme to number if possible
+      // convert string lexeme to BigNumber if possible to avoid precision issues
       const constant = Number.isNaN(Number(token.lexeme))
         ? token.lexeme
-        : +token.lexeme;
+        : math.bignumber(token.lexeme);
       return new (math as any).ConstantNode(constant);
     }
     case TokenType.Pi:

@@ -40,7 +40,7 @@ interface CalculatorContextType {
 }
 
 const CalculatorContext = createContext<CalculatorContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function CalculatorProvider({ children }: { children: ReactNode }) {
@@ -103,7 +103,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
 
   const updateCalculator = (id: string, latex: string) => {
     setCalculators((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, latex } : c))
+      prev.map((c) => (c.id === id ? { ...c, latex } : c)),
     );
   };
 
@@ -142,7 +142,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
 
         // If the input variables are not found in the variables array, create them on a single line
         const inputVariablesNotInVariables = item.inputVariables.filter(
-          (v: string) => !Object.keys(combinedContext).find((key) => v === key)
+          (v: string) => !Object.keys(combinedContext).find((key) => v === key),
         );
 
         if (inputVariablesNotInVariables.length > 0) {
@@ -186,7 +186,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         },
       ]);
     },
-    [setCommandOpen, calculators, setCalculators, combinedContext]
+    [setCommandOpen, calculators, setCalculators, combinedContext],
   );
 
   return (

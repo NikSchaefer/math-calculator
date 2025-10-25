@@ -66,7 +66,7 @@ export const constantsAsArray: PresetVariable[] = [
   },
   {
     name: "Gas constant",
-    variable: "R",
+    variable: "R_g",
     value: 8.314462618,
     description:
       "The ideal gas constant, relating the pressure, volume, temperature, and number of moles of an ideal gas. Units are Joules per mole-Kelvin (J/(mol⋅K)).",
