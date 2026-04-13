@@ -485,6 +485,8 @@ class Parser {
       case TokenType.Cosh:
       case TokenType.Tanh:
       case TokenType.Log:
+        primary = this.nextLogFunc();
+        break;
       case TokenType.Ln:
       case TokenType.Max:
       case TokenType.Min:
@@ -584,6 +586,37 @@ class Parser {
     // look for corresponding right grouping
     this.tryConsumeRightGrouping(leftGrouping);
     return children;
+  }
+
+  /**
+   * Consume \log with an optional subscript base: \log_2(x) or \log_{10}(x).
+   * Without a subscript, defaults to base 10.
+   *
+   * @returns The root node of an expression tree.
+   */
+  nextLogFunc(): math.MathNode {
+    const func = this.nextToken(); // consume \log
+    if (this.match(TokenType.Underscore)) {
+      this.nextToken(); // consume _
+      let base: math.MathNode;
+      if (this.match(TokenType.Lbrace)) {
+        this.nextToken(); // consume {
+        base = this.nextExpression();
+        this.tryConsume("expected '}' after log base", TokenType.Rbrace);
+      } else {
+        const baseToken = this.tryConsume(
+          "expected number or variable after log_",
+          TokenType.Number,
+          TokenType.Variable,
+        );
+        base = createMathJSNode(baseToken);
+      }
+      const argument = this.nextArgument();
+      return new (math as any).FunctionNode("log", [...argument, base]);
+    }
+    // No subscript: default to log base 10
+    const argument = this.nextArgument();
+    return createMathJSNode(func, argument);
   }
 
   /**

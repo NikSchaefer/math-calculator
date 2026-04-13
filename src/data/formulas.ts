@@ -264,6 +264,19 @@ export const formulas: Preset[] = [
     ],
   },
   {
+    name: "Logarithm (Custom Base)",
+    description:
+      "Calculates the logarithm of a number x with a specified base b.\n\n**Formula:** y = log_b(x) which means bʸ = x\n\n**Units:** Logarithms are dimensionless.\n\n**Why it works:** The change-of-base formula allows any logarithm to be computed as log_b(x) = ln(x) / ln(b). This is the inverse of exponentation: log_b(bʸ) = y.\n\n**Example:** log₂(64) = 6 because 2⁶ = 64.",
+    categories: ["math", "pre-calculus"],
+    inputVariables: ["x", "b"],
+    calculators: [
+      {
+        latex: "y = \\log_b(x)",
+        preview: "y = log_b(x)",
+      },
+    ],
+  },
+  {
     name: "Newton's Second Law",
     description:
       "Relates the force (F) acting on an object to its mass (m) and acceleration (a).\n\n**Formula:** F = ma\n\n**Units:** F is typically in Newtons (N), m is in kilograms (kg), and a is in meters per second squared (m/s²).\n\n**Why it works:** This is a fundamental law of classical mechanics. It states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass.\n\n**Example:** If m = 2 kg and a = 3 m/s², then F = (2 kg) * (3 m/s²) = 6 N.",

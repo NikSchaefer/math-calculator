@@ -12,13 +12,13 @@ An opinionated and modern scientific calculator.
 - [x] Context-aware variables
 - [x] Keyboard-first workflow
 - [x] Precise fraction support
+- [x] Access array indices
+- [x] Logs of many bases
 
 ## Roadmap
 
 - [ ] f(x) functions
 - [ ] Comments
-- [ ] Access array indices
-- [ ] Logs of many bases
 - [ ] N-th root
 - [ ] Summations
 - [ ] Integrals
