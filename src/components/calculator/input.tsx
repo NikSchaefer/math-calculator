@@ -21,6 +21,7 @@ const autoOperatorNames = [
   "randi",
   "ans",
   "mag",
+  "angle",
 ];
 
 interface MathInputProps {

@@ -109,9 +109,12 @@ const mathImport = {
   nPr: (n: number, r: number) => {
     return math.permutations(n, r);
   },
-  // Calculate the magnitude of a vector in however many dimensions
+  // Calculate the magnitude of a vector or complex number
   mag: (...args: any[]) => {
-    if (args.length === 1 && "toArray" in args[0]) {
+    if (args.length === 1 && "re" in args[0] && "im" in args[0]) {
+      // Handle complex number input: |z| = sqrt(re² + im²)
+      return math.abs(args[0]);
+    } else if (args.length === 1 && "toArray" in args[0]) {
       // Handle matrix input
       const matrix = args[0];
       return math.sqrt(
@@ -124,6 +127,13 @@ const mathImport = {
       // Handle multiple number inputs
       return math.sqrt(args.reduce((a: any, b: any) => a + b ** 2, 0));
     }
+  },
+  // Return the angle (argument) of a complex number, respecting angle mode
+  angle: (z: any) => {
+    const radians = math.arg(z);
+    return config.angles === "deg"
+      ? math.multiply(radians, math.divide(180, math.pi))
+      : radians;
   },
   arcsin: (x: number) => arcTrigTyped("arcsin", math.asin)(x),
   arccos: (x: number) => arcTrigTyped("arccos", math.acos)(x),

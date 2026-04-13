@@ -82,6 +82,7 @@ function createMathJSNode(
     case TokenType.Rand:
     case TokenType.Randi:
     case TokenType.Mag:
+    case TokenType.Angle:
       return new (math as any).FunctionNode(fn, children);
     case TokenType.Equals:
       return new (math as any).AssignmentNode(children[0], children[1]);
