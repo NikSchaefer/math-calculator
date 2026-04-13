@@ -94,9 +94,15 @@ export const enum TokenType {
   Angle,
   Real,
   Imag,
+  Sigma,    // \sum with index bounds: \sum_{i=a}^{b} expr
+  Integral, // \int with bounds: \int_{a}^{b} expr dx
+  Lbracket, // [ used for array literals and index access
+  Rbracket, // ] used for array literals and index access
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
+  "[": TokenType.Lbracket,
+  "]": TokenType.Rbracket,
   "=": TokenType.Equals,
   "+": TokenType.Plus,
   "-": TokenType.Minus,
@@ -185,6 +191,8 @@ export const lexemeToType: { [key: string]: TokenType } = {
   angle: TokenType.Angle,
   real: TokenType.Real,
   imag: TokenType.Imag,
+  "\\sum": TokenType.Sigma,
+  "\\int": TokenType.Integral,
 };
 
 /**

@@ -2,6 +2,7 @@
 import math from "./customMath";
 import ParseError from "./ParseError";
 import Token, { TokenType, typeToOperation, lexemeToType } from "./Token";
+import { SummationNode, IntegralNode } from "./specialNodes";
 
 /**
  * Create the corresponding MathJS node of a Token and its children.
@@ -179,6 +180,9 @@ const primaryTypes = [
   TokenType.Min,
   TokenType.Gcd,
   TokenType.Ans,
+  TokenType.Sigma,
+  TokenType.Integral,
+  TokenType.Lbracket,
 ];
 
 class Parser {
@@ -499,6 +503,15 @@ class Parser {
         // token of lookahead would be required to know which environnment to parse
         primary = this.nextMatrix();
         break;
+      case TokenType.Sigma:
+        primary = this.nextSummation();
+        break;
+      case TokenType.Integral:
+        primary = this.nextIntegral();
+        break;
+      case TokenType.Lbracket:
+        primary = this.nextArrayLiteral();
+        break;
       case TokenType.Mean:
       case TokenType.Median:
       case TokenType.Mode:
@@ -508,6 +521,16 @@ class Parser {
           this.nextToken(),
         );
     }
+
+    // Handle postfix index access: primary[index]
+    // Uses 0-based indexing via the custom get(arr, index) function.
+    while (this.match(TokenType.Lbracket)) {
+      this.nextToken(); // consume [
+      const indexExpr = this.nextExpression();
+      this.tryConsume("expected ']' after index", TokenType.Rbracket);
+      primary = new (math as any).FunctionNode("get", [primary, indexExpr]);
+    }
+
     return primary;
   }
 
@@ -658,6 +681,140 @@ class Parser {
       denominator = this.nextExpression();
     }
     return createMathJSNode(frac, [numerator, denominator]);
+  }
+
+  /**
+   * Consume a summation according to the following production:
+   *
+   * summation => SIGMA UNDERSCORE LBRACE VARIABLE EQUALS expr RBRACE CARET (LBRACE expr RBRACE | primary) term
+   *
+   * e.g. \sum_{i=1}^{10} i^2
+   *
+   * @returns A SummationNode that evaluates the closed-form sum at runtime.
+   */
+  nextSummation(): math.MathNode {
+    this.nextToken(); // consume \sum
+    this.tryConsume("expected '_' after \\sum", TokenType.Underscore);
+    this.tryConsume("expected '{' after \\sum_", TokenType.Lbrace);
+    const varToken = this.tryConsume(
+      "expected index variable in summation bounds (e.g. \\sum_{i=1}^{n})",
+      TokenType.Variable,
+    );
+    this.tryConsume("expected '=' in summation bounds", TokenType.Equals);
+    const startNode = this.nextExpression();
+    this.tryConsume(
+      "expected '}' after summation lower bound",
+      TokenType.Rbrace,
+    );
+    this.tryConsume(
+      "expected '^' after summation lower bound",
+      TokenType.Caret,
+    );
+    let endNode: math.MathNode;
+    if (this.match(TokenType.Lbrace)) {
+      this.nextToken(); // consume {
+      endNode = this.nextExpression();
+      this.tryConsume(
+        "expected '}' after summation upper bound",
+        TokenType.Rbrace,
+      );
+    } else {
+      endNode = this.nextPrimary();
+    }
+    const bodyNode = this.nextTerm();
+    return new SummationNode(
+      varToken.lexeme,
+      startNode,
+      endNode,
+      bodyNode,
+    ) as unknown as math.MathNode;
+  }
+
+  /**
+   * Consume a definite integral according to the following production:
+   *
+   * integral => INTEGRAL UNDERSCORE (LBRACE expr RBRACE | primary) CARET (LBRACE expr RBRACE | primary) factor (VARIABLE("d") VARIABLE)?
+   *
+   * e.g. \int_{0}^{1} x^2 dx
+   *
+   * The integrand is parsed as a single factor to avoid consuming the differential
+   * (dx, dt, …). For products in the integrand, use explicit grouping: \int_0^1 (2x) dx.
+   *
+   * @returns An IntegralNode that approximates the integral numerically at runtime.
+   */
+  nextIntegral(): math.MathNode {
+    this.nextToken(); // consume \int
+    this.tryConsume("expected '_' after \\int", TokenType.Underscore);
+    let lowerNode: math.MathNode;
+    if (this.match(TokenType.Lbrace)) {
+      this.nextToken(); // consume {
+      lowerNode = this.nextExpression();
+      this.tryConsume(
+        "expected '}' after integral lower bound",
+        TokenType.Rbrace,
+      );
+    } else {
+      lowerNode = this.nextPrimary();
+    }
+    this.tryConsume(
+      "expected '^' after integral lower bound",
+      TokenType.Caret,
+    );
+    let upperNode: math.MathNode;
+    if (this.match(TokenType.Lbrace)) {
+      this.nextToken(); // consume {
+      upperNode = this.nextExpression();
+      this.tryConsume(
+        "expected '}' after integral upper bound",
+        TokenType.Rbrace,
+      );
+    } else {
+      upperNode = this.nextPrimary();
+    }
+    // Parse the integrand as a single factor to avoid consuming the differential
+    const bodyNode = this.nextFactor();
+    // Optionally consume d + variable to determine the integration variable
+    let varName = "x";
+    if (
+      this.currentToken().type === TokenType.Variable &&
+      this.currentToken().lexeme === "d" &&
+      this.tokens[this.pos + 1]?.type === TokenType.Variable
+    ) {
+      this.nextToken(); // consume d
+      varName = this.nextToken().lexeme;
+    }
+    return new IntegralNode(
+      varName,
+      lowerNode,
+      upperNode,
+      bodyNode,
+    ) as unknown as math.MathNode;
+  }
+
+  /**
+   * Consume a bare array literal according to the following production:
+   *
+   * arrayLiteral => LBRACKET (expr (AMP expr)*)? RBRACKET
+   *
+   * e.g. [1, 2, 3] (commas are converted to & by prepareTokens)
+   *
+   * Produces a 1D ArrayNode. Supports trailing separators.
+   *
+   * @returns The root node of an expression tree.
+   */
+  nextArrayLiteral(): math.MathNode {
+    this.nextToken(); // consume [
+    const elements: math.MathNode[] = [];
+    if (!this.match(TokenType.Rbracket)) {
+      elements.push(this.nextExpression());
+      while (this.match(TokenType.Amp)) {
+        this.nextToken(); // consume &
+        if (this.match(TokenType.Rbracket)) break; // trailing separator
+        elements.push(this.nextExpression());
+      }
+    }
+    this.tryConsume("expected ']' to close array literal", TokenType.Rbracket);
+    return new (math as any).ArrayNode(elements);
   }
 
   /**

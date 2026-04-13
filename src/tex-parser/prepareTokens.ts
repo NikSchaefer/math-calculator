@@ -1,6 +1,13 @@
 export function prepareTokens(latex: string): string {
+  latex = stripSpacingCommands(latex);
   latex = addZeroesToDotNumbers(latex);
   return convertMatrices(latex);
+}
+
+// Strip LaTeX thin-space and spacing commands used as visual separators
+// (e.g. \, before dx in integrals, produced by MathQuill)
+function stripSpacingCommands(latex: string): string {
+  return latex.replace(/\\[,;:!]/g, " ");
 }
 
 // Will replace things like .4 with 0.4, but only if there's not a number before the dot
@@ -8,38 +15,12 @@ function addZeroesToDotNumbers(latex: string): string {
   return latex.replace(/(?<!\d)(\.\d+)/g, (match) => match.padStart(match.length + 1, '0'));
 }
 
-// Will replace brackets with matrix environments
+// Converts \left[...\right] to plain [...] so they are parsed uniformly as
+// 1D array literals or index access by the token parser.
+// \begin{bmatrix}...\end{bmatrix} (typed explicitly) continues to produce 2D matrices.
 function convertMatrices(latex: string): string {
-  // Stack to keep track of nested brackets
-  const stack: number[] = [];
-  let result = "";
-  let i = 0;
-
-  while (i < latex.length) {
-    // Check for \left[ sequence
-    if (latex.slice(i).startsWith("\\left[")) {
-      stack.push(i);
-      result += "\\begin{bmatrix}";
-      i += 6; // Skip past \left[
-    }
-    // Check for \right] sequence
-    else if (latex.slice(i).startsWith("\\right]")) {
-      if (stack.length > 0) {
-        stack.pop();
-        result += "\\end{bmatrix}";
-        i += 7; // Skip past \right]
-      } else {
-        // Unmatched \right], keep as is
-        result += latex[i];
-        i++;
-      }
-    }
-    // Handle other characters
-    else {
-      result += latex[i];
-      i++;
-    }
-  }
-
-  return result.replaceAll(",", "&");
+  return latex
+    .replaceAll("\\left[", "[")
+    .replaceAll("\\right]", "]")
+    .replaceAll(",", "&");
 }

@@ -145,6 +145,15 @@ const mathImport = {
   arccot: (x: number) => arcTrigTyped("arccot", math.atan)(1 / x),
   arccsc: (x: number) => arcTrigTyped("arccsc", math.asin)(1 / x),
   arcsec: (x: number) => arcTrigTyped("arcsec", math.acos)(1 / x),
+  // 0-based array/matrix element access: get(arr, index)
+  get: (arr: any, index: any) => {
+    const i = Number(index);
+    const flat = "toArray" in arr ? (arr.toArray() as any[]).flat(1) : (arr as any[]);
+    if (i < 0 || i >= flat.length) {
+      throw new RangeError(`Index ${i} out of bounds for array of length ${flat.length}`);
+    }
+    return flat[i];
+  },
 };
 
 math.import(mathImport, {

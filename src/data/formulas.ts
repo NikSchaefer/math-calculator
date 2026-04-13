@@ -743,4 +743,68 @@ export const formulas: Preset[] = [
       },
     ],
   },
+  {
+    name: "Finite Summation",
+    description:
+      "Computes the sum of an expression over an integer index range.\n\n**Syntax:** `\\sum_{i=start}^{end} expr`\n\n**How it works:** The index variable (here `i`) takes each integer value from `start` to `end` inclusive, the expression is evaluated at each step, and the results are accumulated.\n\n**Example:** The sum of the first 100 natural numbers: ∑_{i=1}^{100} i = 5050.",
+    categories: ["math", "calculus"],
+    inputVariables: [],
+    calculators: [
+      {
+        latex: "\\sum_{i=1}^{100}i",
+        preview: "∑_{i=1}^{100} i",
+      },
+    ],
+  },
+  {
+    name: "Sum of Squares",
+    description:
+      "Computes ∑_{i=1}^{n} i² — the sum of the first n perfect squares.\n\n**Closed form:** n(n+1)(2n+1) / 6\n\n**Example:** For n = 10, the sum is 385.",
+    categories: ["math", "calculus"],
+    inputVariables: ["n"],
+    calculators: [
+      {
+        latex: "n=10",
+        preview: "n = 10",
+      },
+      {
+        latex: "\\sum_{i=1}^{n}i^{2}",
+        preview: "∑_{i=1}^{n} i²",
+      },
+    ],
+  },
+  {
+    name: "Definite Integral",
+    description:
+      "Numerically evaluates a definite integral using composite Simpson's rule (1000 subintervals).\n\n**Syntax:** `\\int_{a}^{b} f(x) dx`\n\n**Notes:** The integration variable is inferred from the differential at the end (e.g. `dx`, `dt`). For products in the integrand, wrap them in parentheses: `\\int_0^1 (2x) dx`.\n\n**Example:** ∫₀¹ x² dx = 1/3 ≈ 0.3333…",
+    categories: ["math", "calculus"],
+    inputVariables: [],
+    calculators: [
+      {
+        latex: "\\int_{0}^{1}x^{2}dx",
+        preview: "∫₀¹ x² dx",
+      },
+    ],
+  },
+  {
+    name: "Area Under a Curve",
+    description:
+      "Computes the area between a curve and the x-axis over [a, b] using numerical integration.\n\n**Example:** The area under sin(x) from 0 to π equals 2.",
+    categories: ["math", "calculus"],
+    inputVariables: ["a", "b"],
+    calculators: [
+      {
+        latex: "a=0",
+        preview: "a = 0",
+      },
+      {
+        latex: "b=\\pi",
+        preview: "b = π",
+      },
+      {
+        latex: "\\int_{a}^{b}\\sin(x)dx",
+        preview: "∫_a^b sin(x) dx",
+      },
+    ],
+  },
 ];
