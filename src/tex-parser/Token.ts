@@ -92,6 +92,8 @@ export const enum TokenType {
   Ans,
   Mag,
   Angle,
+  Real,
+  Imag,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -181,6 +183,8 @@ export const lexemeToType: { [key: string]: TokenType } = {
   ans: TokenType.Ans,
   mag: TokenType.Mag,
   angle: TokenType.Angle,
+  real: TokenType.Real,
+  imag: TokenType.Imag,
 };
 
 /**
@@ -245,6 +249,8 @@ export const typeToOperation: { [key in TokenType]?: string } = {
   [TokenType.Ans]: "ans",
   [TokenType.Mag]: "mag",
   [TokenType.Angle]: "angle",
+  [TokenType.Real]: "real",
+  [TokenType.Imag]: "imag",
 };
 
 interface Token {

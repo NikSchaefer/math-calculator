@@ -135,6 +135,10 @@ const mathImport = {
       ? math.multiply(radians, math.divide(180, math.pi))
       : radians;
   },
+  // Return the real part of a complex number (or the number itself if real)
+  real: (z: any) => math.re(z),
+  // Return the imaginary part of a complex number (0 if real)
+  imag: (z: any) => math.im(z),
   arcsin: (x: number) => arcTrigTyped("arcsin", math.asin)(x),
   arccos: (x: number) => arcTrigTyped("arccos", math.acos)(x),
   arctan: (x: number) => arcTrigTyped("arctan", math.atan)(x),
