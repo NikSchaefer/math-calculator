@@ -14,10 +14,10 @@ An opinionated and modern scientific calculator.
 - [x] Precise fraction support
 - [x] Access array indices
 - [x] Logs of many bases
+- [x] f(x) functions
 
 ## Roadmap
 
-- [ ] f(x) functions
 - [ ] Comments
 - [ ] N-th root
 - [ ] Summations

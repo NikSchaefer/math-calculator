@@ -112,12 +112,6 @@ export function Result({ formattedResult, result, type }: EvalResult) {
       }
       return `${asFraction.n}/${asFraction.d}`;
     }
-    if (type === "array" || type === "matrix") {
-      return `[${result.toString()}]`;
-    }
-    if (type === "number") {
-      return result.toString();
-    }
     return formattedResult;
   }, [
     result,

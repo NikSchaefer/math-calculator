@@ -121,6 +121,10 @@ export function computeExpression(
                     evaluated as number
                 );
                 break;
+            case "function":
+                computedResult.formattedResult = "-";
+                computedResult.result = null;
+                break;
         }
         return computedResult;
     } catch (error) {

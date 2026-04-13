@@ -195,6 +195,7 @@ class Parser {
    *
    * expr = term ((PLUS | MINUS) term)*
    *      | VARIABLE EQUALS expr
+   *      | VARIABLE LPAREN params RPAREN EQUALS expr  (function definition)
    *
    * term = factor ((STAR factor | primary))* //primary and factor must both not be numbers
    *
@@ -282,17 +283,27 @@ class Parser {
    */
   nextExpression(): math.MathNode {
     let leftTerm = this.nextTerm();
-    // VARIABLE EQUALS expr
+    // VARIABLE EQUALS expr  |  FUNCTION(params) EQUALS expr
     if (this.match(TokenType.Equals)) {
       // @ts-expect-error not sure yet lol
-      if (!leftTerm.isSymbolNode) {
+      const isSymbol = leftTerm.isSymbolNode;
+      // @ts-expect-error not sure yet lol
+      const isFunctionCall = leftTerm.isFunctionNode;
+      if (!isSymbol && !isFunctionCall) {
         throw new ParseError(
-          "expected variable (SymbolNode) on left hand of assignment",
+          "expected variable or function on left hand of assignment",
           this.previousToken(),
         );
       }
       const equals = this.nextToken();
       const rightExpr = this.nextExpression();
+      if (isFunctionCall) {
+        // f(x, y) = expr  →  FunctionAssignmentNode('f', ['x', 'y'], expr)
+        const funcNode = leftTerm as any;
+        const name: string = funcNode.fn.name;
+        const params: string[] = funcNode.args.map((a: any) => a.name);
+        return new (math as any).FunctionAssignmentNode(name, params, rightExpr);
+      }
       return createMathJSNode(equals, [leftTerm, rightExpr]);
     }
     // term ((PLUS | MINUS) term)*
@@ -440,8 +451,9 @@ class Parser {
       case TokenType.Variable:
       case TokenType.Pi:
       case TokenType.E:
-      case TokenType.T:
-        primary = createMathJSNode(this.nextToken());
+      case TokenType.T: {
+        const tok = this.nextToken();
+        primary = createMathJSNode(tok);
         // Check for underscore after variable
         if (this.match(TokenType.Underscore)) {
           this.nextToken(); // consume underscore
@@ -466,7 +478,23 @@ class Parser {
             baseNode.name + "_" + (subscriptNode.name || subscriptNode.value);
           primary = new (math as any).SymbolNode(combinedName);
         }
+        // User-defined function call: f(x, y) or f\left(x, y\right) — only for Variable tokens
+        // Check for bare ( or \left( (the LaTeX editor wraps parens as \left( ... \right))
+        if (tok.type === TokenType.Variable) {
+          const isDirectParen = this.match(TokenType.Lparen) !== undefined;
+          const isLeftParen =
+            this.match(TokenType.Left) !== undefined &&
+            this.pos + 1 < this.tokens.length &&
+            this.tokens[this.pos + 1].type === TokenType.Lparen;
+          if (isDirectParen || isLeftParen) {
+            const funcName = (primary as any).name;
+            // nextGrouping handles both (args) and \left(args\right), including commas
+            const args = this.nextGrouping();
+            primary = new (math as any).FunctionNode(funcName, args);
+          }
+        }
         break;
+      }
       case TokenType.Ans:
         // console.log("ANS");
         primary = new (math as any).SymbolNode("ans");

@@ -19,7 +19,7 @@ export type PresetVariable = {
     description: string;
 };
 
-export type EvalType = "complex" | "number" | "matrix" | "array" | "error";
+export type EvalType = "complex" | "number" | "matrix" | "array" | "function" | "error";
 
 export type EvalResult = {
     result: number | ComplexNumber | Array<unknown> | null;

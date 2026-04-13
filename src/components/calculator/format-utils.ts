@@ -6,6 +6,10 @@ const PRECISION = 4;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getTypeOfResult(evaluated: any): EvalType {
+  if (typeof evaluated === "function") {
+    return "function";
+  }
+
   if (Array.isArray(evaluated)) {
     return "array";
   }
@@ -33,6 +37,8 @@ export function formatResult(evaluated: any): string {
       return formatArrayResult(evaluated);
     case "number":
       return formatNumberResult(evaluated);
+    case "function":
+      return "-";
     default:
       return evaluated.toString();
   }
