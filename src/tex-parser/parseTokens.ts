@@ -185,10 +185,15 @@ const primaryTypes = [
   TokenType.Lbracket,
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Scope = Record<string, any>;
+
 class Parser {
   tokens: Token[];
 
   pos: number;
+
+  scope: Scope | undefined;
 
   /**
    * A recursive descent parser for TeX math. The following context-free grammar is used:
@@ -232,9 +237,10 @@ class Parser {
    *
    * @param tokens A list of Tokens to be parsed.
    */
-  constructor(tokens: Token[]) {
+  constructor(tokens: Token[], scope?: Scope) {
     this.tokens = tokens;
     this.pos = 0;
+    this.scope = scope;
   }
 
   /**
@@ -488,9 +494,27 @@ class Parser {
             this.tokens[this.pos + 1].type === TokenType.Lparen;
           if (isDirectParen || isLeftParen) {
             const funcName = (primary as any).name;
-            // nextGrouping handles both (args) and \left(args\right), including commas
-            const args = this.nextGrouping();
-            primary = new (math as any).FunctionNode(funcName, args);
+            // If the scope already binds this name to a non-function value, the parens
+            // are implicit multiplication rather than a function call: P(a+2) → P*(a+2)
+            const scopeValue = this.scope?.[funcName];
+            const isNonFunctionInScope =
+              scopeValue !== undefined && typeof scopeValue !== "function";
+            if (isNonFunctionInScope) {
+              // Treat as implicit multiplication: parse the grouping and multiply
+              const args = this.nextGrouping();
+              const groupNode =
+                args.length === 1
+                  ? args[0]
+                  : new (math as any).ArrayNode(args);
+              const starToken = new Token("*", TokenType.Star, this.pos);
+              const multNode = createMathJSNode(starToken, [primary, groupNode]);
+              (multNode as any).implicit = true;
+              primary = multNode;
+            } else {
+              // nextGrouping handles both (args) and \left(args\right), including commas
+              const args = this.nextGrouping();
+              primary = new (math as any).FunctionNode(funcName, args);
+            }
           }
         }
         break;
@@ -968,9 +992,14 @@ class Parser {
  * Parse an array of TeX math tokens as a MathJS expression tree.
  *
  * @param tokens An array of tokens to parse.
+ * @param scope  Optional evaluation scope used to distinguish scalar variables
+ *               from user-defined functions when a variable is followed by `(`.
  *
  * @returns The root node of a MathJS expression tree.
  */
-export default function parseTokens(tokens: Token[]): math.MathNode {
-  return new Parser(tokens).nextExpression();
+export default function parseTokens(
+  tokens: Token[],
+  scope?: Scope,
+): math.MathNode {
+  return new Parser(tokens, scope).nextExpression();
 }

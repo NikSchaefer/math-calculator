@@ -186,6 +186,35 @@ describe("matrix operations", () => {
   });
 });
 
+// ─── Scalar variable followed by parentheses (implicit multiplication) ────────
+
+describe("scalar variable followed by parentheses", () => {
+  test("P(a+2) treated as P*(a+2) when P is a scalar", () => {
+    const scope = { P: math.bignumber(3), a: math.bignumber(2) };
+    // P=3, a=2 → P*(a+2) = 3*4 = 12
+    expect(num(evaluateTex("P\\left(a+2\\right)", scope).evaluated)).toBe(12);
+  });
+
+  test("P(a+2) with bare parens treated as P*(a+2)", () => {
+    const scope = { P: math.bignumber(2), a: math.bignumber(5) };
+    // P=2, a=5 → P*(a+2) = 2*7 = 14
+    expect(num(evaluateTex("P(a+2)", scope).evaluated)).toBe(14);
+  });
+
+  test("user-defined functions still work normally", () => {
+    const scope: Record<string, unknown> = {};
+    evaluateTex("f\\left(x\\right)=x^{2}", scope);
+    // f is now a function in scope; f(3) should be 9
+    expect(num(evaluateTex("f\\left(3\\right)", scope).evaluated)).toBe(9);
+  });
+
+  test("scalar variable followed by single-value paren", () => {
+    const scope = { k: math.bignumber(4) };
+    // k=4 → k*(3) = 12
+    expect(num(evaluateTex("k\\left(3\\right)", scope).evaluated)).toBe(12);
+  });
+});
+
 // ─── Error handling ──────────────────────────────────────────────────────────
 
 describe("error handling", () => {

@@ -10,15 +10,15 @@ type Scope = { [key: string]: any };
  * @returns Returns an object containing the root node of a MathJS expression tree
  *          and variables that need to be defined.
  */
-function parseTex(texStr: string) {
-    return parseTokens(tokenizeTex(texStr));
+function parseTex(texStr: string, scope?: Scope) {
+    return parseTokens(tokenizeTex(texStr), scope);
 }
 
 /**
  * Evaluate a TeX math string, returning the result as a MathJS MathType.
  */
 function evaluateTex(texStr: string, scope?: Scope) {
-    const root = parseTex(texStr);
+    const root = parseTex(texStr, scope);
     const evaluated = root.evaluate(scope);
     return { evaluated, scope };
 }
