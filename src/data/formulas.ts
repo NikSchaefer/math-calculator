@@ -54,19 +54,6 @@ export const formulas: Preset[] = [
     ],
   },
   {
-    name: "Slope of a Line",
-    description:
-      "Calculates the slope (m) of a line given two points (x₁, y₁) and (x₂, y₂).\n\n**Formula:** m = (y₂ - y₁) / (x₂ - x₁)\n\n**Units:** The slope is a dimensionless quantity.\n\n**Why it works:** The slope represents the rate of change of the y-value with respect to the x-value. It indicates the steepness and direction of the line.\n\n**Example:** If (x₁, y₁) = (1, 2) and (x₂, y₂) = (4, 6), then m = (6 - 2) / (4 - 1) = 4/3.",
-    categories: ["math", "algebra"],
-    inputVariables: ["x_1", "y_1", "x_2", "y_2"],
-    calculators: [
-      {
-        latex: "m=\\frac{y_2-y_1}{x_2-x_1}",
-        preview: "m = (y₂ - y₁) / (x₂ - x₁)",
-      },
-    ],
-  },
-  {
     name: "Quadratic Formula",
     description:
       "Solves for x in a quadratic equation of the form ax² + bx + c = 0.\n\n**Formula:** x = (-b ± √(b² - 4ac)) / 2a\n\n**Units:** x will have the same units as implied by the coefficients a, b, and c.\n\n**Why it works:** This formula is derived by completing the square and provides the solutions (roots) of any quadratic equation.\n\n**Example:** For the equation 2x² + 5x - 3 = 0, a = 2, b = 5, and c = -3.  x = (-5 ± √(5² - 4*2*(-3))) / (2*2) = (-5 ± √49) / 4. Thus x = 1/2 or x = -3.",
@@ -92,125 +79,7 @@ export const formulas: Preset[] = [
       },
     ],
   },
-  {
-    name: "Standard Deviation",
-    description:
-      "Calculates the standard deviation of a sample, a measure of the spread or dispersion of a set of numbers.\n\n**Formula:** s = sqrt[ Σ(xᵢ - x̄)² / (n - 1) ] where xᵢ are individual values, x̄ is the sample mean, and n is the sample size.\n\n**Units:** The standard deviation has the same units as the data values.\n\n**Why it works:** The standard deviation quantifies how much the individual data points typically deviate from the mean. A higher standard deviation indicates greater variability.\n\n**Example:** For the numbers 2, 4, 6, 8, 10 (sample), the standard deviation is approximately 3.16.",
-    categories: ["math", "statistics"],
-    inputVariables: ["A"],
-    calculators: [
-      {
-        latex: "s = \\operatorname{std}(A)",
-        preview: "s = sqrt[ Σ(xᵢ - x̄)² / (n - 1) ]",
-      },
-    ],
-  },
-  {
-    name: "Derivative (Power Rule)",
-    description:
-      "Calculates the derivative of a function of the form f(x) = xⁿ.\n\n**Formula:** f'(x) = nxⁿ⁻¹\n\n**Units:** The derivative's units depend on the original function. If f(x) represents distance over time, f'(x) would be velocity (distance/time).\n\n**Why it works:** This rule is a fundamental concept in calculus, derived from the definition of the derivative as a limit. It describes the instantaneous rate of change of the function.\n\n**Example:** If f(x) = x³, then f'(x) = 3x².",
-    categories: ["math", "calculus"],
-    inputVariables: ["n"],
-    calculators: [
-      {
-        latex: "f'(x) = nx^{n-1}",
-        preview: "f'(x) = nxⁿ⁻¹",
-      },
-    ],
-  },
-  {
-    name: "Integral (Power Rule)",
-    description:
-      "Calculates the indefinite integral of a function of the form f(x) = xⁿ (where n ≠ -1).\n\n**Formula:** ∫xⁿ dx = (xⁿ⁺¹) / (n + 1) + C (where C is the constant of integration)\n\n**Units:** The integral's units depend on the original function. It represents the accumulation of the original function.\n\n**Why it works:** The integral is the inverse operation of the derivative. This rule is derived from the power rule of differentiation.\n\n**Example:** ∫x² dx = (x³/3) + C",
-    categories: ["math", "calculus"],
-    inputVariables: ["n"],
-    calculators: [
-      {
-        latex: "\\int x^n dx = \\frac{x^{n+1}}{n+1} + C",
-        preview: "∫xⁿ dx = (xⁿ⁺¹) / (n + 1) + C",
-      },
-    ],
-  },
-  {
-    name: "Dot Product",
-    description:
-      "Calculates the dot product of two vectors **a** = (a₁, a₂, ..., aₙ) and **b** = (b₁, b₂, ..., bₙ).\n\n**Formula:** **a** ⋅ **b** = a₁b₁ + a₂b₂ + ... + aₙbₙ\n\n**Units:** The dot product is a scalar (a single number) and is dimensionless.\n\n**Why it works:** The dot product is a fundamental operation in linear algebra. It can be used to find the angle between two vectors or to project one vector onto another.\n\n**Example:** If **a** = (2, 3) and **b** = (1, -2), then **a** ⋅ **b** = (2*1) + (3*-2) = -4.",
-    categories: ["math", "linear algebra"],
-    inputVariables: ["a", "b"], // Could also be a1, a2, b1, b2, etc.
-    calculators: [
-      {
-        latex: "\\mathbf{a} \\cdot \\mathbf{b} = \\sum_{i=1}^{n} a_i b_i",
-        preview: "a ⋅ b = a₁b₁ + a₂b₂ + ... + aₙbₙ",
-      },
-    ],
-  },
-  {
-    name: "Matrix Multiplication",
-    description:
-      "Calculates the product of two matrices A (m x n) and B (n x p), resulting in a matrix C (m x p).\n\n**Formula:**  Cᵢⱼ = Σₖ AᵢₖBₖⱼ (summation from k=1 to n)\n\n**Units:** The resulting matrix C will have units derived from the units of A and B (if they represent physical quantities).\n\n**Why it works:** Matrix multiplication is a fundamental operation in linear algebra, used in various applications like transformations, systems of equations, and computer graphics.\n\n**Example:**  Multiplying a 2x2 matrix by another 2x2 matrix results in another 2x2 matrix. The calculation involves summing products of elements from the rows of the first matrix and the columns of the second matrix.",
-    categories: ["math", "linear algebra"],
-    inputVariables: ["A", "B"], // Could also be individual matrix elements
-    calculators: [
-      {
-        latex: "C_{ij} = \\sum_{k=1}^{n} A_{ik}B_{kj}",
-        preview: "Cᵢⱼ = Σₖ AᵢₖBₖⱼ",
-      },
-    ],
-  },
-  {
-    name: "Probability of an Event",
-    description:
-      "Calculates the probability of an event occurring.\n\n**Formula:** P(event) = (Number of favorable outcomes) / (Total number of possible outcomes)\n\n**Units:** Probability is a dimensionless quantity, expressed as a number between 0 and 1 (or as a percentage between 0% and 100%).\n\n**Why it works:** This is the basic definition of probability in classical probability theory, assuming all outcomes are equally likely.\n\n**Example:** The probability of rolling a 3 on a fair six-sided die is 1/6.",
-    categories: ["math", "statistics"],
-    inputVariables: ["P_{favorable}", "P_{total}"],
-    calculators: [
-      {
-        latex: "P = \\frac{P_{favorable}}{P_{total}}",
-        preview:
-          "P(event) = (Number of favorable outcomes) / (Total number of possible outcomes)",
-      },
-    ],
-  },
-  {
-    name: "Trigonometric Functions (Sine)",
-    description:
-      "Calculates the sine of an angle (θ).\n\n**Formula:** sin(θ) = (Opposite side) / (Hypotenuse)\n\n**Units:** θ is typically in radians or degrees. sin(θ) is dimensionless.\n\n**Why it works:** Sine is a fundamental trigonometric function relating the angle of a right triangle to the ratio of the side opposite the angle to the hypotenuse.\n\n**Example:** In a right triangle with hypotenuse 5 and opposite side 3, sin(θ) = 3/5 = 0.6.",
-    categories: ["math", "pre-calculus", "trigonometry"],
-    inputVariables: ["θ"],
-    calculators: [
-      {
-        latex: "\\sin(\\theta) = \\frac{O}{H}",
-        preview: "sin(θ) = (Opposite side) / (Hypotenuse)",
-      },
-    ],
-  },
-  {
-    name: "Trigonometric Functions (Cosine)",
-    description:
-      "Calculates the cosine of an angle (θ).\n\n**Formula:** cos(θ) = (Adjacent side) / (Hypotenuse)\n\n**Units:** θ is typically in radians or degrees. cos(θ) is dimensionless.\n\n**Why it works:** Cosine is a fundamental trigonometric function relating the angle of a right triangle to the ratio of the side adjacent to the angle to the hypotenuse.\n\n**Example:** In a right triangle with hypotenuse 5 and adjacent side 4, cos(θ) = 4/5 = 0.8.",
-    categories: ["math", "pre-calculus", "trigonometry"],
-    inputVariables: ["θ"],
-    calculators: [
-      {
-        latex: "\\cos(\\theta) = \\frac{A}{H}",
-        preview: "cos(θ) = (Adjacent side) / (Hypotenuse)",
-      },
-    ],
-  },
-  {
-    name: "Trigonometric Functions (Tangent)",
-    description:
-      "Calculates the tangent of an angle (θ).\n\n**Formula:** tan(θ) = (Opposite side) / (Adjacent side) = sin(θ) / cos(θ)\n\n**Units:** θ is typically in radians or degrees. tan(θ) is dimensionless.\n\n**Why it works:** Tangent is a fundamental trigonometric function relating the angle of a right triangle to the ratio of the side opposite the angle to the side adjacent to the angle.\n\n**Example:** In a right triangle with opposite side 3 and adjacent side 4, tan(θ) = 3/4 = 0.75.",
-    categories: ["math", "pre-calculus", "trigonometry"],
-    inputVariables: ["θ"],
-    calculators: [
-      {
-        latex:
-          "\\tan(\\theta) = \\frac{O}{A} = \\frac{\\sin(\\theta)}{\\cos(\\theta)}",
-        preview: "tan(θ) = (Opposite side) / (Adjacent side) = sin(θ) / cos(θ)",
-      },
-    ],
-  },
+  
   {
     name: "Exponential Growth",
     description:
@@ -234,45 +103,6 @@ export const formulas: Preset[] = [
       {
         latex: "A = P(1 - r)^t",
         preview: "A = P(1 - r)ᵗ",
-      },
-    ],
-  },
-  {
-    name: "Logarithm (Base 10)",
-    description:
-      "Calculates the base-10 logarithm of a number.\n\n**Formula:** y = log₁₀(x)  which means 10ʸ = x\n\n**Units:** Logarithms are dimensionless.\n\n**Why it works:** Logarithms are the inverse of exponentiation. They are used to solve for exponents and have applications in various fields, including science and engineering.\n\n**Example:** log₁₀(100) = 2 because 10² = 100.",
-    categories: ["math", "pre-calculus"],
-    inputVariables: ["x"],
-    calculators: [
-      {
-        latex: "y = \\log(x)",
-        preview: "y = log₁₀(x)",
-      },
-    ],
-  },
-  {
-    name: "Natural Logarithm (Base e)",
-    description:
-      "Calculates the natural logarithm (base e) of a number.\n\n**Formula:** y = ln(x) which means eʸ = x (where e ≈ 2.71828)\n\n**Units:** Natural logarithms are dimensionless.\n\n**Why it works:** The natural logarithm is a logarithm with base e, an important mathematical constant. It has numerous applications in calculus, physics, and other fields.\n\n**Example:** ln(e) = 1 because e¹ = e.",
-    categories: ["math", "pre-calculus", "calculus"],
-    inputVariables: ["x"],
-    calculators: [
-      {
-        latex: "y = \\ln(x)",
-        preview: "y = ln(x)",
-      },
-    ],
-  },
-  {
-    name: "Logarithm (Custom Base)",
-    description:
-      "Calculates the logarithm of a number x with a specified base b.\n\n**Formula:** y = log_b(x) which means bʸ = x\n\n**Units:** Logarithms are dimensionless.\n\n**Why it works:** The change-of-base formula allows any logarithm to be computed as log_b(x) = ln(x) / ln(b). This is the inverse of exponentation: log_b(bʸ) = y.\n\n**Example:** log₂(64) = 6 because 2⁶ = 64.",
-    categories: ["math", "pre-calculus"],
-    inputVariables: ["x", "b"],
-    calculators: [
-      {
-        latex: "y = \\log_b(x)",
-        preview: "y = log_b(x)",
       },
     ],
   },
@@ -363,32 +193,6 @@ export const formulas: Preset[] = [
     ],
   },
   {
-    name: "Ohm's Law (Rearranged for Resistance)",
-    description:
-      "Calculates the resistance (R) in an electrical circuit given the voltage (V) and current (I).\n\n**Formula:** R = V/I\n\n**Units:** R is in ohms (Ω), V is in volts (V), and I is in amperes (A).\n\n**Why it works:** This is a rearrangement of Ohm's Law, useful for directly calculating the resistance.\n\n**Example:** A circuit with a voltage of 12V and a current of 3A has a resistance of R = 12V / 3A = 4Ω.",
-    categories: ["physics", "electromagnetism"],
-    inputVariables: ["V", "I"],
-    calculators: [
-      {
-        latex: "R=\\frac{V}{I}",
-        preview: "R = V/I",
-      },
-    ],
-  },
-  {
-    name: "First Law of Thermodynamics",
-    description:
-      "States that energy cannot be created or destroyed, only transferred between systems.  It relates the change in internal energy (ΔU) of a system to the heat added to the system (Q) and the work done by the system (W).\n\n**Formula:** ΔU = Q - W\n\n**Units:** ΔU, Q, and W are typically in Joules (J).\n\n**Why it works:** This is a fundamental law of physics, expressing the conservation of energy.\n\n**Example:** If 100 J of heat is added to a system and the system does 20 J of work, the change in internal energy is ΔU = 100 J - 20 J = 80 J.",
-    categories: ["physics", "thermodynamics"],
-    inputVariables: ["Q", "W"],
-    calculators: [
-      {
-        latex: "U = Q - W",
-        preview: "zU = Q - W",
-      },
-    ],
-  },
-  {
     name: "Work (Mechanical)",
     description:
       "Calculates the work (W) done on an object by a force (F) over a displacement (d).\n\n**Formula:** W = Fdcos(θ), where θ is the angle between the force and the displacement.\n\n**Units:** W is typically in Joules (J), F is in Newtons (N), and d is in meters (m).\n\n**Why it works:** Work is the transfer of energy when a force causes displacement. The cos(θ) term accounts for the component of the force in the direction of motion.\n\n**Example:** A force of 10 N is applied to an object, moving it 2 meters in the same direction as the force. The work done is W = (10 N) * (2 m) * cos(0°) = 20 J.",
@@ -453,58 +257,7 @@ export const formulas: Preset[] = [
       },
     ],
   },
-  {
-    name: "Period of a Pendulum",
-    description:
-      "Calculates the period (T) of a simple pendulum given its length (L) and the acceleration due to gravity (g).\n\n**Formula:** T = 2π√(L/g)\n\n**Units:** T is in seconds (s), L is in meters (m), and g is approximately 9.8 m/s².\n\n**Why it works:** The period of a pendulum is the time it takes for one complete swing.  This formula shows it depends on the length and the gravitational acceleration.\n\n**Example:** A pendulum with a length of 1 meter has a period of T = 2π√(1 m / 9.8 m/s²) ≈ 2 seconds.",
-    categories: ["physics", "classical mechanics"],
-    inputVariables: ["L"], // g is assumed constant
-    calculators: [
-      {
-        latex: "T = 2\\pi\\sqrt{\\frac{L}{g}}",
-        preview: "T = 2π√(L/g)",
-      },
-    ],
-  },
-  {
-    name: "Displacement",
-    description:
-      "Calculates the change in position (Δx) of an object.\n\n**Formula:** Δx = x₂ - x₁, where x₁ is the initial position and x₂ is the final position.\n\n**Units:** Δx is typically in meters (m).\n\n**Why it works:** Displacement is a vector quantity representing the shortest distance between two points. It's the change in position, not the total distance traveled.\n\n**Example:** An object moves from x₁ = 2 m to x₂ = 5 m. Its displacement is Δx = 5 m - 2 m = 3 m.",
-    categories: ["physics", "kinematics"],
-    inputVariables: ["x_1", "x_2"],
-    calculators: [
-      {
-        latex: "\\Delta x = x_2 - x_1",
-        preview: "Δx = x₂ - x₁",
-      },
-    ],
-  },
-  {
-    name: "Average Velocity",
-    description:
-      "Calculates the average velocity (v̄) of an object over a time interval (Δt).\n\n**Formula:** v̄ = Δx / Δt\n\n**Units:** v̄ is typically in meters per second (m/s), Δx is in meters (m), and Δt is in seconds (s).\n\n**Why it works:** Average velocity is the total displacement divided by the total time taken. It's a vector quantity.\n\n**Example:** An object moves 3 meters in 2 seconds. Its average velocity is v̄ = 3 m / 2 s = 1.5 m/s.",
-    categories: ["physics", "kinematics"],
-    inputVariables: ["x", "t"],
-    calculators: [
-      {
-        latex: "v = \\frac{x}{t}",
-        preview: "v̄ = Δx / Δt",
-      },
-    ],
-  },
-  {
-    name: "Average Acceleration",
-    description:
-      "Calculates the average acceleration (ā) of an object over a time interval (Δt).\n\n**Formula:** ā = Δv / Δt, where Δv is the change in velocity.\n\n**Units:** ā is typically in meters per second squared (m/s²), Δv is in meters per second (m/s), and Δt is in seconds (s).\n\n**Why it works:** Average acceleration is the change in velocity divided by the total time taken. It's a vector quantity.\n\n**Example:** An object's velocity changes from 2 m/s to 5 m/s in 1 second. Its average acceleration is ā = (5 m/s - 2 m/s) / 1 s = 3 m/s².",
-    categories: ["physics", "kinematics"],
-    inputVariables: ["Δv", "Δt"],
-    calculators: [
-      {
-        latex: "a = \\frac{v}{t}",
-        preview: "ā = Δv / Δt",
-      },
-    ],
-  },
+  
   {
     name: "Kinematic Equation 1",
     description:
@@ -636,45 +389,6 @@ export const formulas: Preset[] = [
     ],
   },
   {
-    name: "Compound Interest",
-    description:
-      "Calculates the future value (A) of an investment or loan, given the principal amount (P), interest rate (r), number of times interest is compounded per year (n), and the number of years (t).\n\n**Formula:** A = P(1 + r/n)^(nt)\n\n**Units:** A and P are in the same monetary unit (e.g., dollars, euros). r is an annual interest rate (as a decimal), n is a number (times per year), and t is in years.\n\n**Why it works:** Compound interest means that interest is earned not only on the principal but also on the accumulated interest from previous periods.\n\n**Example:** $1000 is invested at an annual interest rate of 5%, compounded quarterly (n=4) for 10 years.  A = 1000(1 + 0.05/4)^(4*10) ≈ $1647.01.",
-    categories: ["finance"],
-    inputVariables: ["P", "r", "n", "t"],
-    calculators: [
-      {
-        latex: "A = P(1 + \\frac{r}{n})^{nt}",
-        preview: "A = P(1 + r/n)^(nt)",
-      },
-    ],
-  },
-  {
-    name: "Present Value",
-    description:
-      "Calculates the present value (PV) of a future sum (FV), given the discount rate (r) and the number of periods (n).\n\n**Formula:** PV = FV / (1 + r)^n\n\n**Units:** PV and FV are in the same monetary unit. r is the discount rate per period (as a decimal), and n is the number of periods.\n\n**Why it works:** Present value is the current worth of a future sum of money, given a specified rate of return. It is used to compare cash flows occurring at different times.\n\n**Example:**  You need $1000 in 5 years. Assuming a discount rate of 6% per year, the present value is PV = 1000 / (1 + 0.06)^5 ≈ $747.26.",
-    categories: ["finance"],
-    inputVariables: ["F_{value}", "rate", "n"],
-    calculators: [
-      {
-        latex: "P_{value} = \\frac{F_{value}}{(1 + rate)^n}",
-        preview: "Present value = Future value / (1 + rate)ⁿ",
-      },
-    ],
-  },
-  {
-    name: "Future Value",
-    description:
-      "Calculates the future value (FV) of a present sum (PV), given the interest rate (r) and the number of periods (n).\n\n**Formula:** FV = PV * (1 + r)^n\n\n**Units:** FV and PV are in the same monetary unit. r is the interest rate per period (as a decimal), and n is the number of periods.\n\n**Why it works:** Future value is the value of a current asset at a specified date in the future, based on an assumed rate of growth over time.\n\n**Example:** You invest $500 today at an interest rate of 4% per year for 10 years. The future value is FV = 500 * (1 + 0.04)^10 ≈ $740.12.",
-    categories: ["finance"],
-    inputVariables: ["P_{value}", "rate", "n"],
-    calculators: [
-      {
-        latex: "F_{value} = P_{value} * (1 + rate)^n",
-        preview: "Future value = present value * (1 + rate)ⁿ",
-      },
-    ],
-  },
-  {
     name: "Density",
     description:
       "Calculates the density (ρ) of a substance given its mass (m) and volume (V).\n\n**Formula:** ρ = m/V\n\n**Units:** ρ is typically in kilograms per cubic meter (kg/m³) or grams per cubic centimeter (g/cm³), m is in kilograms (kg) or grams (g), and V is in cubic meters (m³) or cubic centimeters (cm³).\n\n**Why it works:** Density is a measure of how much mass is contained in a given volume. It's a property of matter that depends on both the mass of the atoms and their spacing.\n\n**Example:** A substance has a mass of 10 kg and a volume of 2 m³. Its density is ρ = 10 kg / 2 m³ = 5 kg/m³.",
@@ -753,70 +467,6 @@ export const formulas: Preset[] = [
       {
         latex: "f_{aliased} = |f_s - F|",
         preview: "frequency_aliased = |frequency_sample - frequency_actual|",
-      },
-    ],
-  },
-  {
-    name: "Finite Summation",
-    description:
-      "Computes the sum of an expression over an integer index range.\n\n**Syntax:** `\\sum_{i=start}^{end} expr`\n\n**How it works:** The index variable (here `i`) takes each integer value from `start` to `end` inclusive, the expression is evaluated at each step, and the results are accumulated.\n\n**Example:** The sum of the first 100 natural numbers: ∑_{i=1}^{100} i = 5050.",
-    categories: ["math", "calculus"],
-    inputVariables: [],
-    calculators: [
-      {
-        latex: "\\sum_{i=1}^{100}i",
-        preview: "∑_{i=1}^{100} i",
-      },
-    ],
-  },
-  {
-    name: "Sum of Squares",
-    description:
-      "Computes ∑_{i=1}^{n} i² — the sum of the first n perfect squares.\n\n**Closed form:** n(n+1)(2n+1) / 6\n\n**Example:** For n = 10, the sum is 385.",
-    categories: ["math", "calculus"],
-    inputVariables: ["n"],
-    calculators: [
-      {
-        latex: "n=10",
-        preview: "n = 10",
-      },
-      {
-        latex: "\\sum_{i=1}^{n}i^{2}",
-        preview: "∑_{i=1}^{n} i²",
-      },
-    ],
-  },
-  {
-    name: "Definite Integral",
-    description:
-      "Numerically evaluates a definite integral using composite Simpson's rule (1000 subintervals).\n\n**Syntax:** `\\int_{a}^{b} f(x) dx`\n\n**Notes:** The integration variable is inferred from the differential at the end (e.g. `dx`, `dt`). For products in the integrand, wrap them in parentheses: `\\int_0^1 (2x) dx`.\n\n**Example:** ∫₀¹ x² dx = 1/3 ≈ 0.3333…",
-    categories: ["math", "calculus"],
-    inputVariables: [],
-    calculators: [
-      {
-        latex: "\\int_{0}^{1}x^{2}dx",
-        preview: "∫₀¹ x² dx",
-      },
-    ],
-  },
-  {
-    name: "Area Under a Curve",
-    description:
-      "Computes the area between a curve and the x-axis over [a, b] using numerical integration.\n\n**Example:** The area under sin(x) from 0 to π equals 2.",
-    categories: ["math", "calculus"],
-    inputVariables: ["a", "b"],
-    calculators: [
-      {
-        latex: "a=0",
-        preview: "a = 0",
-      },
-      {
-        latex: "b=\\pi",
-        preview: "b = π",
-      },
-      {
-        latex: "\\int_{a}^{b}\\sin(x)dx",
-        preview: "∫_a^b sin(x) dx",
       },
     ],
   },
