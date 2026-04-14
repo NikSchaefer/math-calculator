@@ -130,7 +130,14 @@ const mathImport = {
   },
   // Return the angle (argument) of a complex number, respecting angle mode
   angle: (z: any) => {
-    const radians = math.arg(z);
+    // math.arg() on a Complex returns a plain JS number with 16 sig-digits,
+    // which exceeds mathjs's 15-digit BigNumber conversion limit and breaks any
+    // further BigNumber arithmetic. For complex inputs, use atan2 directly so
+    // the result is a full-precision BigNumber from the start.
+    const radians =
+      z && typeof z === "object" && "re" in z && "im" in z
+        ? math.atan2(math.bignumber(z.im), math.bignumber(z.re))
+        : math.arg(z);
     return config.angles === "deg"
       ? math.multiply(radians, math.divide(180, math.pi))
       : radians;
