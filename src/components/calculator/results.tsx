@@ -25,6 +25,7 @@ function ResultDisplay({
   isCutoffArray,
   formattedResult,
   fullArrayDisplay,
+  type,
 }: {
   showFraction: boolean;
   canShowFraction: boolean;
@@ -32,7 +33,16 @@ function ResultDisplay({
   isCutoffArray: boolean;
   formattedResult: string;
   fullArrayDisplay: string | null;
+  type: string;
 }) {
+  if (type === "function") {
+    return (
+      <div className="px-4 py-3 relative text-sm font-normal text-blue-400 italic">
+        {formattedResult}
+      </div>
+    );
+  }
+
   if (showFraction && canShowFraction && asFraction) {
     return (
       <FractionDisplay numerator={asFraction.n} denominator={asFraction.d} />
@@ -206,6 +216,7 @@ export function Result({ formattedResult, result, type }: EvalResult) {
                 isCutoffArray={isCutoffArray}
                 formattedResult={formattedResult}
                 fullArrayDisplay={fullArrayDisplay}
+                type={type}
               />
             )}
           </div>

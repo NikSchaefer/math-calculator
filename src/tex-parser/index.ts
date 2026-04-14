@@ -20,7 +20,7 @@ function parseTex(texStr: string, scope?: Scope) {
 function evaluateTex(texStr: string, scope?: Scope) {
     const root = parseTex(texStr, scope);
     const evaluated = root.evaluate(scope);
-    return { evaluated, scope };
+    return { evaluated, scope, root };
 }
 
 export { parseTex, evaluateTex };

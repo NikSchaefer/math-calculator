@@ -118,7 +118,7 @@ export function computeExpression(
 
     try {
         // Then we evaluate the input with the context
-        const { evaluated } = evaluateTex(latex, context);
+        const { evaluated, root } = evaluateTex(latex, context);
         const type = getTypeOfResult(evaluated);
         computedResult.type = type;
 
@@ -155,10 +155,17 @@ export function computeExpression(
                     evaluated as number
                 );
                 break;
-            case "function":
-                computedResult.formattedResult = "-";
+            case "function": {
+                const r = root as any;
+                if (r.isFunctionAssignmentNode) {
+                    const params: string[] = r.params;
+                    computedResult.formattedResult = `${r.name}(${params.join(", ")})`;
+                } else {
+                    computedResult.formattedResult = "function";
+                }
                 computedResult.result = null;
                 break;
+            }
         }
         return computedResult;
     } catch (error) {
