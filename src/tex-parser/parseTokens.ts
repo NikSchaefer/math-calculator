@@ -2,7 +2,7 @@
 import math from "./customMath";
 import ParseError from "./ParseError";
 import Token, { TokenType, typeToOperation, lexemeToType } from "./Token";
-import { SummationNode, IntegralNode } from "./specialNodes";
+import { SummationNode, IntegralNode, DerivativeNode } from "./specialNodes";
 
 /**
  * Create the corresponding MathJS node of a Token and its children.
@@ -568,9 +568,11 @@ class Parser {
       case TokenType.Opname:
         primary = this.nextCustomFunc();
         break;
-      case TokenType.Frac:
-        primary = this.nextFrac();
+      case TokenType.Frac: {
+        const derivInfo = this.peekDerivative();
+        primary = derivInfo ? this.nextDerivative(derivInfo) : this.nextFrac();
         break;
+      }
       case TokenType.Begin:
         // matrix is the only currently supported environnment: if more are added, another
         // token of lookahead would be required to know which environnment to parse
@@ -785,6 +787,84 @@ class Parser {
       denominator = this.nextExpression();
     }
     return createMathJSNode(frac, [numerator, denominator]);
+  }
+
+  /**
+   * Look ahead without consuming tokens to check whether the current position
+   * starts a Leibniz derivative prefix: \frac{d}{dX} or \frac{d^n}{dX^n}.
+   *
+   * Returns the differentiation variable, derivative order, and the number of
+   * tokens to skip to reach the body expression. Returns null if the pattern
+   * does not match.
+   */
+  peekDerivative(): { varName: string; order: number; tokensToSkip: number } | null {
+    let i = this.pos;
+    const t = this.tokens;
+
+    // Helper: read an integer exponent from position i, handling both `^n`
+    // (bare number) and `^{n}` (braced number, as MathQuill produces).
+    // Returns { order, nextI } on success, or null on failure.
+    const readExponent = (pos: number): { order: number; nextI: number } | null => {
+      if (t[pos]?.type !== TokenType.Caret) return null;
+      let j = pos + 1;
+      let braced = false;
+      if (t[j]?.type === TokenType.Lbrace) { braced = true; j++; }
+      if (t[j]?.type !== TokenType.Number) return null;
+      const n = Math.round(Number(t[j].lexeme));
+      j++;
+      if (braced) {
+        if (t[j]?.type !== TokenType.Rbrace) return null;
+        j++;
+      }
+      return { order: n, nextI: j };
+    };
+
+    // \frac
+    if (t[i]?.type !== TokenType.Frac) return null; i++;
+
+    // { numerator: d  or  d^n  or  d^{n} }
+    if (t[i]?.type !== TokenType.Lbrace) return null; i++;
+    if (t[i]?.type !== TokenType.Variable || t[i].lexeme !== "d") return null; i++;
+
+    let order = 1;
+    const numExp = readExponent(i);
+    if (numExp) {
+      order = numExp.order;
+      if (order < 1 || order > 10) return null;
+      i = numExp.nextI;
+    }
+
+    if (t[i]?.type !== TokenType.Rbrace) return null; i++;
+
+    // { denominator: dX  or  dX^n  or  dX^{n} }
+    if (t[i]?.type !== TokenType.Lbrace) return null; i++;
+    if (t[i]?.type !== TokenType.Variable || t[i].lexeme !== "d") return null; i++;
+    if (t[i]?.type !== TokenType.Variable) return null;
+    const varName = t[i].lexeme; i++;
+
+    if (order > 1) {
+      const denExp = readExponent(i);
+      if (!denExp || denExp.order !== order) return null;
+      i = denExp.nextI;
+    }
+
+    if (t[i]?.type !== TokenType.Rbrace) return null; i++;
+
+    return { varName, order, tokensToSkip: i - this.pos };
+  }
+
+  /**
+   * Consume a Leibniz derivative expression given the already-peeked info.
+   *
+   *   \frac{d}{dX} body
+   *   \frac{d^n}{dX^n} body
+   *
+   * Returns a DerivativeNode that symbolically differentiates `body` w.r.t. X.
+   */
+  nextDerivative(info: { varName: string; order: number; tokensToSkip: number }): math.MathNode {
+    for (let i = 0; i < info.tokensToSkip; i++) this.nextToken();
+    const [bodyNode] = this.nextArgument();
+    return new DerivativeNode(info.varName, bodyNode, info.order) as unknown as math.MathNode;
   }
 
   /**

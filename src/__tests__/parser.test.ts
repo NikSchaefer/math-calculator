@@ -254,6 +254,62 @@ describe("Greek letters", () => {
   });
 });
 
+// ─── Derivatives ─────────────────────────────────────────────────────────────
+
+describe("derivatives", () => {
+  test("d/dx of x² at x=3 = 6", () => {
+    const scope = { x: math.bignumber(3) };
+    expect(num(evaluateTex("\\frac{d}{dx}(x^{2})", scope).evaluated)).toBe(6);
+  });
+
+  test("d/dx of polynomial at x=1 = 3", () => {
+    // d/dx(x^3 + 2x) = 3x² + 2; at x=1 → 5
+    const scope = { x: math.bignumber(1) };
+    expect(num(evaluateTex("\\frac{d}{dx}(x^{3}+2x)", scope).evaluated)).toBe(5);
+  });
+
+  test("d/dx of sin(x) at x=0 = 1", () => {
+    const scope = { x: math.bignumber(0) };
+    expect(num(evaluateTex("\\frac{d}{dx}\\sin(x)", scope).evaluated)).toBeCloseTo(1, 10);
+  });
+
+  test("d/dx of e^x at x=0 = 1", () => {
+    const scope = { x: math.bignumber(0) };
+    expect(num(evaluateTex("\\frac{d}{dx}(e^{x})", scope).evaluated)).toBeCloseTo(1, 10);
+  });
+
+  test("d/dx of constant = 0", () => {
+    const scope = { x: math.bignumber(5) };
+    expect(num(evaluateTex("\\frac{d}{dx}(7)", scope).evaluated)).toBe(0);
+  });
+
+  test("second derivative d²/dx² of x³ at x=2 = 12", () => {
+    const scope = { x: math.bignumber(2) };
+    expect(num(evaluateTex("\\frac{d^{2}}{dx^{2}}(x^{3})", scope).evaluated)).toBe(12);
+  });
+
+  test("second derivative of sin(x) at x=0 = 0", () => {
+    const scope = { x: math.bignumber(0) };
+    expect(num(evaluateTex("\\frac{d^{2}}{dx^{2}}\\sin(x)", scope).evaluated)).toBeCloseTo(0, 10);
+  });
+
+  test("derivative w.r.t. different variable", () => {
+    // d/dt(3t²) at t=4 = 6t = 24
+    const scope = { t: math.bignumber(4) };
+    expect(num(evaluateTex("\\frac{d}{dt}(3t^{2})", scope).evaluated)).toBe(24);
+  });
+
+  test("result is BigNumber (no >15-digit conversion error)", () => {
+    const scope = { x: math.bignumber(1) };
+    const result = evaluateTex("\\frac{d}{dx}(x^{2})", scope).evaluated;
+    expect(() => math.multiply(result, math.bignumber(2))).not.toThrow();
+  });
+
+  test("regular \\frac still works (not mistaken for derivative)", () => {
+    expect(num(evaluateTex("\\frac{1}{4}").evaluated)).toBeCloseTo(0.25, 10);
+  });
+});
+
 // ─── Error handling ──────────────────────────────────────────────────────────
 
 describe("error handling", () => {

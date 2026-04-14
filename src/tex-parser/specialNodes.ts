@@ -180,3 +180,55 @@ export class IntegralNode {
 }
 
 registerAsNode(IntegralNode);
+
+// ---------------------------------------------------------------------------
+// DerivativeNode  d^n/dX^n body
+// Computes an nth-order symbolic derivative using mathjs's derivative()
+// function, then evaluates the result against the provided scope.
+// ---------------------------------------------------------------------------
+
+export class DerivativeNode {
+  type = "DerivativeNode";
+  varName: string;
+  bodyNode: any;
+  order: number;
+
+  constructor(varName: string, bodyNode: any, order = 1) {
+    this.varName = varName;
+    this.bodyNode = bodyNode;
+    this.order = order;
+  }
+
+  /**
+   * Symbolically differentiate `bodyNode` w.r.t. `varName` `order` times,
+   * then compile and evaluate the resulting node against the runtime scope.
+   */
+  _compile(mathArg: any, argNames: any): (scope: any, args: any, ctx: any) => any {
+    const { varName, bodyNode, order } = this;
+
+    return (scope: any, args: any, ctx: any) => {
+      let node = bodyNode;
+      for (let i = 0; i < order; i++) {
+        node = math.derivative(node, varName);
+      }
+      return node._compile(mathArg, argNames)(scope, args, ctx);
+    };
+  }
+
+  /** Direct evaluation (used when this node is the root of an expression). */
+  evaluate(scope: Record<string, any> = {}): any {
+    return this._compile(math, new Set())(toMap(scope), null, null);
+  }
+
+  forEach(_cb: any): void {}
+  map(_cb: any): this { return Object.assign(Object.create(Object.getPrototypeOf(this)), this); }
+  clone(): this { return Object.assign(Object.create(Object.getPrototypeOf(this)), this); }
+  toString(): string { return `[DerivativeNode d^${this.order}/d${this.varName}^${this.order}]`; }
+  toTex(): string {
+    return this.order === 1
+      ? `\\frac{d}{d${this.varName}}`
+      : `\\frac{d^{${this.order}}}{d${this.varName}^{${this.order}}}`;
+  }
+}
+
+registerAsNode(DerivativeNode);
