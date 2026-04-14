@@ -60,7 +60,7 @@ export function formatNumberResult(num: number): string {
   if (computed === 0) return "0";
 
   // For very small or large numbers, use scientific notation
-  if (Math.abs(computed) < 1e-8 || Math.abs(computed) > 1e8) {
+  if (Math.abs(computed) < 1e-4 || Math.abs(computed) > 1e5) {
     const length = Math.min(computed.toString().length, PRECISION);
     if (length === PRECISION) {
       return Number(computed.toPrecision(length)).toExponential();

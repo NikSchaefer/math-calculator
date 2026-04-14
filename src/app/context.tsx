@@ -82,13 +82,12 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
       return acc;
     }, {} as Context);
 
-    // Convert constants to BigNumbers via string to avoid the >15 sig-digit implicit
-    // conversion error when plain JS floats (e.g. 4*PI*1e-7) are used in BigNumber expressions.
-    const bigNumberConstants = Object.fromEntries(
+    // Convert constants to BigNumbers
+    const bigNumberConstants: Context = Object.fromEntries(
       Object.entries(constants).map(([k, v]) => [k, math.bignumber(String(v))]),
     );
 
-    // Combine context with our universal constants, with context taking precedence
+    // Combine universal constants, with context taking precedence
     const combinedContext = {
       ...bigNumberConstants,
       ...context,

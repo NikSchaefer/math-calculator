@@ -1,28 +1,30 @@
+import { BigNumber } from "mathjs";
+
 export type ComplexNumber = {
     re: number;
     im: number;
 };
 
-export type Context = Record<string, number | ComplexNumber>;
+export type Context = Record<string, number | ComplexNumber | BigNumber>;
 
 export type Variable = {
     id: string;
     name: string;
-    value: number | ComplexNumber;
+    value: number | ComplexNumber | BigNumber;
     description?: string;
 };
 
 export type PresetVariable = {
     name: string;
     variable: string;
-    value: number | ComplexNumber;
+    value: number | ComplexNumber | BigNumber;
     description: string;
 };
 
 export type EvalType = "complex" | "number" | "matrix" | "array" | "function" | "error";
 
 export type EvalResult = {
-    result: number | ComplexNumber | Array<unknown> | null;
+    result: number | ComplexNumber | BigNumber | Array<unknown> | null;
     formattedResult: string;
     type: EvalType;
     variables: Variable[];
