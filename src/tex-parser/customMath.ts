@@ -36,22 +36,36 @@ trigFunctions.forEach((name) => {
 // Import the replacements second
 math.import(replacements, { override: true });
 
-function arcTrigTyped(name: string, func: any) {
+// Build a degree-aware typed inverse-trig function.
+// transform (optional): called with the BigNumber input before passing to fn.
+// Used by arccot/arccsc/arcsec to compute 1/x without plain-JS float division,
+// which would produce >15 significant digits and break BigNumber arithmetic.
+function arcTrigTyped(name: string, fn: any, transform?: (x: any) => any) {
   const compute = (x: any) => {
-    const result = func(math.bignumber(x));
-    // Convert result from radians to degrees if in deg mode
+    const bx = math.bignumber(x);
+    const input = transform ? transform(bx) : bx;
+    const result = fn(input);
     return config.angles === "deg"
       ? math.multiply(result, math.divide(180, math.pi))
       : result;
   };
 
-  const typed = math.typed(name, {
+  return math.typed(name, {
     "number | BigNumber": (x: any) => compute(x),
-    "Array | Matrix": (x: any) => math.map(x, (x: any) => compute(x)),
+    "Array | Matrix": (x: any) => math.map(x, (xi: any) => compute(xi)),
   });
-
-  return typed;
 }
+
+// Reciprocal via BigNumber division (1/x) — avoids >15 sig-digit plain floats.
+const reciprocal = (x: any) => math.divide(math.bignumber(1), x);
+
+// Pre-built at module init so math.typed() is not reconstructed on every call.
+const _arcsin = arcTrigTyped("arcsin", math.asin);
+const _arccos = arcTrigTyped("arccos", math.acos);
+const _arctan = arcTrigTyped("arctan", math.atan);
+const _arccot = arcTrigTyped("arccot", math.atan, reciprocal);
+const _arccsc = arcTrigTyped("arccsc", math.asin, reciprocal);
+const _arcsec = arcTrigTyped("arcsec", math.acos, reciprocal);
 
 // Additional functions to be passed to the scope of math.evaluate(scope)
 // (not defined in mathjs)
@@ -111,9 +125,12 @@ const mathImport = {
   },
   // Calculate the magnitude of a vector or complex number
   mag: (...args: any[]) => {
+    // Use BigNumber arithmetic throughout to avoid plain-JS floats with >15
+    // significant digits, which break subsequent BigNumber expressions.
+    const sq = (x: any) => math.pow(math.bignumber(x), 2);
     if (args.length === 1 && "re" in args[0] && "im" in args[0]) {
       // Handle complex number input: |z| = sqrt(re² + im²)
-      return math.abs(args[0]);
+      return math.sqrt(math.add(sq(args[0].re), sq(args[0].im)) as any);
     } else if (args.length === 1 && "toArray" in args[0]) {
       // Handle matrix input
       const matrix = args[0];
@@ -121,11 +138,13 @@ const mathImport = {
         matrix
           .toArray()
           .flat()
-          .reduce((a: any, b: any) => a + b ** 2, 0),
+          .reduce((a: any, b: any) => math.add(a, sq(b)), math.bignumber(0)),
       );
     } else {
       // Handle multiple number inputs
-      return math.sqrt(args.reduce((a: any, b: any) => a + b ** 2, 0));
+      return math.sqrt(
+        args.reduce((a: any, b: any) => math.add(a, sq(b)), math.bignumber(0)),
+      );
     }
   },
   // Return the angle (argument) of a complex number, respecting angle mode
@@ -146,12 +165,12 @@ const mathImport = {
   real: (z: any) => math.re(z),
   // Return the imaginary part of a complex number (0 if real)
   imag: (z: any) => math.im(z),
-  arcsin: (x: number) => arcTrigTyped("arcsin", math.asin)(x),
-  arccos: (x: number) => arcTrigTyped("arccos", math.acos)(x),
-  arctan: (x: number) => arcTrigTyped("arctan", math.atan)(x),
-  arccot: (x: number) => arcTrigTyped("arccot", math.atan)(1 / x),
-  arccsc: (x: number) => arcTrigTyped("arccsc", math.asin)(1 / x),
-  arcsec: (x: number) => arcTrigTyped("arcsec", math.acos)(1 / x),
+  arcsin: _arcsin,
+  arccos: _arccos,
+  arctan: _arctan,
+  arccot: _arccot,
+  arccsc: _arccsc,
+  arcsec: _arcsec,
   // 0-based array/matrix element access: get(arr, index)
   get: (arr: any, index: any) => {
     const i = Number(index);

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IS_DEBUG } from "@/config";
 import { prepareTokens } from "./prepareTokens";
 import Token, { TokenType, lexemeToType } from "./Token";
 
@@ -95,7 +96,7 @@ export default function tokenizeTex(latex: string) {
     if (isControl(c)) {
       throw new LexError(
         "invalid control sequence encountered " +
-          "(forgot to escape backslashes (\\begin => \\\\begin)?",
+        "(forgot to escape backslashes (\\begin => \\\\begin)?",
         i,
       );
     }
@@ -123,7 +124,7 @@ export default function tokenizeTex(latex: string) {
           // or the command is malformed
           throw new LexError(
             "expected command " +
-              "(a non-alphabetic character was encountered)",
+            "(a non-alphabetic character was encountered)",
             i,
           );
         } else {
@@ -181,7 +182,9 @@ export default function tokenizeTex(latex: string) {
     // ignore space characters
     if (type !== TokenType.Space) {
       tokens.push(new Token(lexeme, type, i));
-      console.log(`Tokenized: ${lexeme} (type: ${type}) at pos ${i}`);
+      if (IS_DEBUG) {
+        console.log(`Tokenized: ${lexeme} (type: ${type}) at pos ${i}`);
+      }
     }
     i += lexeme.length;
   }

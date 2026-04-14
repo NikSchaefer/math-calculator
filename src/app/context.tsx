@@ -45,7 +45,15 @@ const CalculatorContext = createContext<CalculatorContextType | undefined>(
 
 export function CalculatorProvider({ children }: { children: ReactNode }) {
   const [commandOpen, setCommandOpen] = useState(false);
-  const [angleMode, setAngleMode] = useState<"deg" | "rad">("rad");
+  const [angleMode, _setAngleMode] = useState<"deg" | "rad">("rad");
+
+  const setAngleMode = useCallback((mode: "deg" | "rad") => {
+    // Keep the math engine in sync immediately so the useMemo that runs
+    // right after the state update sees the correct angle mode.
+    // @ts-expect-error this is a custom function
+    math.setAngleMode(mode);
+    _setAngleMode(mode);
+  }, []);
 
   const [selectedId, setSelectedId] = useState<string>(generateId());
   const [calculators, setCalculators] = useState<Calculator[]>([
@@ -54,9 +62,6 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
 
   // Two-pass calculation system
   const { computedCalculators, combinedContext } = useMemo(() => {
-    // Set the math angle mode whenever it changes
-    // @ts-expect-error this is a custom function
-    math.setAngleMode(angleMode);
 
     // First pass: Calculate all expressions to identify variables
     const firstPass = calculators.map((c) => computeCalculator(c));

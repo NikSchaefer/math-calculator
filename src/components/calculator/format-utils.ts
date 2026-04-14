@@ -1,27 +1,18 @@
 import { MAX_ARRAY_LENGTH } from "@/config";
 import { ComplexNumber, EvalType } from "@/types";
-import { Matrix } from "mathjs";
+import { Matrix, isBigNumber } from "mathjs";
 
 const PRECISION = 4;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getTypeOfResult(evaluated: any): EvalType {
-  if (typeof evaluated === "function") {
-    return "function";
-  }
-
-  if (Array.isArray(evaluated)) {
-    return "array";
-  }
-
-  if (typeof evaluated === "object" && "im" in evaluated && "re" in evaluated) {
-    return "complex";
-  }
-
-  if (typeof evaluated === "object" && "_data" in evaluated) {
-    return "matrix";
-  }
-
+  if (typeof evaluated === "function") return "function";
+  if (Array.isArray(evaluated)) return "array";
+  if (typeof evaluated === "object" && "im" in evaluated && "re" in evaluated) return "complex";
+  if (typeof evaluated === "object" && "_data" in evaluated) return "matrix";
+  // BigNumbers (decimal.js objects) are numeric results; explicit guard here
+  // makes the intent clear rather than relying on the fall-through default.
+  if (isBigNumber(evaluated)) return "number";
   return "number";
 }
 
