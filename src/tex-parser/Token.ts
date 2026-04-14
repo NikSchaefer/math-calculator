@@ -150,6 +150,8 @@ export const lexemeToType: { [key: string]: TokenType } = {
   "\\kappa": TokenType.Kappa,
   "\\lambda": TokenType.Lambda,
   "\\mu": TokenType.Mu,
+  "\\nu": TokenType.Nu,
+  "\\xi": TokenType.Xi,
   "\\begin": TokenType.Begin,
   "\\end": TokenType.End,
   "\\left": TokenType.Left,

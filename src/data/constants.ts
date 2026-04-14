@@ -45,14 +45,14 @@ export const constantsAsArray: PresetVariable[] = [
   },
   {
     name: "Permittivity of free space",
-    variable: "ε_0",
+    variable: "\\epsilon_0",
     value: 8.854187817e-12,
     description:
       "A constant that relates the electric field to electric displacement in a vacuum. It's a fundamental constant in electromagnetism. Units are Farads per meter (F/m).",
   },
   {
     name: "Permeability of free space",
-    variable: "μ_0",
+    variable: "\\mu_0",
     value: 4 * Math.PI * 1e-7, // 4π × 10⁻⁷
     description:
       "A constant that relates the magnetic field to magnetic flux density in a vacuum. It's a fundamental constant in electromagnetism. Units are Henrys per meter (H/m) or Tesla-meters per ampere (T⋅m/A).",

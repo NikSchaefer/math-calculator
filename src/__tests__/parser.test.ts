@@ -215,6 +215,45 @@ describe("scalar variable followed by parentheses", () => {
   });
 });
 
+// ─── Greek letters ───────────────────────────────────────────────────────────
+
+describe("Greek letters", () => {
+  test("\\mu used as variable", () => {
+    const scope = { "\\mu": math.bignumber(3) };
+    expect(num(evaluateTex("\\mu", scope).evaluated)).toBe(3);
+  });
+
+  test("\\mu in expression", () => {
+    const scope = { "\\mu": math.bignumber(4) };
+    expect(num(evaluateTex("2\\mu", scope).evaluated)).toBe(8);
+  });
+
+  test("\\alpha used as variable", () => {
+    const scope = { "\\alpha": math.bignumber(5) };
+    expect(num(evaluateTex("\\alpha", scope).evaluated)).toBe(5);
+  });
+
+  test("\\lambda used as variable", () => {
+    const scope = { "\\lambda": math.bignumber(2) };
+    expect(num(evaluateTex("\\lambda+1", scope).evaluated)).toBe(3);
+  });
+
+  test("\\omega used as variable", () => {
+    const scope = { "\\omega": math.bignumber(7) };
+    expect(num(evaluateTex("\\omega^{2}", scope).evaluated)).toBe(49);
+  });
+
+  test("\\nu used as variable", () => {
+    const scope = { "\\nu": math.bignumber(6) };
+    expect(num(evaluateTex("\\nu", scope).evaluated)).toBe(6);
+  });
+
+  test("\\xi used as variable", () => {
+    const scope = { "\\xi": math.bignumber(9) };
+    expect(num(evaluateTex("\\xi", scope).evaluated)).toBe(9);
+  });
+});
+
 // ─── Error handling ──────────────────────────────────────────────────────────
 
 describe("error handling", () => {

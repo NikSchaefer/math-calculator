@@ -99,6 +99,11 @@ function createMathJSNode(
     case TokenType.Zeta:
     case TokenType.Theta:
     case TokenType.Iota:
+    case TokenType.Kappa:
+    case TokenType.Lambda:
+    case TokenType.Mu:
+    case TokenType.Nu:
+    case TokenType.Xi:
     case TokenType.Ans:
       // console.log("VARIABLE NODE - ANS");
       return new (math as any).SymbolNode(token.lexeme);
@@ -457,7 +462,21 @@ class Parser {
       case TokenType.Variable:
       case TokenType.Pi:
       case TokenType.E:
-      case TokenType.T: {
+      case TokenType.T:
+      case TokenType.Omega:
+      case TokenType.Alpha:
+      case TokenType.Beta:
+      case TokenType.Gamma:
+      case TokenType.Delta:
+      case TokenType.Epsilon:
+      case TokenType.Zeta:
+      case TokenType.Theta:
+      case TokenType.Iota:
+      case TokenType.Kappa:
+      case TokenType.Lambda:
+      case TokenType.Mu:
+      case TokenType.Nu:
+      case TokenType.Xi: {
         const tok = this.nextToken();
         primary = createMathJSNode(tok);
         // Check for underscore after variable
