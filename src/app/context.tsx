@@ -133,7 +133,9 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
   };
 
   const exportCalculations = () => {
-    toast.success(JSON.stringify(calculators));
+    const latex = calculators.map((c) => c.latex).join("\n");
+    navigator.clipboard.writeText(latex);
+    toast.success("LaTeX copied to clipboard");
   };
 
   function resetCalculator() {

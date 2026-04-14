@@ -168,6 +168,7 @@ export const lexemeToType: { [key: string]: TokenType } = {
   inv: TokenType.Inv,
   mean: TokenType.Mean,
   median: TokenType.Median,
+  mode: TokenType.Mode,
   sort: TokenType.Sort,
   _: TokenType.Underscore,
   std: TokenType.Std,

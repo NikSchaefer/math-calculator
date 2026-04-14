@@ -171,6 +171,24 @@ const mathImport = {
   arccot: _arccot,
   arccsc: _arccsc,
   arcsec: _arcsec,
+  // Standard deviation — handles variadic args or a single array/matrix input
+  std: (...args: any[]) => {
+    if (args.length === 1 && "toArray" in args[0]) {
+      return math.std(args[0].toArray().flat());
+    } else if (args.length === 1 && Array.isArray(args[0])) {
+      return math.std(args[0]);
+    }
+    return math.std(args);
+  },
+  // Mode — handles variadic args or a single array/matrix input
+  mode: (...args: any[]) => {
+    if (args.length === 1 && "toArray" in args[0]) {
+      return math.mode(args[0].toArray().flat());
+    } else if (args.length === 1 && Array.isArray(args[0])) {
+      return math.mode(args[0]);
+    }
+    return math.mode(args);
+  },
   // 0-based array/matrix element access: get(arr, index)
   get: (arr: any, index: any) => {
     const i = Number(index);

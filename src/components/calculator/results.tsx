@@ -3,12 +3,20 @@ import math from "@/tex-parser/customMath";
 import { FractionDisplay } from "./results/fraction-display";
 import { ArrayTooltip } from "./results/tooltip";
 import { useMemo } from "react";
-import { EvalResult } from "@/types";
+import { ComplexNumber, EvalResult } from "@/types";
 import { SquareDivide } from "lucide-react";
 import { useState } from "react";
 import { MAX_ARRAY_LENGTH } from "@/config";
 import { motion } from "motion/react";
 import { Copy } from "../copy";
+import { formatPhasorComplex } from "./format-utils";
+import { useCalculator } from "@/app/context";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function ResultDisplay({
   showFraction,
@@ -64,7 +72,15 @@ export function CompileResults({ results }: { results: EvalResult[] }) {
 }
 
 export function Result({ formattedResult, result, type }: EvalResult) {
+  const { angleMode } = useCalculator();
   const [showFraction, setShowFraction] = useState(false);
+  const [showPhasor, setShowPhasor] = useState(false);
+
+  const canShowPhasor = type === "complex";
+  const phasorDisplay = useMemo(() => {
+    if (!canShowPhasor || !result || typeof result !== "object" || Array.isArray(result)) return null;
+    return formatPhasorComplex(result as ComplexNumber, angleMode);
+  }, [canShowPhasor, result, angleMode]);
 
   const { asFraction, canShowFraction } = useMemo(() => {
     try {
@@ -112,13 +128,18 @@ export function Result({ formattedResult, result, type }: EvalResult) {
       }
       return `${asFraction.n}/${asFraction.d}`;
     }
+    if (showPhasor && canShowPhasor && phasorDisplay) {
+      return phasorDisplay;
+    }
     return formattedResult;
   }, [
     result,
     showFraction,
     canShowFraction,
     asFraction,
-    type,
+    showPhasor,
+    canShowPhasor,
+    phasorDisplay,
     formattedResult,
   ]);
 
@@ -131,6 +152,33 @@ export function Result({ formattedResult, result, type }: EvalResult) {
     if (!Array.isArray(result)) return null;
     return result.join(", ");
   }, [result]);
+
+  if (type === "error" && formattedResult) {
+    return (
+      <motion.div
+        className="flex items-center gap-4 p-0.5"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.2, delay: 0.1 }}
+      >
+        <span className="text-xl text-gray-400">=</span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="bg-red-50 rounded-xl min-w-[120px] text-center cursor-default">
+                <div className="p-4 text-xl font-semibold text-red-500">
+                  Error
+                </div>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-[320px]">
+              <p className="text-sm">{formattedResult}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -146,16 +194,20 @@ export function Result({ formattedResult, result, type }: EvalResult) {
           className="bg-blue-50 rounded-xl min-w-[120px] text-center relative cursor-pointer hover:bg-blue-100 transition-colors"
         >
           <div className="text-xl font-semibold text-blue-800 whitespace-nowrap select-text">
-            <ResultDisplay
-              showFraction={showFraction}
-              canShowFraction={canShowFraction}
-              asFraction={
-                Array.isArray(asFraction) ? asFraction[0] : asFraction
-              }
-              isCutoffArray={isCutoffArray}
-              formattedResult={formattedResult}
-              fullArrayDisplay={fullArrayDisplay}
-            />
+            {showPhasor && canShowPhasor && phasorDisplay ? (
+              <div className="p-4 relative">{phasorDisplay}</div>
+            ) : (
+              <ResultDisplay
+                showFraction={showFraction}
+                canShowFraction={canShowFraction}
+                asFraction={
+                  Array.isArray(asFraction) ? asFraction[0] : asFraction
+                }
+                isCutoffArray={isCutoffArray}
+                formattedResult={formattedResult}
+                fullArrayDisplay={fullArrayDisplay}
+              />
+            )}
           </div>
         </Copy>
         {canShowFraction && (
@@ -167,6 +219,17 @@ export function Result({ formattedResult, result, type }: EvalResult) {
             }}
           >
             <SquareDivide className="w-4 h-4" />
+          </button>
+        )}
+        {canShowPhasor && (
+          <button
+            className="absolute -right-0 translate-x-1/2 top-1/2 -translate-y-1/2 bg-blue-200 rounded-full p-1 hover:bg-blue-300 transition-colors font-semibold text-sm leading-none"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowPhasor(!showPhasor);
+            }}
+          >
+            ∠
           </button>
         )}
       </div>

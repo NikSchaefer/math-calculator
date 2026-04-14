@@ -100,6 +100,20 @@ export function formatComplexNumber({ re, im }: ComplexNumber): string {
   return `${formattedRe}${imSign}${formattedIm}i`;
 }
 
+export function formatPhasorComplex(
+  { re, im }: ComplexNumber,
+  angleMode: "deg" | "rad",
+): string {
+  const computed = computeComplexNumberResult({ re, im });
+  const r = Math.sqrt(computed.re ** 2 + computed.im ** 2);
+  const thetaRad = Math.atan2(computed.im, computed.re);
+  const theta = angleMode === "deg" ? thetaRad * (180 / Math.PI) : thetaRad;
+  const formattedR = formatNumberResult(r);
+  const formattedTheta = formatNumberResult(theta);
+  const suffix = angleMode === "deg" ? "°" : " rad";
+  return `${formattedR}∠${formattedTheta}${suffix}`;
+}
+
 export function formatMatrixResult(matrix: Matrix): string {
   const array = matrix.toArray();
   if (array.length > MAX_ARRAY_LENGTH) {

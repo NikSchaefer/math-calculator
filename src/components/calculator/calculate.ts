@@ -20,6 +20,40 @@ import {
 } from "./format-utils";
 import { Matrix } from "mathjs";
 
+function friendlyError(error: unknown): string {
+    if (!(error instanceof Error)) return "Error";
+    const msg = error.message;
+
+    // Our custom parser errors: "lexeme at pos: description"
+    if (error.name === "ParseError") {
+        const match = msg.match(/.+ at \d+:\s*(.+)/);
+        return match ? `Syntax: ${match[1]}` : "Syntax error";
+    }
+
+    if (/undefined symbol/i.test(msg)) {
+        const sym = msg.match(/undefined symbol\s+(\S+)/i)?.[1];
+        return sym ? `'${sym}' is not defined` : "Undefined variable";
+    }
+
+    if (/divide by zero|division by zero/i.test(msg)) {
+        return "Division by zero";
+    }
+
+    if (/dimension mismatch/i.test(msg)) {
+        return "Matrix size mismatch";
+    }
+
+    if (/unexpected type/i.test(msg)) {
+        return "Wrong argument type";
+    }
+
+    if (/out of bounds/i.test(msg)) {
+        return msg;
+    }
+
+    return msg.length > 60 ? msg.slice(0, 57) + "…" : msg;
+}
+
 function extractVariables(scope: Context): Variable[] {
     if (!scope || scope.length === 0) return [];
     const keys = Object.keys(scope);
@@ -131,7 +165,7 @@ export function computeExpression(
         console.log(error);
         return {
             ...computedResult,
-            formattedResult: "Error",
+            formattedResult: friendlyError(error),
             result: null,
             type: "error",
         };
