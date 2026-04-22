@@ -18,6 +18,9 @@ An opinionated and modern scientific calculator.
 
 ## Roadmap
 
+- [ ] Unit mode
+- [ ] Local storage save data
+- [ ] Hex/binary conversion
 - [ ] Comments
 - [ ] N-th root
 - [ ] Summations
@@ -26,7 +29,7 @@ An opinionated and modern scientific calculator.
 - [ ] Toggles to hide/show inputs
 - [ ] Comparison operators >,<,=
 - [ ] Save custom formulas
-- [ ] Solve quadratic formulas
+- [ ] Solve roots
 - [ ] AI integration
 
 ## License
