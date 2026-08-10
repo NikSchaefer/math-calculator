@@ -7,6 +7,7 @@ import {
   ReactNode,
   useMemo,
   useCallback,
+  useEffect,
 } from "react";
 import {
   Calculator,
@@ -29,6 +30,7 @@ interface CalculatorContextType {
   selectedId: string;
   setSelectedId: (id: string) => void;
   updateCalculator: (id: string, latex: string) => void;
+  insertCalculatorAfter: (id: string) => void;
   deleteCalculator: (id: string) => void;
   exportCalculations: () => void;
   resetCalculator: () => void;
@@ -117,6 +119,22 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const insertCalculatorAfter = (id: string) => {
+    const newId = generateId();
+    const index = calculators.findIndex((c) => c.id === id);
+
+    setCalculators(
+      index === -1
+        ? [...calculators, { id: newId, latex: "" }]
+        : [
+            ...calculators.slice(0, index + 1),
+            { id: newId, latex: "" },
+            ...calculators.slice(index + 1),
+          ],
+    );
+    setSelectedId(newId);
+  };
+
   const deleteCalculator = (id: string) => {
     if (calculators.length === 1) return;
     const index = calculators.findIndex((c) => c.id === id);
@@ -141,6 +159,27 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
     setCalculators([{ id: firstId, latex: "" }]);
     setSelectedId(firstId!);
   }
+
+  // Single source of truth for app-wide keyboard shortcuts (⌘K command menu,
+  // ⌘J reset, ⌘U angle mode toggle). Row-level shortcuts (Enter/Backspace/
+  // ⌘Delete) stay on the MathQuill field's own onKeyDown, since MathQuill
+  // needs to see those keystrokes before they'd reach a window listener.
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey)) return;
+
+      if (e.key === "k") {
+        e.preventDefault();
+        setCommandOpen(!commandOpen);
+      } else if (e.key === "j") {
+        resetCalculator();
+      } else if (e.key === "u") {
+        setAngleMode(angleMode === "deg" ? "rad" : "deg");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [commandOpen, angleMode, setAngleMode, resetCalculator]);
 
   const onUseItem = useCallback(
     (item: Preset | PresetVariable | null) => {
@@ -208,6 +247,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
         setSelectedId,
         computedCalculators,
         updateCalculator,
+        insertCalculatorAfter,
         deleteCalculator,
         exportCalculations,
         resetCalculator,

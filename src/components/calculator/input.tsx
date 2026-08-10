@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { MathField } from "react-mathquill";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useRef, useEffect } from "react";
 
 const EditableMathField = dynamic(

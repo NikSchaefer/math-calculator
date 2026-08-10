@@ -1,12 +1,10 @@
 "use client";
 import { MathField } from "react-mathquill";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ComputedCalculator } from "@/types";
 import { useCalculator } from "../../app/context";
 import { MathInput } from "./input";
 import { CompileResults } from "./results";
-import { generateId } from "@/lib/utils";
 
 export function Calculator({
   calculator: computed,
@@ -16,14 +14,12 @@ export function Calculator({
   const {
     deleteCalculator,
     updateCalculator,
+    insertCalculatorAfter,
     selectedId,
     setSelectedId,
-    calculators,
-    setCalculators,
   } = useCalculator();
 
   const isSelected = selectedId === computed.id;
-  const [wasEmpty, setWasEmpty] = useState(true);
 
   const clearInput = () => {
     updateCalculator(computed.id!, "");
@@ -34,25 +30,11 @@ export function Calculator({
       clearInput();
     } else if (
       (e.key === "Backspace" || e.key === "Delete") &&
-      wasEmpty // Only delete if it was already empty before this keypress
+      computed.latex === "" // Only delete if the row was already empty before this keypress
     ) {
       deleteCalculator(computed.id!);
     } else if (e.key === "Enter") {
-      const newId = generateId();
-
-      // Insert it after the selected calculator, if available
-      const index = calculators.findIndex((c) => c.id === selectedId);
-      if (index !== -1) {
-        setCalculators([
-          ...calculators.slice(0, index + 1),
-          { id: newId, latex: "" },
-          ...calculators.slice(index + 1),
-        ]);
-      } else {
-        setCalculators([...calculators, { id: newId, latex: "" }]);
-      }
-
-      setSelectedId(newId);
+      insertCalculatorAfter(computed.id!);
     }
   };
 
@@ -61,10 +43,6 @@ export function Calculator({
     const newLatex = mathField.latex();
     updateCalculator(computed.id!, newLatex);
   };
-
-  useEffect(() => {
-    setWasEmpty(computed.latex === "");
-  }, [computed.latex]);
 
   return (
     <motion.div

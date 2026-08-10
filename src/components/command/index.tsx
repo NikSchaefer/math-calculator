@@ -69,18 +69,11 @@ export function CommandMenu() {
     [setCommandOpen, showInfo, search]
   );
 
+  // Reset the info view whenever the command menu closes, regardless of how
+  // it was closed (⌘K, Escape, or clicking outside).
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const hasCommandKey = e.metaKey || e.ctrlKey;
-      if (e.key === "k" && hasCommandKey) {
-        e.preventDefault();
-        setCommandOpen(!commandOpen);
-        setShowInfo(false); // Reset info view when closing
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [commandOpen, onUseItem, selectedItem, setCommandOpen, showInfo]);
+    if (!commandOpen) setShowInfo(false);
+  }, [commandOpen]);
 
   return (
     <CommandDialog

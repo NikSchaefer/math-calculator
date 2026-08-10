@@ -2,35 +2,19 @@
 
 import { Calculator } from "@/components/calculator";
 import { useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { CommandMenu } from "@/components/command";
 import { useCalculator } from "./context";
 import { CalculatorControls } from "./_content/controls";
 
 export default function Home() {
-  const { computedCalculators, resetCalculator, angleMode, setAngleMode } =
-    useCalculator();
+  const { computedCalculators } = useCalculator();
 
   useEffect(() => {
     import("react-mathquill").then((mathquill) => {
       mathquill.addStyles();
     });
   }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "j" && (event.metaKey || event.ctrlKey)) {
-        resetCalculator();
-      }
-      if (event.key === "u" && (event.metaKey || event.ctrlKey)) {
-        setAngleMode(angleMode === "deg" ? "rad" : "deg");
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [resetCalculator, angleMode, setAngleMode]);
 
   return (
     <motion.main

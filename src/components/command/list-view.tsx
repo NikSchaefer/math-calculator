@@ -48,7 +48,6 @@ export default function CommandListView({
               className="flex justify-between items-center"
               key={preset.name}
               onSelect={() => onSelectItem(preset)}
-              onClick={() => onSelectItem(preset)}
             >
               <span className="flex items-center gap-2">
                 <SquareFunction className="w-4 h-4" />
@@ -70,7 +69,6 @@ export default function CommandListView({
               keywords={[constant.name, constant.variable]}
               className="flex justify-between items-center"
               onSelect={() => onSelectItem(constant)}
-              onClick={() => onSelectItem(constant)}
             >
               <span className="flex items-center gap-2">
                 <SquareAsterisk className="w-4 h-4" />
@@ -89,10 +87,6 @@ export default function CommandListView({
               setCommandOpen(false);
               resetCalculator();
             }}
-            onClick={() => {
-              setCommandOpen(false);
-              resetCalculator();
-            }}
           >
             <SquareCode className="w-4 h-4 mr-2" />
             Clear
@@ -100,10 +94,6 @@ export default function CommandListView({
           <CommandItem
             value="export"
             onSelect={() => {
-              setCommandOpen(false);
-              exportCalculations();
-            }}
-            onClick={() => {
               setCommandOpen(false);
               exportCalculations();
             }}
