@@ -107,6 +107,32 @@ export const formulas: Preset[] = [
     ],
   },
   {
+    name: "Combinations (nCr)",
+    description:
+      "Counts the ways to choose r items from n distinct items when order does not matter.\n\n**Formula:** nCr = n! / (r!(n - r)!)\n\n**Usage:** Type `nCr` anywhere to call it directly, e.g. nCr(52, 5). n and r must be non-negative integers with r ≤ n.\n\n**Why it works:** There are nPr ordered selections, and each unordered group of r items appears r! times among them, so dividing by r! removes the duplicates.\n\n**Example:** The number of 5-card poker hands from a 52-card deck is nCr(52, 5) = 2,598,960.",
+    categories: ["math", "probability"],
+    inputVariables: ["n", "r"],
+    calculators: [
+      {
+        latex: "C=\\operatorname{nCr}(n,r)",
+        preview: "C = nCr(n, r)",
+      },
+    ],
+  },
+  {
+    name: "Permutations (nPr)",
+    description:
+      "Counts the ways to arrange r items chosen from n distinct items when order matters.\n\n**Formula:** nPr = n! / (n - r)!\n\n**Usage:** Type `nPr` anywhere to call it directly, e.g. nPr(10, 3). n and r must be non-negative integers with r ≤ n.\n\n**Why it works:** There are n choices for the first position, n - 1 for the second, and so on down to n - r + 1 for the r-th position.\n\n**Example:** The number of ways to award gold, silver, and bronze among 10 runners is nPr(10, 3) = 720.",
+    categories: ["math", "probability"],
+    inputVariables: ["n", "r"],
+    calculators: [
+      {
+        latex: "P=\\operatorname{nPr}(n,r)",
+        preview: "P = nPr(n, r)",
+      },
+    ],
+  },
+  {
     name: "Newton's Second Law",
     description:
       "Relates the force (F) acting on an object to its mass (m) and acceleration (a).\n\n**Formula:** F = ma\n\n**Units:** F is typically in Newtons (N), m is in kilograms (kg), and a is in meters per second squared (m/s²).\n\n**Why it works:** This is a fundamental law of classical mechanics. It states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass.\n\n**Example:** If m = 2 kg and a = 3 m/s², then F = (2 kg) * (3 m/s²) = 6 N.",

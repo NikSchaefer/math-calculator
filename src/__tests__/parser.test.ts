@@ -164,6 +164,30 @@ describe("custom functions", () => {
     const result = evaluateTex("\\arctan(1)").evaluated;
     expect(num(result)).toBeCloseTo(Math.PI / 4, 5);
   });
+
+  test("nCr(52,5) via parser", () => {
+    const result = evaluateTex("\\operatorname{nCr}(52,5)").evaluated;
+    expect(result.toString()).toBe("2598960");
+  });
+
+  test("nPr(10,3) via parser", () => {
+    const result = evaluateTex("\\operatorname{nPr}(10,3)").evaluated;
+    expect(result.toString()).toBe("720");
+  });
+
+  test("nCr with scope variables", () => {
+    const result = evaluateTex("C=\\operatorname{nCr}(n,r)", { n: 5, r: 2 }).evaluated;
+    expect(num(result)).toBe(10);
+  });
+
+  test("nCr result composes with BigNumber arithmetic", () => {
+    const result = evaluateTex("\\operatorname{nCr}(52,5)\\cdot 2").evaluated;
+    expect(result.toString()).toBe("5197920");
+  });
+
+  test("nCr rejects non-integers", () => {
+    expect(() => evaluateTex("\\operatorname{nCr}(5.5,2)")).toThrow();
+  });
 });
 
 // ─── Matrices ────────────────────────────────────────────────────────────────
