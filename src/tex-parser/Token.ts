@@ -98,6 +98,7 @@ export const enum TokenType {
   Integral, // \int with bounds: \int_{a}^{b} expr dx
   Lbracket, // [ used for array literals and index access
   Rbracket, // ] used for array literals and index access
+  Bang,
 }
 
 export const lexemeToType: { [key: string]: TokenType } = {
@@ -118,6 +119,7 @@ export const lexemeToType: { [key: string]: TokenType } = {
   ")": TokenType.Rparen,
   "|": TokenType.Bar,
   "&": TokenType.Amp,
+  "!": TokenType.Bang,
   bmatrix: TokenType.Matrix,
   "\\\\": TokenType.Dblbackslash,
   "\\sqrt": TokenType.Sqrt,
@@ -209,6 +211,7 @@ export const typeToOperation: { [key in TokenType]?: string } = {
   [TokenType.Star]: "multiply",
   [TokenType.Times]: "multiply",
   [TokenType.Caret]: "pow",
+  [TokenType.Bang]: "factorial",
   [TokenType.Slash]: "divide",
   [TokenType.Frac]: "divide",
   [TokenType.Bar]: "abs",

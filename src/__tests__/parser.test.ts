@@ -334,6 +334,39 @@ describe("derivatives", () => {
   });
 });
 
+// ─── Factorial ───────────────────────────────────────────────────────────────
+
+describe("factorial", () => {
+  const cases: [string, number][] = [
+    ["5!", 120],
+    ["0!", 1],
+    ["3!+1", 7],
+    ["(2+1)!", 6],
+    ["\\left(3\\right)!", 6],
+    ["2\\cdot 3!", 12],
+    ["2x!", 48],
+    ["3!!", 720],
+    ["3!^2", 36],
+    ["2^{3}!", 40320],
+    ["2^{3!}", 64],
+    ["-3!", -6],
+  ];
+
+  for (const [latex, expected] of cases) {
+    test(latex, () => {
+      expect(num(evaluateTex(latex, { x: 4 }).evaluated)).toBe(expected);
+    });
+  }
+
+  test("large factorial stays exact", () => {
+    expect(evaluateTex("25!").evaluated.toFixed()).toBe("15511210043330985984000000");
+  });
+
+  test("throws on negative integer", () => {
+    expect(() => evaluateTex("(-1)!")).toThrow();
+  });
+});
+
 // ─── Error handling ──────────────────────────────────────────────────────────
 
 describe("error handling", () => {

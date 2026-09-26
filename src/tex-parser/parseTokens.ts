@@ -24,6 +24,7 @@ function createMathJSNode(
     case TokenType.Star:
     case TokenType.Frac:
     case TokenType.Slash:
+    case TokenType.Bang:
       return new (math as any).OperatorNode(token.lexeme, fn, children);
     case TokenType.Caret:
       if (children.length < 2) {
@@ -211,7 +212,7 @@ class Parser {
    *
    * factor = MINUS? power
    *
-   * power = primary (CARET primary)*
+   * power = primary (CARET primary | BANG)*
    *
    * primary = grouping
    *         | environnment
@@ -402,17 +403,22 @@ class Parser {
   /**
    * Consume the next power according to the following production:
    *
-   * power => primary (CARET primary)*
+   * power => primary (CARET primary | BANG)*
    * @returns The root node of an expression tree.
    */
   nextPower(): math.MathNode {
     let base = this.nextPrimary();
-    while (this.match(TokenType.Caret)) {
-      const caret = this.nextToken();
-      const exponent = this.nextPrimary();
-      base = createMathJSNode(caret, [base, exponent]);
+    for (;;) {
+      if (this.match(TokenType.Caret)) {
+        const caret = this.nextToken();
+        const exponent = this.nextPrimary();
+        base = createMathJSNode(caret, [base, exponent]);
+      } else if (this.match(TokenType.Bang)) {
+        base = createMathJSNode(this.nextToken(), [base]);
+      } else {
+        return base;
+      }
     }
-    return base;
   }
 
   /**
